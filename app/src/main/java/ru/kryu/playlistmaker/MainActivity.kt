@@ -1,11 +1,10 @@
 package ru.kryu.playlistmaker
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.View.OnClickListener
 import android.widget.Button
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,20 +15,23 @@ class MainActivity : AppCompatActivity() {
         val buttonMedia = findViewById<Button>(R.id.button_media)
         val buttonSettings = findViewById<Button>(R.id.button_settings)
 
-        val buttonSearchClickListener: View.OnClickListener = object: View.OnClickListener{
+        val buttonSearchClickListener: View.OnClickListener = object : View.OnClickListener {
             override fun onClick(v: View?) {
-                Toast.makeText(this@MainActivity, "Поиск", Toast.LENGTH_SHORT).show()
+                val searchActivityIntent = Intent(this@MainActivity, SearchActivity::class.java)
+                startActivity(searchActivityIntent)
             }
 
         }
         buttonSearch.setOnClickListener(buttonSearchClickListener)
 
         buttonMedia.setOnClickListener {
-            Toast.makeText(this@MainActivity, "Медиатека", Toast.LENGTH_SHORT).show()
+            val mediaActivityIntent = Intent(this, MediaActivity::class.java)
+            startActivity(mediaActivityIntent)
         }
 
         buttonSettings.setOnClickListener {
-            Toast.makeText(this@MainActivity, "Настройки", Toast.LENGTH_SHORT).show()
+            val settingsActivityIntent = Intent(this, SettingsActivity::class.java)
+            startActivity(settingsActivityIntent)
         }
     }
 }

@@ -10,4 +10,5 @@
     <color name="main_background">#3772E7</color>
     <color name="app_black">#1A1B22</color>
     <color name="settings">#AEAFB4</color>
+    <color name="switch_track">#E6E8EB</color>
 </resources>

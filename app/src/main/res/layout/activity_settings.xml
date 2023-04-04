@@ -14,21 +14,24 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/button_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
             android:src="@drawable/left_arrow"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
             app:tint="@color/app_black" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="14dp"
             android:text="@string/settings"
             android:textColor="@color/app_black"
-            android:layout_marginTop="14dp"
-            android:layout_marginLeft="28dp"
-            android:textSize="@dimen/main_text_size"/>
+            android:textSize="@dimen/main_text_size" />
     </LinearLayout>
 
     <FrameLayout
@@ -44,13 +47,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:text="@string/dark_mode"
-            android:textSize="@dimen/settings_text_size"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="@dimen/settings_text_size" />
 
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:thumbTint="@color/settings"
+            android:trackTint="@color/switch_track"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
     </FrameLayout>
 
@@ -66,14 +71,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:text="@string/share"
-            android:textSize="@dimen/settings_text_size"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="@dimen/settings_text_size" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/share"
             android:layout_gravity="end"
+            android:src="@drawable/share"
             app:tint="@color/settings" />
     </FrameLayout>
 
@@ -89,14 +94,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:text="@string/support"
-            android:textSize="@dimen/settings_text_size"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="@dimen/settings_text_size" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/support"
             android:layout_gravity="end"
+            android:src="@drawable/support"
             app:tint="@color/settings" />
     </FrameLayout>
 
@@ -112,14 +117,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:text="@string/user_agreement"
-            android:textSize="@dimen/settings_text_size"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="@dimen/settings_text_size" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/right_arrow"
             android:layout_gravity="end"
+            android:src="@drawable/right_arrow"
             app:tint="@color/settings" />
     </FrameLayout>
 

@@ -8,20 +8,30 @@
     android:orientation="vertical"
     tools:context=".SettingsActivity">
 
-    <TextView
-        android:id="@+id/settings_arrow"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="20dp"
-        android:paddingTop="14dp"
-        android:text="@string/settings"
-        android:textColor="@color/app_black"
-        android:textSize="@dimen/main_text_size"
-        android:drawablePadding="28dp"
-        android:drawableTint="@color/app_black"
-        app:drawableStartCompat="@drawable/left_arrow" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/main_paddingTop">
 
-    
+        <ImageView
+            android:id="@+id/settings_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="4dp"
+            android:src="@drawable/left_arrow" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:text="@string/settings"
+            android:textColor="@color/app_black"
+            android:textSize="@dimen/main_text_size" />
+    </LinearLayout>
+
 
     <FrameLayout
         android:layout_width="match_parent"

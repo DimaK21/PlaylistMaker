@@ -8,31 +8,20 @@
     android:orientation="vertical"
     tools:context=".SettingsActivity">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/settings_arrow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:paddingHorizontal="20dp"
+        android:paddingTop="14dp"
+        android:text="@string/settings"
+        android:textColor="@color/app_black"
+        android:textSize="@dimen/main_text_size"
+        android:drawablePadding="28dp"
+        android:drawableTint="@color/app_black"
+        app:drawableStartCompat="@drawable/left_arrow" />
 
-        <ImageView
-            android:id="@+id/button_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingTop="20dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
-            android:src="@drawable/left_arrow"
-            app:tint="@color/app_black" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
-            android:layout_marginTop="14dp"
-            android:text="@string/settings"
-            android:textColor="@color/app_black"
-            android:textSize="@dimen/main_text_size" />
-    </LinearLayout>
+    
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -45,7 +34,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_gravity="start|center_vertical"
             android:text="@string/dark_mode"
             android:textColor="@color/black"
             android:textSize="@dimen/settings_text_size" />
@@ -53,7 +42,7 @@
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="end|center_vertical"
             android:thumbTint="@color/settings"
             android:trackTint="@color/switch_track"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
@@ -69,7 +58,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_gravity="start|center_vertical"
             android:text="@string/share"
             android:textColor="@color/black"
             android:textSize="@dimen/settings_text_size" />
@@ -77,7 +66,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="end|center_vertical"
             android:src="@drawable/share"
             app:tint="@color/settings" />
     </FrameLayout>
@@ -92,7 +81,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_gravity="start|center_vertical"
             android:text="@string/support"
             android:textColor="@color/black"
             android:textSize="@dimen/settings_text_size" />
@@ -100,7 +89,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="end|center_vertical"
             android:src="@drawable/support"
             app:tint="@color/settings" />
     </FrameLayout>
@@ -115,7 +104,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_gravity="start|center_vertical"
             android:text="@string/user_agreement"
             android:textColor="@color/black"
             android:textSize="@dimen/settings_text_size" />
@@ -123,7 +112,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="end|center_vertical"
             android:src="@drawable/right_arrow"
             app:tint="@color/settings" />
     </FrameLayout>

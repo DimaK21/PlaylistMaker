@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
             android:paddingVertical="4dp"
-            android:src="@drawable/left_arrow" />
+            android:src="@drawable/left_arrow"
+            app:tint="@color/app_black" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -18,6 +18,7 @@
             android:id="@+id/settings_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/back_arrow"
             android:paddingHorizontal="20dp"
             android:paddingVertical="4dp"
             android:src="@drawable/left_arrow"
@@ -57,6 +58,7 @@
 
         <ImageView
             style="@style/SettingsImageViewSwitch"
+            android:contentDescription="@string/share"
             android:src="@drawable/share" />
     </FrameLayout>
 
@@ -70,6 +72,7 @@
 
         <ImageView
             style="@style/SettingsImageViewSwitch"
+            android:contentDescription="@string/support"
             android:src="@drawable/support" />
     </FrameLayout>
 
@@ -83,6 +86,7 @@
 
         <ImageView
             style="@style/SettingsImageViewSwitch"
+            android:contentDescription="@string/user_agreement"
             android:src="@drawable/right_arrow" />
     </FrameLayout>
 

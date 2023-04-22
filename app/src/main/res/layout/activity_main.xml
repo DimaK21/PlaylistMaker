@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/main_paddingHorizontal"
     android:paddingTop="@dimen/main_paddingTop"
     android:paddingBottom="@dimen/main_paddingBottom"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    style="@style/ColorMainLinerLayout">
 
     <TextView
         android:layout_width="wrap_content"

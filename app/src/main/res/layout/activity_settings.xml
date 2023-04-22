@@ -45,7 +45,7 @@
             style="@style/SettingsTextView" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            style="@style/SettingsSwitch"/>
+            style="@style/SettingsImageViewSwitch"/>
     </FrameLayout>
 
     <FrameLayout
@@ -58,7 +58,7 @@
 
         <ImageView
             android:src="@drawable/share"
-            style="@style/SettingsImageView"/>
+            style="@style/SettingsImageViewSwitch"/>
     </FrameLayout>
 
     <FrameLayout
@@ -71,7 +71,7 @@
 
         <ImageView
             android:src="@drawable/support"
-            style="@style/SettingsImageView"/>
+            style="@style/SettingsImageViewSwitch"/>
     </FrameLayout>
 
     <FrameLayout
@@ -84,7 +84,7 @@
 
         <ImageView
             android:src="@drawable/right_arrow"
-            style="@style/SettingsImageView"/>
+            style="@style/SettingsImageViewSwitch"/>
     </FrameLayout>
 
 </LinearLayout>

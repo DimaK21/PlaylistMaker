@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
             android:paddingVertical="4dp"
-            android:src="@drawable/left_arrow" />
+            android:src="@drawable/left_arrow"
+            app:tint="?attr/colorOnPrimary" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,11 +44,8 @@
             android:text="@string/dark_mode"
             style="@style/SettingsTextView" />
 
-        <Switch
-            android:thumbTint="@color/settings"
-            android:trackTint="@color/switch_track"
-            tools:ignore="UseSwitchCompatOrMaterialXml"
-            style="@style/SettingsImageView"/>
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            style="@style/SettingsSwitch"/>
     </FrameLayout>
 
     <FrameLayout

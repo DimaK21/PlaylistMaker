@@ -24,12 +24,20 @@
         <item name="android:textSize">@dimen/settings_text_size</item>
         <item name="fontFamily">@font/ys_display_regular</item>
         <item name="android:textFontWeight">400</item>
+        <item name="android:layout_marginVertical">@dimen/settings_margin_vert</item>
     </style>
     <style name="SettingsImageView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">end|center_vertical</item>
         <item name="tint">@color/white</item>
+    </style>
+    <style name="SettingsSwitch">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">end|center_vertical</item>
+        <item name="thumbTint">@color/switch_dark_mode</item>
+        <item name="trackTint">@color/switch_dark_mode_track</item>
     </style>
 
 </resources>

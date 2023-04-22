@@ -26,65 +26,64 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/ys_display_medium"
             android:paddingHorizontal="8dp"
             android:text="@string/settings"
-            android:textSize="@dimen/main_text_size"
-            android:fontFamily="@font/ys_display_medium"
+            android:textColor="?attr/colorOnPrimary"
             android:textFontWeight="500"
-            android:textColor="?attr/colorOnPrimary"/>
+            android:textSize="@dimen/main_text_size" />
     </LinearLayout>
 
 
     <FrameLayout
+        style="@style/SettingsFrameLayout"
         android:layout_marginTop="40dp"
-        android:paddingEnd="18dp"
-        style="@style/SettingsFrameLayout">
+        android:paddingEnd="18dp">
 
         <TextView
-            android:text="@string/dark_mode"
-            style="@style/SettingsTextView" />
+            style="@style/SettingsTextView"
+            android:text="@string/dark_mode" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
-            style="@style/SettingsImageViewSwitch"/>
+        <com.google.android.material.switchmaterial.SwitchMaterial style="@style/SettingsImageViewSwitch" />
     </FrameLayout>
 
     <FrameLayout
-        android:paddingEnd="16dp"
-        style="@style/SettingsFrameLayout">
+        style="@style/SettingsFrameLayout"
+        android:paddingEnd="16dp">
 
         <TextView
-            android:text="@string/share"
-            style="@style/SettingsTextView"/>
+            style="@style/SettingsTextView"
+            android:text="@string/share" />
 
         <ImageView
-            android:src="@drawable/share"
-            style="@style/SettingsImageViewSwitch"/>
+            style="@style/SettingsImageViewSwitch"
+            android:src="@drawable/share" />
     </FrameLayout>
 
     <FrameLayout
-        android:paddingEnd="14dp"
-        style="@style/SettingsFrameLayout">
+        style="@style/SettingsFrameLayout"
+        android:paddingEnd="14dp">
 
         <TextView
-            android:text="@string/support"
-            style="@style/SettingsTextView"/>
+            style="@style/SettingsTextView"
+            android:text="@string/support" />
 
         <ImageView
-            android:src="@drawable/support"
-            style="@style/SettingsImageViewSwitch"/>
+            style="@style/SettingsImageViewSwitch"
+            android:src="@drawable/support" />
     </FrameLayout>
 
     <FrameLayout
-        android:paddingEnd="20dp"
-        style="@style/SettingsFrameLayout">
+        style="@style/SettingsFrameLayout"
+        android:paddingEnd="20dp">
 
         <TextView
-            android:text="@string/user_agreement"
-            style="@style/SettingsTextView"/>
+            style="@style/SettingsTextView"
+            android:text="@string/user_agreement" />
 
         <ImageView
-            android:src="@drawable/right_arrow"
-            style="@style/SettingsImageViewSwitch"/>
+            style="@style/SettingsImageViewSwitch"
+            android:src="@drawable/right_arrow" />
     </FrameLayout>
 
 </LinearLayout>

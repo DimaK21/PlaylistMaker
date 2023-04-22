@@ -8,8 +8,7 @@
     android:paddingHorizontal="@dimen/main_paddingHorizontal"
     android:paddingTop="@dimen/main_paddingTop"
     android:paddingBottom="@dimen/main_paddingBottom"
-    tools:context=".MainActivity"
-    style="@style/ColorMainLinerLayout">
+    tools:context=".MainActivity">
 
     <TextView
         android:layout_width="wrap_content"

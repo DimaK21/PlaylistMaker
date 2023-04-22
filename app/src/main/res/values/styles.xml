@@ -37,7 +37,4 @@
         <item name="android:paddingVertical">@dimen/settings_padding_vert</item>
         <item name="android:paddingStart">@dimen/settings_padding_start</item>
     </style>
-    <style name="ColorMainLinerLayout">
-        <item name="android:background">@color/main_background</item>
-    </style>
 </resources>

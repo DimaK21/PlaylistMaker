@@ -14,4 +14,14 @@
         <item name="iconPadding">@dimen/button_icon_padding</item>
         <item name="iconTint">@color/app_black</item>
     </style>
+    <style name="SettingsTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">start|center_vertical</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/settings_text_size</item>
+    </style>
+    <style name="SettingsImageView">
+
+    </style>
 </resources>

@@ -35,81 +35,58 @@
 
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:paddingVertical="@dimen/settings_padding_vert"
-        android:paddingStart="@dimen/settings_padding_start"
-        android:paddingEnd="18dp">
+        android:paddingEnd="18dp"
+        style="@style/SettingsFrameLayout">
 
         <TextView
             android:text="@string/dark_mode"
-            style="@style/SettingsTextView"/>
+            style="@style/SettingsTextView" />
 
         <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
             android:thumbTint="@color/settings"
             android:trackTint="@color/switch_track"
-            tools:ignore="UseSwitchCompatOrMaterialXml" />
+            tools:ignore="UseSwitchCompatOrMaterialXml"
+            style="@style/SettingsImageView"/>
     </FrameLayout>
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/settings_padding_vert"
-        android:paddingStart="@dimen/settings_padding_start"
-        android:paddingEnd="16dp">
+        android:paddingEnd="16dp"
+        style="@style/SettingsFrameLayout">
 
         <TextView
             android:text="@string/share"
             style="@style/SettingsTextView"/>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
             android:src="@drawable/share"
-            app:tint="@color/settings" />
+            style="@style/SettingsImageView"/>
     </FrameLayout>
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/settings_padding_vert"
-        android:paddingStart="@dimen/settings_padding_start"
-        android:paddingEnd="14dp">
+        android:paddingEnd="14dp"
+        style="@style/SettingsFrameLayout">
 
         <TextView
             android:text="@string/support"
             style="@style/SettingsTextView"/>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
             android:src="@drawable/support"
-            app:tint="@color/settings" />
+            style="@style/SettingsImageView"/>
     </FrameLayout>
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/settings_padding_vert"
-        android:paddingStart="@dimen/settings_padding_start"
-        android:paddingEnd="20dp">
+        android:paddingEnd="20dp"
+        style="@style/SettingsFrameLayout">
 
         <TextView
             android:text="@string/user_agreement"
             style="@style/SettingsTextView"/>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
             android:src="@drawable/right_arrow"
-            app:tint="@color/settings" />
+            style="@style/SettingsImageView"/>
     </FrameLayout>
 
 </LinearLayout>

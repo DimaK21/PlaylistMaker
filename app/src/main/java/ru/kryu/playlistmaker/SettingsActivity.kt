@@ -22,6 +22,7 @@ class SettingsActivity : AppCompatActivity() {
         val urlPracticum = getString(R.string.url_practicum)
         val urlUserAgreement = getString(R.string.url_user_agreement)
         val mailTo = "mailto:"
+        val typePlain = "text/plain"
 
         buttonBack.setOnClickListener {
             finish()
@@ -30,7 +31,8 @@ class SettingsActivity : AppCompatActivity() {
         buttonShare.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.putExtra(Intent.EXTRA_TEXT, urlPracticum)
-            startActivity(shareIntent)
+            shareIntent.type = typePlain
+            startActivity(Intent.createChooser(shareIntent, null))
         }
 
         buttonSupport.setOnClickListener {

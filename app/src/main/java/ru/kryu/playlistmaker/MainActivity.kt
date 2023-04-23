@@ -2,7 +2,6 @@ package ru.kryu.playlistmaker
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 
@@ -15,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         val buttonMedia = findViewById<Button>(R.id.button_media)
         val buttonSettings = findViewById<Button>(R.id.button_settings)
 
-        buttonSearch.setOnClickListener{
+        buttonSearch.setOnClickListener {
             val searchActivityIntent = Intent(this, SearchActivity::class.java)
             startActivity(searchActivityIntent)
         }

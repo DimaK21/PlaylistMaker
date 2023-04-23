@@ -13,6 +13,18 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/editText_marginTop"
+        android:layout_marginHorizontal="@dimen/main_paddingHorizontal"
+        android:hint="@string/search"
+        android:inputType="text"
+        android:lines="1"
+        android:textColor="?attr/colorOnPrimary"
+        android:fontFamily="@font/ys_display_regular"
+        android:textSize="@dimen/settings_text_size"
+        android:textFontWeight="400"
+        android:textColorHint="@color/settings"
+        android:background="@color/switch_track"
+        android:paddingVertical="@dimen/editText_paddingVertical"/>
 
 </LinearLayout>

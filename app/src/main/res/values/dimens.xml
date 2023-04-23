@@ -10,4 +10,6 @@
     <dimen name="main_paddingHorizontal">16dp</dimen>
     <dimen name="main_paddingTop">14dp</dimen>
     <dimen name="main_paddingBottom">28dp</dimen>
+    <dimen name="editText_marginTop">24dp</dimen>
+    <dimen name="editText_paddingVertical">8.5dp</dimen>
 </resources>

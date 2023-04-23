@@ -21,7 +21,7 @@ class SettingsActivity : AppCompatActivity() {
         val titleMail = getString(R.string.title_mail_to_developer)
         val urlPracticum = getString(R.string.url_practicum)
         val urlUserAgreement = getString(R.string.url_user_agreement)
-
+        val mailTo = "mailto:"
 
         buttonBack.setOnClickListener {
             finish()
@@ -29,9 +29,9 @@ class SettingsActivity : AppCompatActivity() {
 
         buttonShare.setOnClickListener{
             val shareIntent = Intent(Intent.ACTION_SENDTO)
-            shareIntent.data = Uri.parse("mailto:")
-            shareIntent.putExtra(Intent.EXTRA_EMAIL, email)
-            shareIntent.putExtra(Intent.EXTRA_TITLE, titleMail)
+            shareIntent.data = Uri.parse(mailTo)
+            shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleMail)
             startActivity(shareIntent)
         }
     }

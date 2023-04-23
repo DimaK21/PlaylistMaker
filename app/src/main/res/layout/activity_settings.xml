@@ -49,6 +49,7 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/share"
         style="@style/SettingsFrameLayout"
         android:paddingEnd="16dp">
 
@@ -63,6 +64,7 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/support"
         style="@style/SettingsFrameLayout"
         android:paddingEnd="14dp">
 
@@ -77,6 +79,7 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/agreement"
         style="@style/SettingsFrameLayout"
         android:paddingEnd="20dp">
 

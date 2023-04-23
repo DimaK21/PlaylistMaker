@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class SettingsActivity : AppCompatActivity() {
@@ -28,12 +27,13 @@ class SettingsActivity : AppCompatActivity() {
             finish()
         }
 
-        buttonShare.setOnClickListener{
+        buttonShare.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
-            shareIntent.putExtra(Intent.EXTRA_TEXT,urlPracticum)
+            shareIntent.putExtra(Intent.EXTRA_TEXT, urlPracticum)
+            startActivity(shareIntent)
         }
 
-        buttonSupport.setOnClickListener{
+        buttonSupport.setOnClickListener {
             val supportIntent = Intent(Intent.ACTION_SENDTO)
             supportIntent.data = Uri.parse(mailTo)
             supportIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
@@ -42,7 +42,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(supportIntent)
         }
 
-        buttonAgreement.setOnClickListener{
+        buttonAgreement.setOnClickListener {
             val agreementIntent = Intent(Intent.ACTION_VIEW)
             agreementIntent.data = Uri.parse(urlUserAgreement)
             startActivity(agreementIntent)

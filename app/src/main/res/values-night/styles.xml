@@ -38,4 +38,15 @@
         <item name="trackTint">@color/switch_dark_mode_track</item>
     </style>
 
+    <style name="Heads">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">@dimen/main_text_size</item>
+        <item name="fontFamily">@font/ys_display_medium</item>
+        <item name="android:layout_marginTop">@dimen/main_paddingTop</item>
+        <item name="android:layout_marginStart">@dimen/main_paddingHorizontal</item>
+    </style>
+
 </resources>

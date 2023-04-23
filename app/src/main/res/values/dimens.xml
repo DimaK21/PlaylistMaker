@@ -7,9 +7,11 @@
     <dimen name="settings_text_size">16sp</dimen>
     <dimen name="settings_margin_vert">21dp</dimen>
     <dimen name="settings_padding_start">16dp</dimen>
-    <dimen name="main_paddingHorizontal">16dp</dimen>
-    <dimen name="main_paddingTop">14dp</dimen>
-    <dimen name="main_paddingBottom">28dp</dimen>
-    <dimen name="editText_marginTop">24dp</dimen>
-    <dimen name="editText_paddingVertical">8.5dp</dimen>
+    <dimen name="main_padding_horizontal">16dp</dimen>
+    <dimen name="main_padding_top">14dp</dimen>
+    <dimen name="main_padding_bottom">28dp</dimen>
+    <dimen name="edit_text_margin_top">24dp</dimen>
+    <dimen name="edit_text_padding_vertical">8.5dp</dimen>
+    <dimen name="edit_text_padding_horizontal">4dp</dimen>
+    <dimen name="edit_text_drawable_padding">9dp</dimen>
 </resources>

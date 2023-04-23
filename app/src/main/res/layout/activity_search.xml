@@ -12,10 +12,11 @@
         style="@style/Heads"/>
 
     <EditText
+        android:id="@+id/editText_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/editText_marginTop"
-        android:layout_marginHorizontal="@dimen/main_paddingHorizontal"
+        android:layout_marginTop="@dimen/edit_text_margin_top"
+        android:layout_marginHorizontal="@dimen/main_padding_horizontal"
         android:hint="@string/search"
         android:inputType="text"
         android:lines="1"
@@ -25,6 +26,10 @@
         android:textFontWeight="400"
         android:textColorHint="@color/settings"
         android:background="@color/switch_track"
-        android:paddingVertical="@dimen/editText_paddingVertical"/>
+        android:paddingVertical="@dimen/edit_text_padding_vertical"
+        android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
+        android:drawableStart = "@drawable/search_edittext"
+        android:drawableTint="@color/settings"
+        android:drawablePadding="@dimen/edit_text_drawable_padding"/>
 
 </LinearLayout>

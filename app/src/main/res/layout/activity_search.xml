@@ -12,7 +12,7 @@
         style="@style/Heads"/>
 
     <EditText
-        android:id="@+id/editText_search"
+        android:id="@+id/edit_text_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/edit_text_margin_top"
@@ -30,6 +30,7 @@
         android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
         android:drawableStart = "@drawable/search_edittext"
         android:drawableTint="@color/settings"
-        android:drawablePadding="@dimen/edit_text_drawable_padding"/>
+        android:drawablePadding="@dimen/edit_text_drawable_padding"
+        app:cornerRadius="@dimen/edit_text_corner_radius"/>
 
 </LinearLayout>

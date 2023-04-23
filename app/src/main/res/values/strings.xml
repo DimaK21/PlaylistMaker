@@ -11,5 +11,6 @@
     <string name="url_practicum">https://practicum.yandex.ru/android-developer/</string>
     <string name="url_user_agreement">https://yandex.ru/legal/practicum_offer/</string>
     <string name="title_mail_to_developer">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="thanks_to_developer">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="email_of_developer">civ02dk@yandex.ru</string>
 </resources>

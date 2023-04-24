@@ -51,4 +51,11 @@
         <item name="android:layout_marginTop">@dimen/main_padding_top</item>
         <item name="android:layout_marginStart">@dimen/main_padding_horizontal</item>
     </style>
+
+    <style name="EditText">
+        <item name="android:textColor">@color/app_black</item>
+        <item name="android:textColorHint">@color/settings</item>
+        <item name="android:backgroundTint">@color/switch_track</item>
+        <item name="android:drawableTint">@color/settings</item>
+    </style>
 </resources>

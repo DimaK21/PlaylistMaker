@@ -20,17 +20,14 @@
         android:hint="@string/search"
         android:inputType="text"
         android:lines="1"
-        android:textColor="?attr/colorOnPrimary"
         android:fontFamily="@font/ys_display_regular"
         android:textSize="@dimen/settings_text_size"
         android:textFontWeight="400"
-        android:textColorHint="@color/settings"
-        android:background="@color/switch_track"
+        android:background="@drawable/edit_text_style"
         android:paddingVertical="@dimen/edit_text_padding_vertical"
         android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
         android:drawableStart = "@drawable/search_edittext"
-        android:drawableTint="@color/settings"
         android:drawablePadding="@dimen/edit_text_drawable_padding"
-        app:cornerRadius="@dimen/edit_text_corner_radius"/>
+        style="@style/EditText"/>
 
 </LinearLayout>

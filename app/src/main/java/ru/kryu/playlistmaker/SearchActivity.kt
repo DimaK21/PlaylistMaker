@@ -24,6 +24,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         editText.setText(savedInstanceState.getString(SEARCH_TEXT))
+        editText.setSelection(editText.text.length)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

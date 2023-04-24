@@ -17,4 +17,5 @@
     <dimen name="edit_text_corner_radius">8dp</dimen>
     <dimen name="margin_end_cross_et">8dp</dimen>
     <dimen name="padding_cross_et">6dp</dimen>
+    <dimen name="cursor">2dp</dimen>
 </resources>

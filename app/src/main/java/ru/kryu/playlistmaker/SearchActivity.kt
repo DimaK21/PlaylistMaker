@@ -9,11 +9,27 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 class SearchActivity : AppCompatActivity() {
+
+    private val editText: EditText by lazy { findViewById<EditText>(R.id.edit_text_search) }
+
+    companion object {
+        const val SEARCH_TEXT = "SEARCH_TEXT"
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(SEARCH_TEXT, editText.text.toString())
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        editText.setText(savedInstanceState.getString(SEARCH_TEXT))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        val editText = findViewById<EditText>(R.id.edit_text_search)
         val clearButton = findViewById<ImageView>(R.id.edit_text_clear)
         clearButton.setOnClickListener {
             editText.setText("")

@@ -58,4 +58,9 @@
         <item name="android:backgroundTint">@color/switch_track</item>
         <item name="android:drawableTint">@color/settings</item>
     </style>
+
+    <style name="EditTextClear">
+        <item name="tint">@color/settings</item>
+        <item name="android:backgroundTint">@color/switch_track</item>
+    </style>
 </resources>

@@ -56,4 +56,9 @@
         <item name="android:drawableTint">@color/app_black</item>
     </style>
 
+    <style name="EditTextClear">
+        <item name="tint">@color/app_black</item>
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
 </resources>

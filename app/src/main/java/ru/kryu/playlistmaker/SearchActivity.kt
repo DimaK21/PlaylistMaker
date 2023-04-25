@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 class SearchActivity : AppCompatActivity() {
 
+    private var userText: String? = null
     private val editText: EditText by lazy { findViewById<EditText>(R.id.edit_text_search) }
 
     companion object {
@@ -20,12 +21,13 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(SEARCH_TEXT, editText.text.toString())
+        outState.putString(SEARCH_TEXT, userText)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        editText.setText(savedInstanceState.getString(SEARCH_TEXT))
+        userText = savedInstanceState.getString(SEARCH_TEXT)
+        editText.setText(userText)
         editText.setSelection(editText.text.length)
     }
 
@@ -57,7 +59,7 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-
+                userText = s.toString()
             }
 
         }

@@ -1,10 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:orientation="vertical"
+    android:background="?attr/colorPrimary"
     tools:context=".SearchActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        style="@style/HeadLinerLayout">
+
+        <ImageView
+            android:id="@+id/search_arrow"
+            style="@style/HeadImage"/>
+
+        <TextView
+            android:text="@string/search"
+            style="@style/HeadText"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/main_padding_horizontal"
+        android:paddingTop="@dimen/edit_text_margin_top">
+
+        <EditText
+            android:id="@+id/edit_text_search"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_style"
+            android:drawableStart="@drawable/search_edittext"
+            android:drawablePadding="@dimen/edit_text_drawable_padding"
+            android:fontFamily="@font/ys_display_regular"
+            android:hint="@string/search"
+            android:inputType="text"
+            android:lines="1"
+            android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
+            android:paddingVertical="@dimen/edit_text_padding_vertical"
+            android:textFontWeight="400"
+            android:textSize="@dimen/settings_text_size"
+            android:textCursorDrawable="@drawable/color_cursor"
+            android:textColorHighlight="@color/settings"/>
+
+        <ImageView
+            android:id="@+id/edit_text_clear"
+            style="@style/EditTextClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="@dimen/margin_end_cross_et"
+            android:padding="@dimen/padding_cross_et"
+            android:src="@drawable/clear_edittext"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+
+</LinearLayout>

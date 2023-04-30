@@ -9,6 +9,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 
 class SearchActivity : AppCompatActivity() {
 
@@ -65,6 +68,11 @@ class SearchActivity : AppCompatActivity() {
         }
 
         editText.addTextChangedListener(editTextTextWatcher)
+
+        val trackList = getTrackList()
+        val recyclerView = findViewById<RecyclerView>(R.id.recycler_view_search)
+        recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        recyclerView.adapter = TrackAdapter(trackList)
     }
 
     private fun clearButtonVisibility(s: CharSequence?): Int {

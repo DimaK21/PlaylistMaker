@@ -8,15 +8,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class TrackAdapter(private val trackList: List<Track>): RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
+class TrackAdapter(private val trackList: List<Track>) :
+    RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
 
-    class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val trackNameTv = itemView.findViewById<TextView>(R.id.track_name)
         private val artistNameTv = itemView.findViewById<TextView>(R.id.artist_name)
         private val trackTimeTv = itemView.findViewById<TextView>(R.id.track_time)
         private val imageTrackIv = itemView.findViewById<ImageView>(R.id.image_track)
 
-        fun bind(track: Track){
+        fun bind(track: Track) {
             trackNameTv.text = track.trackName
             artistNameTv.text = track.artistName
             trackTimeTv.text = track.trackTime

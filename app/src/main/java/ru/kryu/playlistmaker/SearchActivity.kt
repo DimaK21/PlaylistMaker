@@ -11,7 +11,6 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 
 class SearchActivity : AppCompatActivity() {
 
@@ -83,7 +82,7 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun getTrackList(): List<Track>{
+    private fun getTrackList(): List<Track> {
         return listOf(
             Track(
                 trackName = "Smells Like Teen Spirit",

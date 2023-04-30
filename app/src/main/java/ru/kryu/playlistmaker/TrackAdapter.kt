@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
 class TrackAdapter(private val trackList: List<Track>) :
     RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
@@ -24,6 +25,7 @@ class TrackAdapter(private val trackList: List<Track>) :
             Glide.with(itemView)
                 .load(track.artworkUrl100)
                 .placeholder(R.drawable.search_placeholder)
+                .transform(RoundedCorners(2))
                 .into(imageTrackIv)
         }
     }

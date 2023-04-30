@@ -13,4 +13,6 @@
     <string name="title_mail_to_developer">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="thanks_to_developer">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="email_of_developer">civ02dk@yandex.ru</string>
+    <string name="enter_track">Выбрать трек</string>
+    <string name="album_cover">Обложка альбома</string>
 </resources>

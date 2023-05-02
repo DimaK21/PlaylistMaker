@@ -26,4 +26,5 @@
     <dimen name="ellipse_margin">5dp</dimen>
     <dimen name="search_right_arrow_margin_st">16dp</dimen>
     <dimen name="search_right_arrow_margin_end">20dp</dimen>
+    <dimen name="image_track_corners">2dp</dimen>
 </resources>

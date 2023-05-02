@@ -25,7 +25,7 @@ class TrackAdapter(private val trackList: List<Track>) :
             Glide.with(itemView)
                 .load(track.artworkUrl100)
                 .placeholder(R.drawable.search_placeholder)
-                .transform(RoundedCorners(2))
+                .transform(RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.image_track_corners)))
                 .into(imageTrackIv)
         }
     }

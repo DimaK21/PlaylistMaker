@@ -10,7 +10,7 @@
     <dimen name="main_padding_horizontal">16dp</dimen>
     <dimen name="main_padding_top">14dp</dimen>
     <dimen name="main_padding_bottom">28dp</dimen>
-    <dimen name="edit_text_margin_top">24dp</dimen>
+    <dimen name="search_margin_top">24dp</dimen>
     <dimen name="edit_text_padding_vertical">8dp</dimen>
     <dimen name="edit_text_padding_horizontal">13dp</dimen>
     <dimen name="edit_text_drawable_padding">9dp</dimen>
@@ -18,4 +18,13 @@
     <dimen name="margin_end_cross_et">8dp</dimen>
     <dimen name="padding_cross_et">6dp</dimen>
     <dimen name="cursor">2dp</dimen>
+    <dimen name="image_track_search">45dp</dimen>
+    <dimen name="text_artist_search">11sp</dimen>
+    <dimen name="image_track_margin_v">8dp</dimen>
+    <dimen name="image_track_margin_st">13dp</dimen>
+    <dimen name="one_dp">1dp</dimen>
+    <dimen name="ellipse_margin">5dp</dimen>
+    <dimen name="search_right_arrow_margin_st">16dp</dimen>
+    <dimen name="search_right_arrow_margin_end">20dp</dimen>
+    <dimen name="image_track_corners">2dp</dimen>
 </resources>

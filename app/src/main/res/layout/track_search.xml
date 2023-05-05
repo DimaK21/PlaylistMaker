@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/image_track"
+        android:layout_width="@dimen/image_track_search"
+        android:layout_height="@dimen/image_track_search"
+        android:layout_gravity="center_vertical"
+        android:layout_marginVertical="@dimen/image_track_margin_v"
+        android:layout_marginStart="@dimen/image_track_margin_st"
+        android:layout_marginEnd="@dimen/image_track_margin_v"
+        android:contentDescription="@string/album_cover"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/search_placeholder" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/track_name"
+            style="@style/track_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            tools:text="МалинкиМалинкиМалинкиМалинкиМалинкиМалинкиМалинкиМалинкиМалинкиМалинкиМалинкиМалинкиМалинки" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/one_dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/artist_name"
+                style="@style/artist_text"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                tools:text="AbbaAbbaAbbaAaAbbaAbbaAaAbaAbbaAaAbaAbbaAaAbaAbbaAaAbaAbbaAaAbaAbbaAaAbaAbbaAaAbaAbba" />
+
+            <ImageView
+                style="@style/SettingsImageViewSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/ellipse_margin"
+                android:src="@drawable/ellipse" />
+
+            <TextView
+                android:id="@+id/track_time"
+                style="@style/artist_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                tools:text="5:45" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        style="@style/SettingsImageViewSwitch"
+        android:layout_marginStart="@dimen/search_right_arrow_margin_st"
+        android:layout_marginEnd="@dimen/search_right_arrow_margin_end"
+        android:contentDescription="@string/enter_track"
+        android:src="@drawable/right_arrow" />
+
+</LinearLayout>

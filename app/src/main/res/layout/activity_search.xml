@@ -3,27 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="?attr/colorPrimary"
+    android:orientation="vertical"
     tools:context=".SearchActivity">
 
-    <LinearLayout
-        style="@style/HeadLinerLayout">
+    <LinearLayout style="@style/HeadLinerLayout">
 
         <ImageView
             android:id="@+id/search_arrow"
-            style="@style/HeadImage"/>
+            style="@style/HeadImage" />
 
         <TextView
-            android:text="@string/search"
-            style="@style/HeadText"/>
+            style="@style/HeadText"
+            android:text="@string/search" />
     </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/main_padding_horizontal"
-        android:paddingTop="@dimen/edit_text_margin_top">
+        android:paddingTop="@dimen/search_margin_top">
 
         <EditText
             android:id="@+id/edit_text_search"
@@ -39,10 +38,10 @@
             android:lines="1"
             android:paddingHorizontal="@dimen/edit_text_padding_horizontal"
             android:paddingVertical="@dimen/edit_text_padding_vertical"
-            android:textFontWeight="400"
-            android:textSize="@dimen/settings_text_size"
+            android:textColorHighlight="@color/settings"
             android:textCursorDrawable="@drawable/color_cursor"
-            android:textColorHighlight="@color/settings"/>
+            android:textFontWeight="400"
+            android:textSize="@dimen/settings_text_size" />
 
         <ImageView
             android:id="@+id/edit_text_clear"
@@ -57,5 +56,11 @@
 
     </FrameLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/search_margin_top"
+        tools:listitem="@layout/track_search"/>
 
 </LinearLayout>

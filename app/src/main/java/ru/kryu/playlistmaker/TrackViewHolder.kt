@@ -1,7 +1,6 @@
 package ru.kryu.playlistmaker
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -22,7 +21,9 @@ class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     fun bind(track: Track) {
         trackNameTv.text = track.trackName
         artistNameTv.text = track.artistName
-        trackTimeTv.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
+        artistNameTv.requestLayout()
+        trackTimeTv.text =
+            SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
         Glide.with(itemView)
             .load(track.artworkUrl100)
             .placeholder(R.drawable.search_placeholder)

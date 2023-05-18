@@ -75,7 +75,7 @@ class SearchActivity : AppCompatActivity() {
             inputMethodManager.hideSoftInputFromWindow(window.decorView.windowToken, 0)
             viewNotFound.visibility = View.GONE
             viewNoConnection.visibility = View.GONE
-            if (trackList.isNotEmpty()){
+            if (trackList.isNotEmpty()) {
                 trackList.clear()
                 trackAdapter.notifyDataSetChanged()
             }
@@ -99,7 +99,7 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.adapter = trackAdapter
 
         editText.addTextChangedListener(editTextTextWatcher)
-        editText.setOnEditorActionListener { v, actionId, event ->
+        editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 refreshTrackList(trackList, editText.text.toString())
                 true
@@ -130,6 +130,10 @@ class SearchActivity : AppCompatActivity() {
                 ) {
                     viewNotFound.visibility = View.GONE
                     viewNoConnection.visibility = View.GONE
+                    if (trackList.isNotEmpty()) {
+                        trackList.clear()
+                        trackAdapter.notifyDataSetChanged()
+                    }
                     if (response.code() == 200) {
                         if (response.body()?.results?.isNotEmpty()!!) {
                             trackList.clear()

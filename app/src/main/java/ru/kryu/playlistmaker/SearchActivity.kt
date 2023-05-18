@@ -63,7 +63,6 @@ class SearchActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 userText = s.toString()
             }
-
         }
 
         editText.addTextChangedListener(editTextTextWatcher)

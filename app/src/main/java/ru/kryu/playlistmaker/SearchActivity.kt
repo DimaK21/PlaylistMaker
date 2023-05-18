@@ -101,14 +101,21 @@ class SearchActivity : AppCompatActivity() {
         editText.addTextChangedListener(editTextTextWatcher)
         editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                refreshTrackList(trackList, editText.text.toString())
+                viewNotFound.visibility = View.GONE
+                viewNoConnection.visibility = View.GONE
+                if (trackList.isNotEmpty()) {
+                    trackList.clear()
+                    trackAdapter.notifyDataSetChanged()
+                }
+                refreshTrackList(editText.text.toString())
                 true
             }
             false
         }
 
         buttonRefresh.setOnClickListener {
-            refreshTrackList(trackList, lastRequest)
+            viewNoConnection.visibility = View.GONE
+            refreshTrackList(lastRequest)
         }
     }
 
@@ -120,7 +127,7 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun refreshTrackList(trackList: ArrayList<Track>, requestText: String) {
+    private fun refreshTrackList(requestText: String) {
         lastRequest = requestText
         iTunesApiService.search(lastRequest).enqueue(
             object : Callback<ITunesResponce> {
@@ -128,15 +135,8 @@ class SearchActivity : AppCompatActivity() {
                     call: Call<ITunesResponce>,
                     response: Response<ITunesResponce>
                 ) {
-                    viewNotFound.visibility = View.GONE
-                    viewNoConnection.visibility = View.GONE
-                    if (trackList.isNotEmpty()) {
-                        trackList.clear()
-                        trackAdapter.notifyDataSetChanged()
-                    }
                     if (response.code() == 200) {
                         if (response.body()?.results?.isNotEmpty()!!) {
-                            trackList.clear()
                             trackList.addAll(response.body()?.results!!)
                             trackAdapter.notifyDataSetChanged()
                         } else {

@@ -15,4 +15,7 @@
     <string name="email_of_developer">civ02dk@yandex.ru</string>
     <string name="enter_track">Выбрать трек</string>
     <string name="album_cover">Обложка альбома</string>
+    <string name="nothing_was_found">Ничего не нашлось</string>
+    <string name="connection_problems">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="refresh">Обновить</string>
 </resources>

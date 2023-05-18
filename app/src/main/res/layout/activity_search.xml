@@ -56,11 +56,50 @@
 
     </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_search"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/search_margin_top"
-        tools:listitem="@layout/track_search"/>
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/search_margin_top"
+            tools:listitem="@layout/track_search"
+            tools:itemCount="3"/>
+
+        <LinearLayout
+            android:id="@+id/not_found"
+            style="@style/search_placeholder_ll">
+            
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/not_found"
+                android:contentDescription="@string/nothing_was_found"/>
+            <TextView
+                style="@style/search_placeholder_tv"
+                android:text="@string/nothing_was_found"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/no_connection"
+            style="@style/search_placeholder_ll">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/no_connection"
+                android:contentDescription="@string/connection_problems"/>
+            <TextView
+                style="@style/search_placeholder_tv"
+                android:text="@string/connection_problems"/>
+            <Button
+                android:id="@+id/button_refresh"
+                style="@style/button_refresh"
+                android:text="@string/refresh"/>
+        </LinearLayout>
+
+    </FrameLayout>
 
 </LinearLayout>

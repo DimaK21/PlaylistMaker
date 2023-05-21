@@ -56,10 +56,14 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        userText = savedInstanceState.getString(SEARCH_TEXT,"")
-        editText.setText(userText)
-        editText.setSelection(editText.text.length)
-        trackList.addAll(savedInstanceState.parcelableArrayList<Track>(TRACKS)!!)
+        if (savedInstanceState.containsKey(SEARCH_TEXT)){
+            userText = savedInstanceState.getString(SEARCH_TEXT,"")
+            editText.setText(userText)
+            editText.setSelection(editText.text.length)
+        }
+        if (savedInstanceState.containsKey(TRACKS)){
+            trackList.addAll(savedInstanceState.parcelableArrayList<Track>(TRACKS)!!)
+        }
     }
 
     private inline fun <reified T : Parcelable> Bundle.parcelableArrayList(key: String): ArrayList<T>? = when {

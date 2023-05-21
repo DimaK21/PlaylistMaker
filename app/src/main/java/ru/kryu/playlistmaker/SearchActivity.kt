@@ -1,7 +1,9 @@
 package ru.kryu.playlistmaker
 
 import android.content.Context
+import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -22,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchActivity : AppCompatActivity() {
 
-    private var userText: String? = null
+    private var userText: String = ""
     private var lastRequest: String = ""
     private val editText: EditText by lazy { findViewById<EditText>(R.id.edit_text_search) }
     private val viewNotFound: LinearLayout by lazy { findViewById<LinearLayout>(R.id.not_found) }
@@ -43,18 +45,26 @@ class SearchActivity : AppCompatActivity() {
 
     companion object {
         const val SEARCH_TEXT = "SEARCH_TEXT"
+        const val TRACKS = "TRACKS"
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(SEARCH_TEXT, userText)
+        outState.putParcelableArrayList(TRACKS, trackList)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        userText = savedInstanceState.getString(SEARCH_TEXT)
+        userText = savedInstanceState.getString(SEARCH_TEXT,"")
         editText.setText(userText)
         editText.setSelection(editText.text.length)
+        trackList.addAll(savedInstanceState.parcelableArrayList<Track>(TRACKS)!!)
+    }
+
+    private inline fun <reified T : Parcelable> Bundle.parcelableArrayList(key: String): ArrayList<T>? = when {
+        SDK_INT >= 33 -> getParcelableArrayList(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getParcelableArrayList(key)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

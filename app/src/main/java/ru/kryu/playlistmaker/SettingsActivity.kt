@@ -28,6 +28,10 @@ class SettingsActivity : AppCompatActivity() {
         themeSwitcher.isChecked = (applicationContext as App).darkTheme
         themeSwitcher.setOnCheckedChangeListener { swither, checked ->
             (applicationContext as App).switchTheme(checked)
+            val sharedPrefs = getSharedPreferences(App.USER_PREFERENCES, MODE_PRIVATE)
+            sharedPrefs.edit()
+                .putBoolean(App.DARK_THEME_KEY, themeSwitcher.isChecked)
+                .apply()
         }
 
         buttonShare.setOnClickListener {

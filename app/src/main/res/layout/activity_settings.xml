@@ -20,6 +20,7 @@
 
 
     <FrameLayout
+        android:id="@+id/dark_theme"
         style="@style/SettingsFrameLayout"
         android:layout_marginTop="40dp"
         android:paddingEnd="18dp">
@@ -28,7 +29,9 @@
             style="@style/SettingsTextView"
             android:text="@string/dark_mode" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial style="@style/SettingsImageViewSwitch" />
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/theme_switcher"
+            style="@style/SettingsImageViewSwitch" />
     </FrameLayout>
 
     <FrameLayout

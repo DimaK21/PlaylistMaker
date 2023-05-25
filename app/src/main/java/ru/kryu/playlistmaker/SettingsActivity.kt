@@ -5,7 +5,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,12 +16,18 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         val buttonBack = findViewById<ImageView>(R.id.settings_arrow)
+        val themeSwitcher = findViewById<SwitchMaterial>(R.id.theme_switcher)
         val buttonShare = findViewById<FrameLayout>(R.id.share)
         val buttonSupport = findViewById<FrameLayout>(R.id.support)
         val buttonAgreement = findViewById<FrameLayout>(R.id.agreement)
 
         buttonBack.setOnClickListener {
             finish()
+        }
+
+        themeSwitcher.isChecked = (applicationContext as App).darkTheme
+        themeSwitcher.setOnCheckedChangeListener { swither, checked ->
+            (applicationContext as App).switchTheme(checked)
         }
 
         buttonShare.setOnClickListener {

@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -56,10 +57,14 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        userText = savedInstanceState.getString(SEARCH_TEXT,"")
-        editText.setText(userText)
-        editText.setSelection(editText.text.length)
-        trackList.addAll(savedInstanceState.parcelableArrayList<Track>(TRACKS)!!)
+        if (savedInstanceState.containsKey(SEARCH_TEXT)){
+            userText = savedInstanceState.getString(SEARCH_TEXT,"")
+            editText.setText(userText)
+            editText.setSelection(editText.text.length)
+        }
+        if (savedInstanceState.containsKey(TRACKS)){
+            trackList.addAll(savedInstanceState.parcelableArrayList<Track>(TRACKS)!!)
+        }
     }
 
     private inline fun <reified T : Parcelable> Bundle.parcelableArrayList(key: String): ArrayList<T>? = when {
@@ -138,6 +143,8 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun refreshTrackList(requestText: String) {
+        val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
+        progressBar.visibility = View.VISIBLE
         lastRequest = requestText
         iTunesApiService.search(lastRequest).enqueue(
             object : Callback<ITunesResponce> {
@@ -145,6 +152,7 @@ class SearchActivity : AppCompatActivity() {
                     call: Call<ITunesResponce>,
                     response: Response<ITunesResponce>
                 ) {
+                    progressBar.visibility = View.GONE
                     if (response.code() == 200) {
                         if (response.body()?.results?.isNotEmpty()!!) {
                             trackList.addAll(response.body()?.results!!)
@@ -158,6 +166,7 @@ class SearchActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<ITunesResponce>, t: Throwable) {
+                    progressBar.visibility = View.GONE
                     viewNoConnection.visibility = View.VISIBLE
                 }
 

@@ -21,7 +21,6 @@ class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     fun bind(track: Track) {
         trackNameTv.text = track.trackName
         artistNameTv.text = track.artistName
-        artistNameTv.requestLayout()
         trackTimeTv.text =
             SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
         Glide.with(itemView)

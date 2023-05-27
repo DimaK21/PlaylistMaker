@@ -83,17 +83,7 @@ class SearchActivity : AppCompatActivity() {
 
         val clearButton = findViewById<ImageView>(R.id.edit_text_clear)
         clearButton.setOnClickListener {
-            editText.setText("")
-            editText.clearFocus()
-            val inputMethodManager =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(window.decorView.windowToken, 0)
-            viewNotFound.visibility = View.GONE
-            viewNoConnection.visibility = View.GONE
-            if (trackList.isNotEmpty()) {
-                trackList.clear()
-                trackAdapter.notifyDataSetChanged()
-            }
+            clearButtonOnClick()
         }
 
         val editTextTextWatcher = object : TextWatcher {
@@ -131,6 +121,20 @@ class SearchActivity : AppCompatActivity() {
         buttonRefresh.setOnClickListener {
             viewNoConnection.visibility = View.GONE
             refreshTrackList(lastRequest)
+        }
+    }
+
+    private fun clearButtonOnClick() {
+        editText.setText("")
+        editText.clearFocus()
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(window.decorView.windowToken, 0)
+        viewNotFound.visibility = View.GONE
+        viewNoConnection.visibility = View.GONE
+        if (trackList.isNotEmpty()) {
+            trackList.clear()
+            trackAdapter.notifyDataSetChanged()
         }
     }
 

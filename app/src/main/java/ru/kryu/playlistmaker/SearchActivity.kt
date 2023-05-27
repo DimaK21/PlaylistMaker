@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +33,8 @@ class SearchActivity : AppCompatActivity() {
     private val viewNoConnection: LinearLayout by lazy { findViewById<LinearLayout>(R.id.no_connection) }
     private val recyclerView: RecyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view_search) }
     private val buttonRefresh: Button by lazy { findViewById<Button>(R.id.button_refresh) }
+    private val historyTitleTv: TextView by lazy { findViewById(R.id.history_title) }
+    private val buttonClearHistory: Button by lazy { findViewById<Button>(R.id.clear_history_button) }
 
     private val trackList = ArrayList<Track>()
     private val trackAdapter = TrackAdapter(trackList)
@@ -47,6 +50,8 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         const val SEARCH_TEXT = "SEARCH_TEXT"
         const val TRACKS = "TRACKS"
+        const val TRACK_HISTORY_PREFERENCES = "track_history_preferences"
+        const val TRACK_HISTORY_KEY = "track_history_key"
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

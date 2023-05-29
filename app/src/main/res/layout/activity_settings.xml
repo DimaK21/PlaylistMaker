@@ -11,7 +11,8 @@
 
         <ImageView
             android:id="@+id/settings_arrow"
-            style="@style/HeadImage" />
+            style="@style/HeadImage"
+            android:contentDescription="@string/back_arrow" />
 
         <TextView
             style="@style/HeadText"

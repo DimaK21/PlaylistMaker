@@ -4,8 +4,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 class TrackAdapter(
-    var trackList: ArrayList<Track>,
-    val onTrackClickListener: OnTrackClickListener
+    private var trackList: ArrayList<Track>,
+    private val onTrackClickListener: OnTrackClickListener
 ) :
     RecyclerView.Adapter<TrackViewHolder>() {
 

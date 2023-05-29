@@ -15,7 +15,8 @@
 
             <ImageView
                 android:id="@+id/search_arrow"
-                style="@style/HeadImage" />
+                style="@style/HeadImage"
+                android:contentDescription="@string/back_arrow" />
 
             <TextView
                 style="@style/HeadText"
@@ -56,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginEnd="@dimen/margin_end_cross_et"
+                android:contentDescription="@string/clear"
                 android:padding="@dimen/padding_cross_et"
                 android:src="@drawable/clear_edittext"
                 android:visibility="gone" />
@@ -135,8 +137,8 @@
 
         <Button
             android:id="@+id/clear_history_button"
-            android:layout_height="wrap_content"
             style="@style/button_refresh"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/search_margin_top"
             android:text="@string/clear_history"

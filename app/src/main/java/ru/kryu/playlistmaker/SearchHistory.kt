@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class SearchHistory(val sharedPreferences: SharedPreferences) {
+class SearchHistory(private val sharedPreferences: SharedPreferences) {
 
     private val arrayListTrackHistory: ArrayList<Track> = getTrackHistory()
     val listTrackHistory: List<Track> = arrayListTrackHistory

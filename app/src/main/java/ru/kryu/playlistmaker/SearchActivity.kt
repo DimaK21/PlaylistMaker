@@ -39,7 +39,7 @@ class SearchActivity : AppCompatActivity() {
 
     private val trackList = ArrayList<Track>()
     private lateinit var trackAdapter: TrackAdapter
-    private lateinit var trackHistoryAdapter: TrackHistoryAdapter
+    private lateinit var trackHistoryAdapter: TrackAdapter
 
     private val iTunesBaseUrl = "https://itunes.apple.com"
     private val retrofit = Retrofit
@@ -103,7 +103,7 @@ class SearchActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences(TRACK_HISTORY_PREFERENCES, MODE_PRIVATE)
         searchHistory = SearchHistory(sharedPreferences)
         trackHistoryAdapter =
-            TrackHistoryAdapter(searchHistory.listTrackHistory as ArrayList<Track>)
+            TrackAdapter(searchHistory.listTrackHistory as ArrayList<Track>)
         recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         if (searchHistory.listTrackHistory.isEmpty()) {

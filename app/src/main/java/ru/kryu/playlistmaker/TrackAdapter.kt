@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class TrackAdapter(
     private var trackList: ArrayList<Track>,
-    private val onTrackClickListener: OnTrackClickListener
+    private val onTrackClickListener: OnTrackClickListener? = null
 ) :
     RecyclerView.Adapter<TrackViewHolder>() {
 
@@ -19,7 +19,7 @@ class TrackAdapter(
         holder.bind(trackList[position])
 
         holder.itemView.setOnClickListener {
-            onTrackClickListener.onTrackClick(trackList[position])
+            onTrackClickListener?.onTrackClick(trackList[position])
         }
     }
 

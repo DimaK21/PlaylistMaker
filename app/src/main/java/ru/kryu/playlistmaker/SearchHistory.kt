@@ -9,9 +9,9 @@ class SearchHistory(val sharedPreferences: SharedPreferences) {
     private val arrayListTrackHistory: ArrayList<Track> = getTrackHistory()
     val listTrackHistory: List<Track> = arrayListTrackHistory
 
-    fun addTrack(track: Track){
-        for (element in arrayListTrackHistory){
-            if (element.trackId == track.trackId){
+    fun addTrack(track: Track) {
+        for (element in arrayListTrackHistory) {
+            if (element.trackId == track.trackId) {
                 arrayListTrackHistory.remove(element)
                 arrayListTrackHistory.add(0, element)
                 return
@@ -21,9 +21,9 @@ class SearchHistory(val sharedPreferences: SharedPreferences) {
         if (arrayListTrackHistory.size > 10) arrayListTrackHistory.removeLast()
     }
 
-    private fun getTrackHistory(): ArrayList<Track>{
+    private fun getTrackHistory(): ArrayList<Track> {
         val json = sharedPreferences.getString(SearchActivity.TRACK_HISTORY_KEY, null)
-        return if (json != null){
+        return if (json != null) {
             val myType = object : TypeToken<ArrayList<Track>>() {}.type
             Gson().fromJson(json, myType)
         } else {
@@ -31,14 +31,14 @@ class SearchHistory(val sharedPreferences: SharedPreferences) {
         }
     }
 
-    fun saveTrackHistory(){
+    fun saveTrackHistory() {
         val json = Gson().toJson(arrayListTrackHistory)
         sharedPreferences.edit()
             .putString(SearchActivity.TRACK_HISTORY_KEY, json)
             .apply()
     }
 
-    fun clearTrackHistory(){
+    fun clearTrackHistory() {
         arrayListTrackHistory.clear()
         sharedPreferences.edit()
             .remove(SearchActivity.TRACK_HISTORY_KEY)

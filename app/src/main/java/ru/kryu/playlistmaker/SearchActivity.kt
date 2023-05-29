@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -29,17 +28,17 @@ class SearchActivity : AppCompatActivity() {
 
     private var userText: String = ""
     private var lastRequest: String = ""
-    private val editText: EditText by lazy { findViewById<EditText>(R.id.edit_text_search) }
-    private val viewNotFound: LinearLayout by lazy { findViewById<LinearLayout>(R.id.not_found) }
-    private val viewNoConnection: LinearLayout by lazy { findViewById<LinearLayout>(R.id.no_connection) }
-    private val progressBar: ProgressBar by lazy { findViewById<ProgressBar>(R.id.progress_bar) }
-    private val recyclerView: RecyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view_search) }
-    private val buttonRefresh: Button by lazy { findViewById<Button>(R.id.button_refresh) }
+    private val editText: EditText by lazy { findViewById(R.id.edit_text_search) }
+    private val viewNotFound: LinearLayout by lazy { findViewById(R.id.not_found) }
+    private val viewNoConnection: LinearLayout by lazy { findViewById(R.id.no_connection) }
+    private val progressBar: ProgressBar by lazy { findViewById(R.id.progress_bar) }
+    private val recyclerView: RecyclerView by lazy { findViewById(R.id.recycler_view_search) }
+    private val buttonRefresh: Button by lazy { findViewById(R.id.button_refresh) }
     private val historyTitleTv: TextView by lazy { findViewById(R.id.history_title) }
-    private val buttonClearHistory: Button by lazy { findViewById<Button>(R.id.clear_history_button) }
+    private val buttonClearHistory: Button by lazy { findViewById(R.id.clear_history_button) }
 
     private val trackList = ArrayList<Track>()
-    private lateinit var trackAdapter : TrackAdapter
+    private lateinit var trackAdapter: TrackAdapter
     private lateinit var trackHistoryAdapter: TrackHistoryAdapter
 
     private val iTunesBaseUrl = "https://itunes.apple.com"
@@ -59,7 +58,7 @@ class SearchActivity : AppCompatActivity() {
         const val TRACK_HISTORY_KEY = "track_history_key"
     }
 
-    enum class SearchVisibilityState{
+    enum class SearchVisibilityState {
         SEARCH_RESULT_SUCCESS_OR_NO_HISTORY,
         SEARCH_RESULT_NOT_FOUND,
         SEARCH_RESULT_ERROR,
@@ -69,57 +68,48 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        Log.d("dimak21", "onSaveInstanceState")
         outState.putString(SEARCH_TEXT, userText)
         outState.putParcelableArrayList(TRACKS, trackList)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        Log.d("dimak21", "onRestoreInstanceState")
-        if (savedInstanceState.containsKey(SEARCH_TEXT)){
-            userText = savedInstanceState.getString(SEARCH_TEXT,"")
-            if (userText.isNotEmpty()){
-                editText.setText(userText)
-                editText.setSelection(editText.text.length)
-                Log.d("dimak21", "if (userText.isNotEmpty()){")
-            }
+        userText = savedInstanceState.getString(SEARCH_TEXT, "")
+        if (userText.isNotEmpty()) {
+            editText.setText(userText)
+            editText.setSelection(editText.text.length)
         }
-        if (savedInstanceState.containsKey(TRACKS)){
-            val list = savedInstanceState.parcelableArrayList<Track>(TRACKS)!!
-            if (list.isNotEmpty()){
-                trackList.addAll(list)
-                Log.d("dimak21", "if (list.isNotEmpty()){")
-            }
+        val list = savedInstanceState.parcelableArrayList<Track>(TRACKS)
+        if (!list.isNullOrEmpty()) {
+            trackList.addAll(list)
         }
     }
 
-    private inline fun <reified T : Parcelable> Bundle.parcelableArrayList(key: String): ArrayList<T>? = when {
-        SDK_INT >= 33 -> getParcelableArrayList(key, T::class.java)
-        else -> @Suppress("DEPRECATION") getParcelableArrayList(key)
-    }
+    private inline fun <reified T : Parcelable> Bundle.parcelableArrayList(key: String): ArrayList<T>? =
+        when {
+            SDK_INT >= 33 -> getParcelableArrayList(key, T::class.java)
+            else -> @Suppress("DEPRECATION") getParcelableArrayList(key)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        val onTrackClickListener = TrackAdapter.OnTrackClickListener{ track: Track ->
+        val onTrackClickListener = TrackAdapter.OnTrackClickListener { track: Track ->
             searchHistory.addTrack(track)
         }
         trackAdapter = TrackAdapter(trackList, onTrackClickListener)
 
         val sharedPreferences = getSharedPreferences(TRACK_HISTORY_PREFERENCES, MODE_PRIVATE)
         searchHistory = SearchHistory(sharedPreferences)
-        trackHistoryAdapter = TrackHistoryAdapter(searchHistory.listTrackHistory as ArrayList<Track>)
+        trackHistoryAdapter =
+            TrackHistoryAdapter(searchHistory.listTrackHistory as ArrayList<Track>)
         recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         if (searchHistory.listTrackHistory.isEmpty()) {
-            Log.d("dimak21", "onCreate, if (searchHistory.listTrackHistory.isEmpty())")
             recyclerView.adapter = trackAdapter
             manageVisibility(SearchVisibilityState.SEARCH_RESULT_SUCCESS_OR_NO_HISTORY)
-        }
-        else {
-            Log.d("dimak21", "onCreate, else")
+        } else {
             recyclerView.adapter = trackHistoryAdapter
             manageVisibility(SearchVisibilityState.HISTORY)
         }
@@ -141,7 +131,7 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = clearButtonVisibility(s)
-                if (!s.isNullOrEmpty()){
+                if (!s.isNullOrEmpty()) {
                     manageVisibility(SearchVisibilityState.SEARCH_RESULT_SUCCESS_OR_NO_HISTORY)
                     recyclerView.adapter = trackAdapter
                 }
@@ -155,7 +145,6 @@ class SearchActivity : AppCompatActivity() {
         editText.addTextChangedListener(editTextTextWatcher)
         editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                //manageVisibility(SearchVisibilityState.SEARCH_RESULT_SUCCESS_OR_NO_HISTORY)
                 if (trackList.isNotEmpty()) {
                     trackList.clear()
                     trackAdapter.notifyDataSetChanged()
@@ -190,8 +179,7 @@ class SearchActivity : AppCompatActivity() {
         inputMethodManager.hideSoftInputFromWindow(window.decorView.windowToken, 0)
         if (searchHistory.listTrackHistory.isEmpty()) {
             manageVisibility(SearchVisibilityState.SEARCH_RESULT_SUCCESS_OR_NO_HISTORY)
-        }
-        else {
+        } else {
             recyclerView.adapter = trackHistoryAdapter
             manageVisibility(SearchVisibilityState.HISTORY)
         }
@@ -239,8 +227,8 @@ class SearchActivity : AppCompatActivity() {
         )
     }
 
-    private fun manageVisibility(state: SearchVisibilityState){
-        when(state){
+    private fun manageVisibility(state: SearchVisibilityState) {
+        when (state) {
             SearchVisibilityState.SEARCH_RESULT_SUCCESS_OR_NO_HISTORY -> {
                 viewNotFound.visibility = View.GONE
                 viewNoConnection.visibility = View.GONE
@@ -249,6 +237,7 @@ class SearchActivity : AppCompatActivity() {
                 buttonClearHistory.visibility = View.GONE
 
             }
+
             SearchVisibilityState.SEARCH_RESULT_NOT_FOUND -> {
                 viewNotFound.visibility = View.VISIBLE
                 viewNoConnection.visibility = View.GONE
@@ -256,6 +245,7 @@ class SearchActivity : AppCompatActivity() {
                 historyTitleTv.visibility = View.GONE
                 buttonClearHistory.visibility = View.GONE
             }
+
             SearchVisibilityState.SEARCH_RESULT_ERROR -> {
                 viewNotFound.visibility = View.GONE
                 viewNoConnection.visibility = View.VISIBLE
@@ -263,6 +253,7 @@ class SearchActivity : AppCompatActivity() {
                 historyTitleTv.visibility = View.GONE
                 buttonClearHistory.visibility = View.GONE
             }
+
             SearchVisibilityState.HISTORY -> {
                 viewNotFound.visibility = View.GONE
                 viewNoConnection.visibility = View.GONE
@@ -270,6 +261,7 @@ class SearchActivity : AppCompatActivity() {
                 historyTitleTv.visibility = View.VISIBLE
                 buttonClearHistory.visibility = View.VISIBLE
             }
+
             SearchVisibilityState.REST_REQUEST -> {
                 viewNotFound.visibility = View.GONE
                 viewNoConnection.visibility = View.GONE

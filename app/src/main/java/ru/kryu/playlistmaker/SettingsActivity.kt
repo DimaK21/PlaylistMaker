@@ -5,9 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
@@ -44,8 +42,14 @@ class SettingsActivity : AppCompatActivity() {
         buttonSupport.setOnClickListener {
             val supportIntent = Intent(Intent.ACTION_SENDTO)
             supportIntent.data = Uri.parse("mailto:")
-            supportIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(getString(R.string.email_of_developer)))
-            supportIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.title_mail_to_developer))
+            supportIntent.putExtra(
+                Intent.EXTRA_EMAIL,
+                arrayOf(getString(R.string.email_of_developer))
+            )
+            supportIntent.putExtra(
+                Intent.EXTRA_SUBJECT,
+                getString(R.string.title_mail_to_developer)
+            )
             supportIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.thanks_to_developer))
             startActivity(supportIntent)
         }

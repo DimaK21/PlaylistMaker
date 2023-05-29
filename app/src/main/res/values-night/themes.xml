@@ -21,5 +21,6 @@
         <!-- Customize your theme here. -->
         <item name="android:navigationBarColor">@color/app_black</item>
         <item name="android:background">@color/app_black</item>
+        <item name="colorOnPrimary">@color/black</item>
     </style>
 </resources>

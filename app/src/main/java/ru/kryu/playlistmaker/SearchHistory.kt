@@ -9,16 +9,14 @@ class SearchHistory(private val sharedPreferences: SharedPreferences) {
     private val arrayListTrackHistory: ArrayList<Track> = getTrackHistory()
     val listTrackHistory: List<Track> = arrayListTrackHistory
 
+    companion object {
+        const val TRACK_HISTORY_SIZE = 10
+    }
+
     fun addTrack(track: Track) {
-        for (element in arrayListTrackHistory) {
-            if (element.trackId == track.trackId) {
-                arrayListTrackHistory.remove(element)
-                arrayListTrackHistory.add(0, element)
-                return
-            }
-        }
+        arrayListTrackHistory.removeIf { it.trackId == track.trackId }
         arrayListTrackHistory.add(0, track)
-        if (arrayListTrackHistory.size > 10) arrayListTrackHistory.removeLast()
+        if (arrayListTrackHistory.size > TRACK_HISTORY_SIZE) arrayListTrackHistory.removeLast()
     }
 
     private fun getTrackHistory(): ArrayList<Track> {

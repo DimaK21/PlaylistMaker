@@ -11,7 +11,8 @@
 
         <ImageView
             android:id="@+id/settings_arrow"
-            style="@style/HeadImage" />
+            style="@style/HeadImage"
+            android:contentDescription="@string/back_arrow" />
 
         <TextView
             style="@style/HeadText"
@@ -20,6 +21,7 @@
 
 
     <FrameLayout
+        android:id="@+id/dark_theme"
         style="@style/SettingsFrameLayout"
         android:layout_marginTop="40dp"
         android:paddingEnd="18dp">
@@ -28,12 +30,15 @@
             style="@style/SettingsTextView"
             android:text="@string/dark_mode" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial style="@style/SettingsImageViewSwitch" />
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/theme_switcher"
+            style="@style/SettingsImageViewSwitch" />
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/share"
         style="@style/SettingsFrameLayout"
+        android:foreground="?attr/selectableItemBackground"
         android:paddingEnd="16dp">
 
         <TextView
@@ -49,6 +54,7 @@
     <FrameLayout
         android:id="@+id/support"
         style="@style/SettingsFrameLayout"
+        android:foreground="?attr/selectableItemBackground"
         android:paddingEnd="14dp">
 
         <TextView
@@ -64,6 +70,7 @@
     <FrameLayout
         android:id="@+id/agreement"
         style="@style/SettingsFrameLayout"
+        android:foreground="?attr/selectableItemBackground"
         android:paddingEnd="20dp">
 
         <TextView

@@ -33,4 +33,5 @@
     <dimen name="search_placeholder_tv_margin_bottom">24dp</dimen>
     <dimen name="search_placeholder_tv_text">19sp</dimen>
     <dimen name="search_placeholder_button_text">14sp</dimen>
+    <dimen name="history_tracks_title_margin_top">50dp</dimen>
 </resources>

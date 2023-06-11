@@ -3,7 +3,10 @@ package ru.kryu.playlistmaker
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class TrackAdapter(private val trackList: ArrayList<Track>) :
+class TrackAdapter(
+    private var trackList: ArrayList<Track>,
+    private val onTrackClickListener: OnTrackClickListener? = null
+) :
     RecyclerView.Adapter<TrackViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
@@ -14,5 +17,13 @@ class TrackAdapter(private val trackList: ArrayList<Track>) :
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         holder.bind(trackList[position])
+
+        holder.itemView.setOnClickListener {
+            onTrackClickListener?.onTrackClick(trackList[position])
+        }
+    }
+
+    fun interface OnTrackClickListener {
+        fun onTrackClick(track: Track)
     }
 }

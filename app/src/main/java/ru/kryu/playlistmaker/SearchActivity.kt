@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,14 +28,18 @@ class SearchActivity : AppCompatActivity() {
 
     private var userText: String = ""
     private var lastRequest: String = ""
-    private val editText: EditText by lazy { findViewById<EditText>(R.id.edit_text_search) }
-    private val viewNotFound: LinearLayout by lazy { findViewById<LinearLayout>(R.id.not_found) }
-    private val viewNoConnection: LinearLayout by lazy { findViewById<LinearLayout>(R.id.no_connection) }
-    private val recyclerView: RecyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view_search) }
-    private val buttonRefresh: Button by lazy { findViewById<Button>(R.id.button_refresh) }
+    private val editText: EditText by lazy { findViewById(R.id.edit_text_search) }
+    private val viewNotFound: LinearLayout by lazy { findViewById(R.id.not_found) }
+    private val viewNoConnection: LinearLayout by lazy { findViewById(R.id.no_connection) }
+    private val progressBar: ProgressBar by lazy { findViewById(R.id.progress_bar) }
+    private val recyclerView: RecyclerView by lazy { findViewById(R.id.recycler_view_search) }
+    private val buttonRefresh: Button by lazy { findViewById(R.id.button_refresh) }
+    private val historyTitleTv: TextView by lazy { findViewById(R.id.history_title) }
+    private val buttonClearHistory: Button by lazy { findViewById(R.id.clear_history_button) }
 
     private val trackList = ArrayList<Track>()
-    private val trackAdapter = TrackAdapter(trackList)
+    private lateinit var trackAdapter: TrackAdapter
+    private lateinit var trackHistoryAdapter: TrackAdapter
 
     private val iTunesBaseUrl = "https://itunes.apple.com"
     private val retrofit = Retrofit
@@ -44,9 +49,21 @@ class SearchActivity : AppCompatActivity() {
         .build()
     private val iTunesApiService = retrofit.create(ITunesApiService::class.java)
 
+    private lateinit var searchHistory: SearchHistory
+
     companion object {
         const val SEARCH_TEXT = "SEARCH_TEXT"
         const val TRACKS = "TRACKS"
+        const val TRACK_HISTORY_PREFERENCES = "track_history_preferences"
+        const val TRACK_HISTORY_KEY = "track_history_key"
+    }
+
+    enum class SearchVisibilityState {
+        SEARCH_RESULT_SUCCESS_OR_NO_HISTORY,
+        SEARCH_RESULT_NOT_FOUND,
+        SEARCH_RESULT_ERROR,
+        HISTORY,
+        REST_REQUEST,
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -57,24 +74,45 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        if (savedInstanceState.containsKey(SEARCH_TEXT)){
-            userText = savedInstanceState.getString(SEARCH_TEXT,"")
+        userText = savedInstanceState.getString(SEARCH_TEXT, "")
+        if (userText.isNotEmpty()) {
             editText.setText(userText)
             editText.setSelection(editText.text.length)
         }
-        if (savedInstanceState.containsKey(TRACKS)){
-            trackList.addAll(savedInstanceState.parcelableArrayList<Track>(TRACKS)!!)
+        val list = savedInstanceState.parcelableArrayList<Track>(TRACKS)
+        if (!list.isNullOrEmpty()) {
+            trackList.addAll(list)
         }
     }
 
-    private inline fun <reified T : Parcelable> Bundle.parcelableArrayList(key: String): ArrayList<T>? = when {
-        SDK_INT >= 33 -> getParcelableArrayList(key, T::class.java)
-        else -> @Suppress("DEPRECATION") getParcelableArrayList(key)
-    }
+    private inline fun <reified T : Parcelable> Bundle.parcelableArrayList(key: String): ArrayList<T>? =
+        when {
+            SDK_INT >= 33 -> getParcelableArrayList(key, T::class.java)
+            else -> @Suppress("DEPRECATION") getParcelableArrayList(key)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+
+        val onTrackClickListener = TrackAdapter.OnTrackClickListener { track: Track ->
+            searchHistory.addTrack(track)
+        }
+        trackAdapter = TrackAdapter(trackList, onTrackClickListener)
+
+        val sharedPreferences = getSharedPreferences(TRACK_HISTORY_PREFERENCES, MODE_PRIVATE)
+        searchHistory = SearchHistory(sharedPreferences)
+        trackHistoryAdapter =
+            TrackAdapter(searchHistory.listTrackHistory as ArrayList<Track>)
+        recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
+        if (searchHistory.listTrackHistory.isEmpty()) {
+            recyclerView.adapter = trackAdapter
+            manageVisibility(SearchVisibilityState.SEARCH_RESULT_SUCCESS_OR_NO_HISTORY)
+        } else {
+            recyclerView.adapter = trackHistoryAdapter
+            manageVisibility(SearchVisibilityState.HISTORY)
+        }
 
         val buttonBack = findViewById<ImageView>(R.id.search_arrow)
         buttonBack.setOnClickListener {
@@ -83,17 +121,7 @@ class SearchActivity : AppCompatActivity() {
 
         val clearButton = findViewById<ImageView>(R.id.edit_text_clear)
         clearButton.setOnClickListener {
-            editText.setText("")
-            editText.clearFocus()
-            val inputMethodManager =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(window.decorView.windowToken, 0)
-            viewNotFound.visibility = View.GONE
-            viewNoConnection.visibility = View.GONE
-            if (trackList.isNotEmpty()) {
-                trackList.clear()
-                trackAdapter.notifyDataSetChanged()
-            }
+            clearButtonOnClick()
         }
 
         val editTextTextWatcher = object : TextWatcher {
@@ -103,6 +131,10 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 clearButton.visibility = clearButtonVisibility(s)
+                if (!s.isNullOrEmpty()) {
+                    manageVisibility(SearchVisibilityState.SEARCH_RESULT_SUCCESS_OR_NO_HISTORY)
+                    recyclerView.adapter = trackAdapter
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -110,14 +142,9 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        recyclerView.adapter = trackAdapter
-
         editText.addTextChangedListener(editTextTextWatcher)
         editText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                viewNotFound.visibility = View.GONE
-                viewNoConnection.visibility = View.GONE
                 if (trackList.isNotEmpty()) {
                     trackList.clear()
                     trackAdapter.notifyDataSetChanged()
@@ -129,8 +156,36 @@ class SearchActivity : AppCompatActivity() {
         }
 
         buttonRefresh.setOnClickListener {
-            viewNoConnection.visibility = View.GONE
             refreshTrackList(lastRequest)
+        }
+
+        buttonClearHistory.setOnClickListener {
+            searchHistory.clearTrackHistory()
+            manageVisibility(SearchVisibilityState.SEARCH_RESULT_SUCCESS_OR_NO_HISTORY)
+            recyclerView.adapter = trackAdapter
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        searchHistory.saveTrackHistory()
+    }
+
+    private fun clearButtonOnClick() {
+        editText.setText("")
+        editText.clearFocus()
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(window.decorView.windowToken, 0)
+        if (searchHistory.listTrackHistory.isEmpty()) {
+            manageVisibility(SearchVisibilityState.SEARCH_RESULT_SUCCESS_OR_NO_HISTORY)
+        } else {
+            recyclerView.adapter = trackHistoryAdapter
+            manageVisibility(SearchVisibilityState.HISTORY)
+        }
+        if (trackList.isNotEmpty()) {
+            trackList.clear()
+            trackAdapter.notifyDataSetChanged()
         }
     }
 
@@ -143,34 +198,77 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun refreshTrackList(requestText: String) {
-        val progressBar = findViewById<ProgressBar>(R.id.progress_bar)
-        progressBar.visibility = View.VISIBLE
+        manageVisibility(SearchVisibilityState.REST_REQUEST)
         lastRequest = requestText
         iTunesApiService.search(lastRequest).enqueue(
-            object : Callback<ITunesResponce> {
+            object : Callback<ITunesResponse> {
                 override fun onResponse(
-                    call: Call<ITunesResponce>,
-                    response: Response<ITunesResponce>
+                    call: Call<ITunesResponse>,
+                    response: Response<ITunesResponse>
                 ) {
-                    progressBar.visibility = View.GONE
                     if (response.code() == 200) {
                         if (response.body()?.results?.isNotEmpty()!!) {
+                            manageVisibility(SearchVisibilityState.SEARCH_RESULT_SUCCESS_OR_NO_HISTORY)
                             trackList.addAll(response.body()?.results!!)
                             trackAdapter.notifyDataSetChanged()
                         } else {
-                            viewNotFound.visibility = View.VISIBLE
+                            manageVisibility(SearchVisibilityState.SEARCH_RESULT_NOT_FOUND)
                         }
                     } else {
-                        viewNoConnection.visibility = View.VISIBLE
+                        manageVisibility(SearchVisibilityState.SEARCH_RESULT_ERROR)
                     }
                 }
 
-                override fun onFailure(call: Call<ITunesResponce>, t: Throwable) {
-                    progressBar.visibility = View.GONE
-                    viewNoConnection.visibility = View.VISIBLE
+                override fun onFailure(call: Call<ITunesResponse>, t: Throwable) {
+                    manageVisibility(SearchVisibilityState.SEARCH_RESULT_ERROR)
                 }
 
             }
         )
+    }
+
+    private fun manageVisibility(state: SearchVisibilityState) {
+        when (state) {
+            SearchVisibilityState.SEARCH_RESULT_SUCCESS_OR_NO_HISTORY -> {
+                viewNotFound.visibility = View.GONE
+                viewNoConnection.visibility = View.GONE
+                progressBar.visibility = View.GONE
+                historyTitleTv.visibility = View.GONE
+                buttonClearHistory.visibility = View.GONE
+
+            }
+
+            SearchVisibilityState.SEARCH_RESULT_NOT_FOUND -> {
+                viewNotFound.visibility = View.VISIBLE
+                viewNoConnection.visibility = View.GONE
+                progressBar.visibility = View.GONE
+                historyTitleTv.visibility = View.GONE
+                buttonClearHistory.visibility = View.GONE
+            }
+
+            SearchVisibilityState.SEARCH_RESULT_ERROR -> {
+                viewNotFound.visibility = View.GONE
+                viewNoConnection.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+                historyTitleTv.visibility = View.GONE
+                buttonClearHistory.visibility = View.GONE
+            }
+
+            SearchVisibilityState.HISTORY -> {
+                viewNotFound.visibility = View.GONE
+                viewNoConnection.visibility = View.GONE
+                progressBar.visibility = View.GONE
+                historyTitleTv.visibility = View.VISIBLE
+                buttonClearHistory.visibility = View.VISIBLE
+            }
+
+            SearchVisibilityState.REST_REQUEST -> {
+                viewNotFound.visibility = View.GONE
+                viewNoConnection.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                historyTitleTv.visibility = View.GONE
+                buttonClearHistory.visibility = View.GONE
+            }
+        }
     }
 }

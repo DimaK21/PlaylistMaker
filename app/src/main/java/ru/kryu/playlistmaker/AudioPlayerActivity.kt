@@ -10,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.Group
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class AudioPlayerActivity : AppCompatActivity() {
 
@@ -45,24 +43,25 @@ class AudioPlayerActivity : AppCompatActivity() {
 
         backArrowIb.setOnClickListener { finish() }
         Glide.with(this)
-            .load(track.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg"))
+            .load(track.artworkUrl512)
             .placeholder(R.drawable.search_placeholder)
             .transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.corners_8)))
             .into(albumCoverIv)
         trackNameTv.text = track.trackName
         artistNameTv.text = track.artistName
-        fullTrackTimeCurrentTv.text =
-            SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
+        fullTrackTimeCurrentTv.text = track.getFormatTrackTimeMillis()
         albumCurrentTv.text = track.collectionName
         if (track.collectionName == "") {
             albumGroup.visibility = View.GONE
         }
-        yearCurrentTv.text = track.releaseDate.substring(0, 4)
+        yearCurrentTv.text = track.releaseDate.substring(START_INDEX, END_INDEX)
         genreCurrentTv.text = track.primaryGenreName
         countryCurrentTv.text = track.country
     }
 
     companion object {
-        const val TRACK = "TRACK"
+        private const val TRACK = "TRACK"
+        private const val START_INDEX = 0
+        private const val END_INDEX = 4
     }
 }

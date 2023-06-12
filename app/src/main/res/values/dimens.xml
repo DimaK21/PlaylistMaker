@@ -38,7 +38,7 @@
     <dimen name="margin_guideline_24">24dp</dimen>
     <dimen name="margin_top_cover_player">82dp</dimen>
     <dimen name="margin_back_arrow">16dp</dimen>
-    <dimen name="size_back_arrow">20dp</dimen>
+    <dimen name="size_back_arrow">24dp</dimen>
     <dimen name="padding_back_arrow">4dp</dimen>
     <dimen name="margin_12">12dp</dimen>
     <dimen name="margin_36">36dp</dimen>
@@ -46,5 +46,6 @@
     <dimen name="margin_50">50dp</dimen>
     <dimen name="margin_84">84dp</dimen>
     <dimen name="text_13">13sp</dimen>
+    <dimen name="corners_8">8dp</dimen>
 
 </resources>

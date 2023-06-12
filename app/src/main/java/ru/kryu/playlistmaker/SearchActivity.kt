@@ -1,6 +1,7 @@
 package ru.kryu.playlistmaker
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.os.Parcelable
@@ -56,6 +57,7 @@ class SearchActivity : AppCompatActivity() {
         const val TRACKS = "TRACKS"
         const val TRACK_HISTORY_PREFERENCES = "track_history_preferences"
         const val TRACK_HISTORY_KEY = "track_history_key"
+        const val TRACK = "TRACK"
     }
 
     enum class SearchVisibilityState {
@@ -97,13 +99,16 @@ class SearchActivity : AppCompatActivity() {
 
         val onTrackClickListener = TrackAdapter.OnTrackClickListener { track: Track ->
             searchHistory.addTrack(track)
+            val audioPlayerActivityIntent = Intent(this, AudioPlayerActivity::class.java)
+            audioPlayerActivityIntent.putExtra(TRACK, track)
+            startActivity(audioPlayerActivityIntent)
         }
         trackAdapter = TrackAdapter(trackList, onTrackClickListener)
 
         val sharedPreferences = getSharedPreferences(TRACK_HISTORY_PREFERENCES, MODE_PRIVATE)
         searchHistory = SearchHistory(sharedPreferences)
         trackHistoryAdapter =
-            TrackAdapter(searchHistory.listTrackHistory as ArrayList<Track>)
+            TrackAdapter(searchHistory.listTrackHistory as ArrayList<Track>, onTrackClickListener)
         recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         if (searchHistory.listTrackHistory.isEmpty()) {
@@ -270,5 +275,10 @@ class SearchActivity : AppCompatActivity() {
                 buttonClearHistory.visibility = View.GONE
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        trackHistoryAdapter.notifyDataSetChanged()
     }
 }

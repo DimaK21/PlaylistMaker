@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AudioPlayerActivity">
+
+    <ImageButton
+        android:id="@+id/back_arrow"
+        android:layout_width="@dimen/size_back_arrow"
+        android:layout_height="@dimen/size_back_arrow"
+        android:layout_marginStart="@dimen/margin_back_arrow"
+        android:layout_marginTop="@dimen/margin_back_arrow"
+        android:background="@null"
+        android:clickable="true"
+        android:contentDescription="@string/back_arrow"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="@dimen/padding_back_arrow"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/left_arrow"
+        app:tint="?attr/colorOnPrimary" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/start_border_16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/margin_guideline_16" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/start_border_24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/margin_guideline_24" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/end_border_16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/margin_guideline_16" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/end_border_24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/margin_guideline_24" />
+
+    <ImageView
+        android:id="@+id/album_cover"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_top_cover_player"
+        android:contentDescription="@string/album_cover"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="h,1:1"
+        app:layout_constraintEnd_toStartOf="@id/end_border_24"
+        app:layout_constraintStart_toEndOf="@id/start_border_24"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="400dp"
+        tools:src="@drawable/search_placeholder" />
+
+    <TextView
+        android:id="@+id/track_name_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_guideline_24"
+        android:fontFamily="@font/ys_display_medium"
+        android:textColor="?attr/colorOnPrimary"
+        android:textFontWeight="400"
+        android:textSize="@dimen/main_text_size"
+        app:layout_constraintEnd_toStartOf="@id/end_border_24"
+        app:layout_constraintStart_toEndOf="@id/start_border_24"
+        app:layout_constraintTop_toBottomOf="@id/album_cover"
+        tools:text="Название Название Название Название" />
+
+    <TextView
+        android:id="@+id/artist_name_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_12"
+        android:fontFamily="@font/ys_display_medium"
+        android:textColor="?attr/colorOnPrimary"
+        android:textFontWeight="400"
+        android:textSize="@dimen/search_placeholder_button_text"
+        app:layout_constraintEnd_toStartOf="@id/end_border_24"
+        app:layout_constraintStart_toEndOf="@id/start_border_24"
+        app:layout_constraintTop_toBottomOf="@id/track_name_tv"
+        tools:text="Исполнитель Исполнитель Исполнитель Исполнитель Исполнитель Исполнитель Исполнитель" />
+
+    <ImageButton
+        android:id="@+id/add_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="@dimen/margin_54"
+        android:background="@drawable/button_add"
+        android:clickable="true"
+        android:contentDescription="@string/add_to_playlist"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:layout_constraintStart_toEndOf="@id/start_border_24"
+        app:layout_constraintTop_toBottomOf="@id/artist_name_tv" />
+
+    <ImageButton
+        android:id="@+id/play_button"
+        android:layout_width="@dimen/margin_84"
+        android:layout_height="@dimen/margin_84"
+        android:background="@drawable/play_button"
+        android:backgroundTint="?attr/colorOnPrimary"
+        android:clickable="true"
+        android:contentDescription="@string/button_play"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:layout_constraintBottom_toBottomOf="@id/add_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/add_button" />
+
+    <ImageButton
+        android:id="@+id/like_button"
+        android:layout_width="@dimen/margin_50"
+        android:layout_height="@dimen/margin_50"
+        android:background="@drawable/button_like"
+        android:clickable="true"
+        android:contentDescription="@string/add_to_favourites"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:layout_constraintBottom_toBottomOf="@id/add_button"
+        app:layout_constraintEnd_toStartOf="@id/end_border_24"
+        app:layout_constraintTop_toTopOf="@id/add_button" />
+
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/ys_display_medium"
+        android:text="@string/thirty_seconds"
+        android:textColor="?attr/colorOnPrimary"
+        android:textFontWeight="500"
+        android:textSize="@dimen/search_placeholder_button_text"
+        app:layout_constraintEnd_toEndOf="@id/play_button"
+        app:layout_constraintStart_toStartOf="@id/play_button"
+        app:layout_constraintTop_toBottomOf="@+id/play_button" />
+
+    <TextView
+        android:id="@+id/full_track_time_tv"
+        style="@style/player_track_info_left"
+        android:layout_marginTop="@dimen/margin_84"
+        android:text="@string/duration"
+        app:layout_constraintBottom_toTopOf="@id/album_tv"
+        app:layout_constraintStart_toEndOf="@id/start_border_16"
+        app:layout_constraintTag="full_track_time_tv_tag"
+        app:layout_constraintTop_toBottomOf="@id/add_button"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/album_tv"
+        style="@style/player_track_info_left"
+        android:text="@string/album"
+        app:layout_constraintBottom_toTopOf="@id/year_tv"
+        app:layout_constraintStart_toEndOf="@id/start_border_16"
+        app:layout_constraintTag="album_tv_tag"
+        app:layout_constraintTop_toBottomOf="@id/full_track_time_tv" />
+
+    <TextView
+        android:id="@+id/year_tv"
+        style="@style/player_track_info_left"
+        android:text="@string/year"
+        app:layout_constraintBottom_toTopOf="@id/genre_tv"
+        app:layout_constraintStart_toEndOf="@id/start_border_16"
+        app:layout_constraintTag="year_tv_tag"
+        app:layout_constraintTop_toBottomOf="@id/album_tv" />
+
+    <TextView
+        android:id="@+id/genre_tv"
+        style="@style/player_track_info_left"
+        android:text="@string/genre"
+        app:layout_constraintBottom_toTopOf="@id/country_tv"
+        app:layout_constraintStart_toEndOf="@id/start_border_16"
+        app:layout_constraintTag="genre_tv_tag"
+        app:layout_constraintTop_toBottomOf="@id/year_tv" />
+
+    <TextView
+        android:id="@+id/country_tv"
+        style="@style/player_track_info_left"
+        android:layout_marginBottom="@dimen/margin_28"
+        android:text="@string/country"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/start_border_16"
+        app:layout_constraintTag="country_tv_tag"
+        app:layout_constraintTop_toBottomOf="@id/genre_tv" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_tags="full_track_time_tv_tag, album_tv_tag, year_tv_tag, genre_tv_tag, country_tv_tag" />
+
+    <TextView
+        android:id="@+id/full_track_time_current_tv"
+        style="@style/player_track_info_right"
+        app:layout_constraintBaseline_toBaselineOf="@id/full_track_time_tv"
+        app:layout_constraintEnd_toStartOf="@id/end_border_16"
+        app:layout_constraintStart_toEndOf="@id/barrier"
+        tools:text="6:06" />
+
+    <TextView
+        android:id="@+id/album_current_tv"
+        style="@style/player_track_info_right"
+        app:layout_constraintBaseline_toBaselineOf="@id/album_tv"
+        app:layout_constraintEnd_toStartOf="@id/end_border_16"
+        app:layout_constraintStart_toEndOf="@id/barrier"
+        app:layout_constraintTag="album_current_tv_tag"
+        tools:text="Альбом" />
+
+    <TextView
+        android:id="@+id/year_current_tv"
+        style="@style/player_track_info_right"
+        app:layout_constraintBaseline_toBaselineOf="@id/year_tv"
+        app:layout_constraintEnd_toStartOf="@id/end_border_16"
+        app:layout_constraintStart_toEndOf="@id/barrier"
+        tools:text="Год" />
+
+    <TextView
+        android:id="@+id/genre_current_tv"
+        style="@style/player_track_info_right"
+        app:layout_constraintBaseline_toBaselineOf="@id/genre_tv"
+        app:layout_constraintEnd_toStartOf="@id/end_border_16"
+        app:layout_constraintStart_toEndOf="@id/barrier"
+        tools:text="Жанр Жанр Жанр Жанр Жанр Жанр Жанр Жанр Жанр Жанр Жанр Жанр Жанр Жанр Жанр Жанр Жанр Жанр " />
+
+    <TextView
+        android:id="@+id/country_current_tv"
+        style="@style/player_track_info_right"
+        app:layout_constraintBaseline_toBaselineOf="@id/country_tv"
+        app:layout_constraintEnd_toStartOf="@id/end_border_16"
+        app:layout_constraintStart_toEndOf="@id/barrier"
+        tools:text="Страна" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/album_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_tags="album_tv_tag, album_current_tv_tag" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

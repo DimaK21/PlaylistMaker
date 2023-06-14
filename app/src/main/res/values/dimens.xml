@@ -34,4 +34,19 @@
     <dimen name="search_placeholder_tv_text">19sp</dimen>
     <dimen name="search_placeholder_button_text">14sp</dimen>
     <dimen name="history_tracks_title_margin_top">50dp</dimen>
+    <dimen name="margin_guideline_16">16dp</dimen>
+    <dimen name="margin_guideline_24">24dp</dimen>
+    <dimen name="margin_top_cover_player">82dp</dimen>
+    <dimen name="margin_back_arrow">16dp</dimen>
+    <dimen name="size_back_arrow">24dp</dimen>
+    <dimen name="padding_back_arrow">4dp</dimen>
+    <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_36">36dp</dimen>
+    <dimen name="margin_28">28dp</dimen>
+    <dimen name="margin_54">54dp</dimen>
+    <dimen name="margin_50">50dp</dimen>
+    <dimen name="margin_84">84dp</dimen>
+    <dimen name="text_13">13sp</dimen>
+    <dimen name="corners_8">8dp</dimen>
+
 </resources>

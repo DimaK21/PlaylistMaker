@@ -4,11 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -52,21 +53,8 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var searchHistory: SearchHistory
 
-    companion object {
-        const val SEARCH_TEXT = "SEARCH_TEXT"
-        const val TRACKS = "TRACKS"
-        const val TRACK_HISTORY_PREFERENCES = "track_history_preferences"
-        const val TRACK_HISTORY_KEY = "track_history_key"
-        const val TRACK = "TRACK"
-    }
-
-    enum class SearchVisibilityState {
-        SEARCH_RESULT_SUCCESS_OR_NO_HISTORY,
-        SEARCH_RESULT_NOT_FOUND,
-        SEARCH_RESULT_ERROR,
-        HISTORY,
-        REST_REQUEST,
-    }
+    private val handlerMainLooper = Handler(Looper.getMainLooper())
+    private var searchRunnable = Runnable { refreshTrackList(editText.text.toString()) }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -140,6 +128,7 @@ class SearchActivity : AppCompatActivity() {
                     manageVisibility(SearchVisibilityState.SEARCH_RESULT_SUCCESS_OR_NO_HISTORY)
                     recyclerView.adapter = trackAdapter
                 }
+                searchDebounce()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -148,17 +137,6 @@ class SearchActivity : AppCompatActivity() {
         }
 
         editText.addTextChangedListener(editTextTextWatcher)
-        editText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (trackList.isNotEmpty()) {
-                    trackList.clear()
-                    trackAdapter.notifyDataSetChanged()
-                }
-                refreshTrackList(editText.text.toString())
-                true
-            }
-            false
-        }
 
         buttonRefresh.setOnClickListener {
             refreshTrackList(lastRequest)
@@ -203,6 +181,10 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun refreshTrackList(requestText: String) {
+        if (trackList.isNotEmpty()) {
+            trackList.clear()
+            trackAdapter.notifyDataSetChanged()
+        }
         manageVisibility(SearchVisibilityState.REST_REQUEST)
         lastRequest = requestText
         iTunesApiService.search(lastRequest).enqueue(
@@ -280,5 +262,29 @@ class SearchActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         trackHistoryAdapter.notifyDataSetChanged()
+    }
+
+    private fun searchDebounce() {
+        handlerMainLooper.removeCallbacks(searchRunnable)
+        if (editText.text.isNotEmpty()){
+            handlerMainLooper.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+        }
+    }
+
+    companion object {
+        const val SEARCH_TEXT = "SEARCH_TEXT"
+        const val TRACKS = "TRACKS"
+        const val TRACK_HISTORY_PREFERENCES = "track_history_preferences"
+        const val TRACK_HISTORY_KEY = "track_history_key"
+        const val TRACK = "TRACK"
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+    }
+
+    enum class SearchVisibilityState {
+        SEARCH_RESULT_SUCCESS_OR_NO_HISTORY,
+        SEARCH_RESULT_NOT_FOUND,
+        SEARCH_RESULT_ERROR,
+        HISTORY,
+        REST_REQUEST,
     }
 }

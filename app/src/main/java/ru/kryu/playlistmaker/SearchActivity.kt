@@ -56,6 +56,8 @@ class SearchActivity : AppCompatActivity() {
     private val handlerMainLooper = Handler(Looper.getMainLooper())
     private var searchRunnable = Runnable { refreshTrackList(editText.text.toString()) }
 
+    private var isClickAllowed = true
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(SEARCH_TEXT, userText)
@@ -86,10 +88,12 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
 
         val onTrackClickListener = TrackAdapter.OnTrackClickListener { track: Track ->
-            searchHistory.addTrack(track)
-            val audioPlayerActivityIntent = Intent(this, AudioPlayerActivity::class.java)
-            audioPlayerActivityIntent.putExtra(TRACK, track)
-            startActivity(audioPlayerActivityIntent)
+            if (isClickAllowed){
+                searchHistory.addTrack(track)
+                val audioPlayerActivityIntent = Intent(this, AudioPlayerActivity::class.java)
+                audioPlayerActivityIntent.putExtra(TRACK, track)
+                startActivity(audioPlayerActivityIntent)
+            }
         }
         trackAdapter = TrackAdapter(trackList, onTrackClickListener)
 
@@ -271,6 +275,15 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    private fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handlerMainLooper.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
+    }
+
     companion object {
         const val SEARCH_TEXT = "SEARCH_TEXT"
         const val TRACKS = "TRACKS"
@@ -278,6 +291,7 @@ class SearchActivity : AppCompatActivity() {
         const val TRACK_HISTORY_KEY = "track_history_key"
         const val TRACK = "TRACK"
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
     enum class SearchVisibilityState {

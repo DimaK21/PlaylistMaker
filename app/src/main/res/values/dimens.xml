@@ -48,5 +48,6 @@
     <dimen name="margin_84">84dp</dimen>
     <dimen name="text_13">13sp</dimen>
     <dimen name="corners_8">8dp</dimen>
+    <dimen name="progress_bar">44dp</dimen>
 
 </resources>

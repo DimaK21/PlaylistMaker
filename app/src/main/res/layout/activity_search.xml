@@ -84,8 +84,9 @@
 
             <ProgressBar
                 android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/progress_bar"
+                android:layout_height="@dimen/progress_bar"
+                android:indeterminateTint="@color/main_background"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/search_placeholder_margin_top"
                 android:visibility="gone" />

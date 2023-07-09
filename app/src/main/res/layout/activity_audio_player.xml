@@ -109,10 +109,9 @@
 
     <ImageButton
         android:id="@+id/play_button"
-        android:layout_width="@dimen/margin_84"
-        android:layout_height="@dimen/margin_84"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@drawable/play_button"
-        android:backgroundTint="?attr/colorOnPrimary"
         android:clickable="true"
         android:contentDescription="@string/button_play"
         android:focusable="true"
@@ -139,7 +138,7 @@
         android:id="@+id/timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="@dimen/margin_4"
         android:fontFamily="@font/ys_display_medium"
         android:text="@string/thirty_seconds"
         android:textColor="?attr/colorOnPrimary"

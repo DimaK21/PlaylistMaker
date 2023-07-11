@@ -271,7 +271,7 @@ class SearchActivity : AppCompatActivity() {
     private fun searchDebounce() {
         handlerMainLooper.removeCallbacks(searchRunnable)
         if (editText.text.isNotEmpty()){
-            handlerMainLooper.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+            handlerMainLooper.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY_MILLIS)
         }
     }
 
@@ -279,7 +279,7 @@ class SearchActivity : AppCompatActivity() {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-            handlerMainLooper.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+            handlerMainLooper.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY_MILLIS)
         }
         return current
     }
@@ -290,8 +290,8 @@ class SearchActivity : AppCompatActivity() {
         const val TRACK_HISTORY_PREFERENCES = "track_history_preferences"
         const val TRACK_HISTORY_KEY = "track_history_key"
         const val TRACK = "TRACK"
-        private const val SEARCH_DEBOUNCE_DELAY = 2000L
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
     }
 
     enum class SearchVisibilityState {

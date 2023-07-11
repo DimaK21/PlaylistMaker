@@ -100,15 +100,9 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private fun playbackControl() {
         when (playerState) {
-            PlayerState.STATE_PLAYING -> {
-                pausePlayer()
-            }
-
-            PlayerState.STATE_PREPARED, PlayerState.STATE_PAUSED -> {
-                startPlayer()
-            }
-
-            else -> {}
+            PlayerState.STATE_PLAYING -> pausePlayer()
+            PlayerState.STATE_PREPARED, PlayerState.STATE_PAUSED -> startPlayer()
+            else -> Unit
         }
     }
 

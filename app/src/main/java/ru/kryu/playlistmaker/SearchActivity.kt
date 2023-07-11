@@ -88,7 +88,7 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
 
         val onTrackClickListener = TrackAdapter.OnTrackClickListener { track: Track ->
-            if (isClickAllowed){
+            if (clickDebounce()){
                 searchHistory.addTrack(track)
                 val audioPlayerActivityIntent = Intent(this, AudioPlayerActivity::class.java)
                 audioPlayerActivityIntent.putExtra(TRACK, track)

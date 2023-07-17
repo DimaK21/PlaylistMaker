@@ -4,11 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -52,21 +53,10 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var searchHistory: SearchHistory
 
-    companion object {
-        const val SEARCH_TEXT = "SEARCH_TEXT"
-        const val TRACKS = "TRACKS"
-        const val TRACK_HISTORY_PREFERENCES = "track_history_preferences"
-        const val TRACK_HISTORY_KEY = "track_history_key"
-        const val TRACK = "TRACK"
-    }
+    private val handlerMainLooper = Handler(Looper.getMainLooper())
+    private var searchRunnable = Runnable { refreshTrackList(editText.text.toString()) }
 
-    enum class SearchVisibilityState {
-        SEARCH_RESULT_SUCCESS_OR_NO_HISTORY,
-        SEARCH_RESULT_NOT_FOUND,
-        SEARCH_RESULT_ERROR,
-        HISTORY,
-        REST_REQUEST,
-    }
+    private var isClickAllowed = true
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -98,10 +88,12 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
 
         val onTrackClickListener = TrackAdapter.OnTrackClickListener { track: Track ->
-            searchHistory.addTrack(track)
-            val audioPlayerActivityIntent = Intent(this, AudioPlayerActivity::class.java)
-            audioPlayerActivityIntent.putExtra(TRACK, track)
-            startActivity(audioPlayerActivityIntent)
+            if (clickDebounce()){
+                searchHistory.addTrack(track)
+                val audioPlayerActivityIntent = Intent(this, AudioPlayerActivity::class.java)
+                audioPlayerActivityIntent.putExtra(TRACK, track)
+                startActivity(audioPlayerActivityIntent)
+            }
         }
         trackAdapter = TrackAdapter(trackList, onTrackClickListener)
 
@@ -140,6 +132,7 @@ class SearchActivity : AppCompatActivity() {
                     manageVisibility(SearchVisibilityState.SEARCH_RESULT_SUCCESS_OR_NO_HISTORY)
                     recyclerView.adapter = trackAdapter
                 }
+                searchDebounce()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -148,17 +141,6 @@ class SearchActivity : AppCompatActivity() {
         }
 
         editText.addTextChangedListener(editTextTextWatcher)
-        editText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (trackList.isNotEmpty()) {
-                    trackList.clear()
-                    trackAdapter.notifyDataSetChanged()
-                }
-                refreshTrackList(editText.text.toString())
-                true
-            }
-            false
-        }
 
         buttonRefresh.setOnClickListener {
             refreshTrackList(lastRequest)
@@ -203,6 +185,10 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun refreshTrackList(requestText: String) {
+        if (trackList.isNotEmpty()) {
+            trackList.clear()
+            trackAdapter.notifyDataSetChanged()
+        }
         manageVisibility(SearchVisibilityState.REST_REQUEST)
         lastRequest = requestText
         iTunesApiService.search(lastRequest).enqueue(
@@ -280,5 +266,39 @@ class SearchActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         trackHistoryAdapter.notifyDataSetChanged()
+    }
+
+    private fun searchDebounce() {
+        handlerMainLooper.removeCallbacks(searchRunnable)
+        if (editText.text.isNotEmpty()){
+            handlerMainLooper.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY_MILLIS)
+        }
+    }
+
+    private fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handlerMainLooper.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY_MILLIS)
+        }
+        return current
+    }
+
+    companion object {
+        const val SEARCH_TEXT = "SEARCH_TEXT"
+        const val TRACKS = "TRACKS"
+        const val TRACK_HISTORY_PREFERENCES = "track_history_preferences"
+        const val TRACK_HISTORY_KEY = "track_history_key"
+        const val TRACK = "TRACK"
+        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
+    }
+
+    enum class SearchVisibilityState {
+        SEARCH_RESULT_SUCCESS_OR_NO_HISTORY,
+        SEARCH_RESULT_NOT_FOUND,
+        SEARCH_RESULT_ERROR,
+        HISTORY,
+        REST_REQUEST,
     }
 }

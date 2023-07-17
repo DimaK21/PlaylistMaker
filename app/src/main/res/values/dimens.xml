@@ -41,6 +41,7 @@
     <dimen name="size_back_arrow">24dp</dimen>
     <dimen name="padding_back_arrow">4dp</dimen>
     <dimen name="margin_12">12dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
     <dimen name="margin_36">36dp</dimen>
     <dimen name="margin_28">28dp</dimen>
     <dimen name="margin_54">54dp</dimen>
@@ -48,5 +49,6 @@
     <dimen name="margin_84">84dp</dimen>
     <dimen name="text_13">13sp</dimen>
     <dimen name="corners_8">8dp</dimen>
+    <dimen name="progress_bar">44dp</dimen>
 
 </resources>

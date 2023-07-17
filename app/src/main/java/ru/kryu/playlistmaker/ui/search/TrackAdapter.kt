@@ -1,7 +1,8 @@
-package ru.kryu.playlistmaker
+package ru.kryu.playlistmaker.ui.search
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ru.kryu.playlistmaker.domain.models.Track
 
 class TrackAdapter(
     private var trackList: ArrayList<Track>,

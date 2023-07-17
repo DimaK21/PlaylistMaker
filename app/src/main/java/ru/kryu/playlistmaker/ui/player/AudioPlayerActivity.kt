@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker
+package ru.kryu.playlistmaker.ui.player
 
 import android.media.MediaPlayer
 import android.os.Build
@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.Group
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import ru.kryu.playlistmaker.R
+import ru.kryu.playlistmaker.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 

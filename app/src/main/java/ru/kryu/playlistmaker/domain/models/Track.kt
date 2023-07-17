@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker
+package ru.kryu.playlistmaker.domain.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

@@ -3,6 +3,8 @@ package ru.kryu.playlistmaker
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import ru.kryu.playlistmaker.domain.models.Track
+import ru.kryu.playlistmaker.ui.search.SearchActivity
 
 class SearchHistory(private val sharedPreferences: SharedPreferences) {
 

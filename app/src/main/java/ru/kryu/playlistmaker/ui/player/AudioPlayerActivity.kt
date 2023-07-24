@@ -1,6 +1,5 @@
-package ru.kryu.playlistmaker
+package ru.kryu.playlistmaker.ui.player
 
-import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -13,6 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.Group
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import ru.kryu.playlistmaker.Creator
+import ru.kryu.playlistmaker.R
+import ru.kryu.playlistmaker.domain.api.PlayerUseCase
+import ru.kryu.playlistmaker.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -35,8 +38,10 @@ class AudioPlayerActivity : AppCompatActivity() {
     private val countryCurrentTv: TextView by lazy { findViewById(R.id.country_current_tv) }
     private val albumGroup: Group by lazy { findViewById(R.id.album_group) }
 
+    private val creator = Creator
+
     private var playerState = PlayerState.STATE_DEFAULT
-    private val mediaPlayer = MediaPlayer()
+    private val mediaPlayer = creator.providePlayerUseCase()
     private val handlerMainLooper = Handler(Looper.getMainLooper())
     private val timerRunnable = Runnable {
         timerUpdate()
@@ -84,18 +89,25 @@ class AudioPlayerActivity : AppCompatActivity() {
     }
 
     private fun preparePlayer() {
-        mediaPlayer.setDataSource(track.previewUrl)
-        mediaPlayer.prepareAsync()
-        mediaPlayer.setOnPreparedListener {
-            playerState = PlayerState.STATE_PREPARED
-            playButton.isEnabled = true
+        mediaPlayer.preparePlayer(track.previewUrl)
+
+        val onPreparedListener = object : PlayerUseCase.PreparedListener {
+            override fun setOnPreparedListener() {
+                playerState = PlayerState.STATE_PREPARED
+                playButton.isEnabled = true
+            }
         }
-        mediaPlayer.setOnCompletionListener {
-            playButton.setImageResource(R.drawable.play_button)
-            playerState = PlayerState.STATE_PREPARED
-            handlerMainLooper.removeCallbacks(timerRunnable)
-            timerTv.text = getString(R.string.thirty_seconds)
+        mediaPlayer.setOnPreparedListener(onPreparedListener)
+
+        val onCompletionListener = object :  PlayerUseCase.CompletionListener {
+            override fun setOnCompletionListener() {
+                playButton.setImageResource(R.drawable.play_button)
+                playerState = PlayerState.STATE_PREPARED
+                handlerMainLooper.removeCallbacks(timerRunnable)
+                timerTv.text = getString(R.string.thirty_seconds)
+            }
         }
+        mediaPlayer.setOnCompletionListener(onCompletionListener)
     }
 
     private fun playbackControl() {
@@ -107,14 +119,14 @@ class AudioPlayerActivity : AppCompatActivity() {
     }
 
     private fun startPlayer() {
-        mediaPlayer.start()
+        mediaPlayer.startPlayer()
         playButton.setImageResource(R.drawable.stop_button)
         playerState = PlayerState.STATE_PLAYING
         timerUpdate()
     }
 
     private fun pausePlayer() {
-        mediaPlayer.pause()
+        mediaPlayer.pausePlayer()
         playButton.setImageResource(R.drawable.play_button)
         playerState = PlayerState.STATE_PAUSED
         handlerMainLooper.removeCallbacks(timerRunnable)
@@ -128,12 +140,12 @@ class AudioPlayerActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         handlerMainLooper.removeCallbacks(timerRunnable)
-        mediaPlayer.release()
+        mediaPlayer.stopPlayer()
     }
 
     private fun timerUpdate() {
         timerTv.text =
-            SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
+            SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition())
         handlerMainLooper.postDelayed(timerRunnable, DELAY_MILLIS)
     }
 

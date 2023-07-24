@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker
+package ru.kryu.playlistmaker.ui.settings
 
 import android.content.Intent
 import android.net.Uri
@@ -7,6 +7,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.switchmaterial.SwitchMaterial
+import ru.kryu.playlistmaker.App
+import ru.kryu.playlistmaker.R
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

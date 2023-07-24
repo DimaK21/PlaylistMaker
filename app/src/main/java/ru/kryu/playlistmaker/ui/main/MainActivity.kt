@@ -1,9 +1,13 @@
-package ru.kryu.playlistmaker
+package ru.kryu.playlistmaker.ui.main
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import ru.kryu.playlistmaker.ui.media.MediaActivity
+import ru.kryu.playlistmaker.R
+import ru.kryu.playlistmaker.ui.search.SearchActivity
+import ru.kryu.playlistmaker.ui.settings.SettingsActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

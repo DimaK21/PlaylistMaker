@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker
+package ru.kryu.playlistmaker.ui.search
 
 import android.content.Context
 import android.content.Intent
@@ -25,6 +25,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.kryu.playlistmaker.data.network.ITunesApiService
+import ru.kryu.playlistmaker.data.dto.ITunesResponse
+import ru.kryu.playlistmaker.R
+import ru.kryu.playlistmaker.SearchHistory
+import ru.kryu.playlistmaker.domain.models.Track
+import ru.kryu.playlistmaker.ui.player.AudioPlayerActivity
 
 class SearchActivity : AppCompatActivity() {
 

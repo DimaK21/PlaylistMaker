@@ -1,7 +1,6 @@
-package ru.kryu.playlistmaker
+package ru.kryu.playlistmaker.ui
 
 import android.app.Application
-import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
 
 class App : Application() {

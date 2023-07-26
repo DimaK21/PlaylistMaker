@@ -1,6 +1,6 @@
 package ru.kryu.playlistmaker.domain.api
 
-interface PlayerUseCase {
+interface PlayerInteractor {
     fun preparePlayer(url: String)
 
     fun startPlayer()

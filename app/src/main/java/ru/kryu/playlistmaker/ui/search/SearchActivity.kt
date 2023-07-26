@@ -20,13 +20,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import ru.kryu.playlistmaker.data.network.ITunesApiService
-import ru.kryu.playlistmaker.data.dto.ITunesResponse
+import ru.kryu.playlistmaker.Creator
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.SearchHistory
 import ru.kryu.playlistmaker.domain.models.Track
@@ -49,13 +43,8 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var trackHistoryAdapter: TrackAdapter
 
-    private val iTunesBaseUrl = "https://itunes.apple.com"
-    private val retrofit = Retrofit
-        .Builder()
-        .baseUrl(iTunesBaseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    private val iTunesApiService = retrofit.create(ITunesApiService::class.java)
+    val creator = Creator
+    val trackSearchInteractor = creator.provideTrackSearchInteractor()
 
     private lateinit var searchHistory: SearchHistory
 
@@ -94,7 +83,7 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
 
         val onTrackClickListener = TrackAdapter.OnTrackClickListener { track: Track ->
-            if (clickDebounce()){
+            if (clickDebounce()) {
                 searchHistory.addTrack(track)
                 val audioPlayerActivityIntent = Intent(this, AudioPlayerActivity::class.java)
                 audioPlayerActivityIntent.putExtra(TRACK, track)
@@ -197,31 +186,19 @@ class SearchActivity : AppCompatActivity() {
         }
         manageVisibility(SearchVisibilityState.REST_REQUEST)
         lastRequest = requestText
-        iTunesApiService.search(lastRequest).enqueue(
-            object : Callback<ITunesResponse> {
-                override fun onResponse(
-                    call: Call<ITunesResponse>,
-                    response: Response<ITunesResponse>
-                ) {
-                    if (response.code() == 200) {
-                        if (response.body()?.results?.isNotEmpty()!!) {
-                            manageVisibility(SearchVisibilityState.SEARCH_RESULT_SUCCESS_OR_NO_HISTORY)
-                            trackList.addAll(response.body()?.results!!)
-                            trackAdapter.notifyDataSetChanged()
-                        } else {
-                            manageVisibility(SearchVisibilityState.SEARCH_RESULT_NOT_FOUND)
-                        }
-                    } else {
-                        manageVisibility(SearchVisibilityState.SEARCH_RESULT_ERROR)
-                    }
+        trackSearchInteractor.searchTracks(lastRequest) { responseList: List<Track>? ->
+            if (responseList == null) {
+                handlerMainLooper.post { manageVisibility(SearchVisibilityState.SEARCH_RESULT_ERROR) }
+            } else if (responseList.isEmpty()) {
+                handlerMainLooper.post { manageVisibility(SearchVisibilityState.SEARCH_RESULT_NOT_FOUND) }
+            } else {
+                handlerMainLooper.post {
+                    manageVisibility(SearchVisibilityState.SEARCH_RESULT_SUCCESS_OR_NO_HISTORY)
+                    trackList.addAll(responseList)
+                    trackAdapter.notifyDataSetChanged()
                 }
-
-                override fun onFailure(call: Call<ITunesResponse>, t: Throwable) {
-                    manageVisibility(SearchVisibilityState.SEARCH_RESULT_ERROR)
-                }
-
             }
-        )
+        }
     }
 
     private fun manageVisibility(state: SearchVisibilityState) {
@@ -232,7 +209,6 @@ class SearchActivity : AppCompatActivity() {
                 progressBar.visibility = View.GONE
                 historyTitleTv.visibility = View.GONE
                 buttonClearHistory.visibility = View.GONE
-
             }
 
             SearchVisibilityState.SEARCH_RESULT_NOT_FOUND -> {
@@ -276,12 +252,12 @@ class SearchActivity : AppCompatActivity() {
 
     private fun searchDebounce() {
         handlerMainLooper.removeCallbacks(searchRunnable)
-        if (editText.text.isNotEmpty()){
+        if (editText.text.isNotEmpty()) {
             handlerMainLooper.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY_MILLIS)
         }
     }
 
-    private fun clickDebounce() : Boolean {
+    private fun clickDebounce(): Boolean {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false

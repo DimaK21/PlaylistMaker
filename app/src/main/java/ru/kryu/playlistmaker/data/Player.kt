@@ -1,6 +1,6 @@
 package ru.kryu.playlistmaker.data
 
-import ru.kryu.playlistmaker.domain.api.PlayerUseCase
+import ru.kryu.playlistmaker.domain.api.PlayerInteractor
 
 interface Player {
 
@@ -9,6 +9,6 @@ interface Player {
     fun pausePlayer()
     fun stopPlayer()
     fun currentPosition(): Int
-    fun setOnPreparedListener(preparedListener: PlayerUseCase.PreparedListener)
-    fun setOnCompletionListener(completionListener: PlayerUseCase.CompletionListener)
+    fun setOnPreparedListener(preparedListener: PlayerInteractor.PreparedListener)
+    fun setOnCompletionListener(completionListener: PlayerInteractor.CompletionListener)
 }

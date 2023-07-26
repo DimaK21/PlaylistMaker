@@ -6,6 +6,6 @@ interface PlayerRepository {
     fun pausePlayer()
     fun stopPlayer()
     fun currentPosition(): Int
-    fun setOnPreparedListener(preparedListener: PlayerUseCase.PreparedListener)
-    fun setOnCompletionListener(completionListener: PlayerUseCase.CompletionListener)
+    fun setOnPreparedListener(preparedListener: PlayerInteractor.PreparedListener)
+    fun setOnCompletionListener(completionListener: PlayerInteractor.CompletionListener)
 }

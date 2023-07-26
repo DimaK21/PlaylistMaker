@@ -1,7 +1,7 @@
 package ru.kryu.playlistmaker.data
 
 import ru.kryu.playlistmaker.domain.api.PlayerRepository
-import ru.kryu.playlistmaker.domain.api.PlayerUseCase
+import ru.kryu.playlistmaker.domain.api.PlayerInteractor
 
 class PlayerRepositoryImpl(private val player: Player) : PlayerRepository {
 
@@ -25,11 +25,11 @@ class PlayerRepositoryImpl(private val player: Player) : PlayerRepository {
         return player.currentPosition()
     }
 
-    override fun setOnPreparedListener(preparedListener: PlayerUseCase.PreparedListener) {
+    override fun setOnPreparedListener(preparedListener: PlayerInteractor.PreparedListener) {
         player.setOnPreparedListener(preparedListener)
     }
 
-    override fun setOnCompletionListener(completionListener: PlayerUseCase.CompletionListener) {
+    override fun setOnCompletionListener(completionListener: PlayerInteractor.CompletionListener) {
         player.setOnCompletionListener(completionListener)
     }
 }

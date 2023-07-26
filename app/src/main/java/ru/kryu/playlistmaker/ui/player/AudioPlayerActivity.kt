@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.kryu.playlistmaker.Creator
 import ru.kryu.playlistmaker.R
-import ru.kryu.playlistmaker.domain.api.PlayerUseCase
+import ru.kryu.playlistmaker.domain.api.PlayerInteractor
 import ru.kryu.playlistmaker.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -41,7 +41,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     private val creator = Creator
 
     private var playerState = PlayerState.STATE_DEFAULT
-    private val mediaPlayer = creator.providePlayerUseCase()
+    private val mediaPlayer = creator.providePlayerInteractor()
     private val handlerMainLooper = Handler(Looper.getMainLooper())
     private val timerRunnable = Runnable {
         timerUpdate()
@@ -91,7 +91,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     private fun preparePlayer() {
         mediaPlayer.preparePlayer(track.previewUrl)
 
-        val onPreparedListener = object : PlayerUseCase.PreparedListener {
+        val onPreparedListener = object : PlayerInteractor.PreparedListener {
             override fun setOnPreparedListener() {
                 playerState = PlayerState.STATE_PREPARED
                 playButton.isEnabled = true
@@ -99,7 +99,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         }
         mediaPlayer.setOnPreparedListener(onPreparedListener)
 
-        val onCompletionListener = object :  PlayerUseCase.CompletionListener {
+        val onCompletionListener = object :  PlayerInteractor.CompletionListener {
             override fun setOnCompletionListener() {
                 playButton.setImageResource(R.drawable.play_button)
                 playerState = PlayerState.STATE_PREPARED

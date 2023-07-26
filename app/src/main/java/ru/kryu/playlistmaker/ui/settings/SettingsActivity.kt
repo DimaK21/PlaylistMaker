@@ -7,7 +7,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.switchmaterial.SwitchMaterial
-import ru.kryu.playlistmaker.App
+import ru.kryu.playlistmaker.ui.App
 import ru.kryu.playlistmaker.R
 
 class SettingsActivity : AppCompatActivity() {

@@ -2,7 +2,7 @@ package ru.kryu.playlistmaker.data.player
 
 import android.media.MediaPlayer
 import ru.kryu.playlistmaker.data.Player
-import ru.kryu.playlistmaker.domain.api.PlayerUseCase
+import ru.kryu.playlistmaker.domain.api.PlayerInteractor
 
 class AndroidMediaPlayer : Player {
 
@@ -29,13 +29,13 @@ class AndroidMediaPlayer : Player {
         return mediaPlayer.currentPosition
     }
 
-    override fun setOnPreparedListener(preparedListener: PlayerUseCase.PreparedListener) {
+    override fun setOnPreparedListener(preparedListener: PlayerInteractor.PreparedListener) {
         mediaPlayer.setOnPreparedListener {
             preparedListener.setOnPreparedListener()
         }
     }
 
-    override fun setOnCompletionListener(completionListener: PlayerUseCase.CompletionListener) {
+    override fun setOnCompletionListener(completionListener: PlayerInteractor.CompletionListener) {
         mediaPlayer.setOnCompletionListener {
             completionListener.setOnCompletionListener()
         }

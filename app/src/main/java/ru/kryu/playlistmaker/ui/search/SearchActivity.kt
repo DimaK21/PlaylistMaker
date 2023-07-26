@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.kryu.playlistmaker.Creator
 import ru.kryu.playlistmaker.R
-import ru.kryu.playlistmaker.SearchHistory
+import ru.kryu.playlistmaker.presentation.search.SearchHistory
 import ru.kryu.playlistmaker.domain.models.Track
 import ru.kryu.playlistmaker.ui.player.AudioPlayerActivity
 
@@ -93,7 +93,7 @@ class SearchActivity : AppCompatActivity() {
         trackAdapter = TrackAdapter(trackList, onTrackClickListener)
 
         val sharedPreferences = getSharedPreferences(TRACK_HISTORY_PREFERENCES, MODE_PRIVATE)
-        searchHistory = SearchHistory(sharedPreferences)
+        searchHistory = SearchHistory(applicationContext)
         trackHistoryAdapter =
             TrackAdapter(searchHistory.listTrackHistory as ArrayList<Track>, onTrackClickListener)
         recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)

@@ -3,7 +3,7 @@ package ru.kryu.playlistmaker.data.mapper
 import ru.kryu.playlistmaker.data.dto.TrackDto
 import ru.kryu.playlistmaker.domain.models.Track
 
-class TrackDataToDomain {
+class TrackDtoToDomain {
     fun trackDataToDomain(trackData: TrackDto): Track {
         return Track(
             trackId = trackData.trackId,

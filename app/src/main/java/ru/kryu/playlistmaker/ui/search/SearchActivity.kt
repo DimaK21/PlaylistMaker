@@ -22,8 +22,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.kryu.playlistmaker.Creator
 import ru.kryu.playlistmaker.R
-import ru.kryu.playlistmaker.presentation.search.SearchHistory
 import ru.kryu.playlistmaker.domain.models.Track
+import ru.kryu.playlistmaker.presentation.mapper.TrackToTrackForUi
+import ru.kryu.playlistmaker.presentation.search.SearchHistory
+import ru.kryu.playlistmaker.presentation.models.TrackForUi
 import ru.kryu.playlistmaker.ui.player.AudioPlayerActivity
 
 class SearchActivity : AppCompatActivity() {
@@ -39,12 +41,12 @@ class SearchActivity : AppCompatActivity() {
     private val historyTitleTv: TextView by lazy { findViewById(R.id.history_title) }
     private val buttonClearHistory: Button by lazy { findViewById(R.id.clear_history_button) }
 
-    private val trackList = ArrayList<Track>()
+    private val trackList = ArrayList<TrackForUi>()
     private lateinit var trackAdapter: TrackAdapter
     private lateinit var trackHistoryAdapter: TrackAdapter
 
-    val creator = Creator
-    val trackSearchInteractor = creator.provideTrackSearchInteractor()
+    private val creator = Creator
+    private val trackSearchInteractor = creator.provideTrackSearchInteractor()
 
     private lateinit var searchHistory: SearchHistory
 
@@ -66,7 +68,7 @@ class SearchActivity : AppCompatActivity() {
             editText.setText(userText)
             editText.setSelection(editText.text.length)
         }
-        val list = savedInstanceState.parcelableArrayList<Track>(TRACKS)
+        val list = savedInstanceState.parcelableArrayList<TrackForUi>(TRACKS)
         if (!list.isNullOrEmpty()) {
             trackList.addAll(list)
         }
@@ -82,7 +84,7 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        val onTrackClickListener = TrackAdapter.OnTrackClickListener { track: Track ->
+        val onTrackClickListener = TrackAdapter.OnTrackClickListener { track: TrackForUi ->
             if (clickDebounce()) {
                 searchHistory.addTrack(track)
                 val audioPlayerActivityIntent = Intent(this, AudioPlayerActivity::class.java)
@@ -92,10 +94,9 @@ class SearchActivity : AppCompatActivity() {
         }
         trackAdapter = TrackAdapter(trackList, onTrackClickListener)
 
-        val sharedPreferences = getSharedPreferences(TRACK_HISTORY_PREFERENCES, MODE_PRIVATE)
         searchHistory = SearchHistory(applicationContext)
         trackHistoryAdapter =
-            TrackAdapter(searchHistory.listTrackHistory as ArrayList<Track>, onTrackClickListener)
+            TrackAdapter(searchHistory.listTrackHistory as ArrayList<TrackForUi>, onTrackClickListener)
         recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         if (searchHistory.listTrackHistory.isEmpty()) {
@@ -194,7 +195,7 @@ class SearchActivity : AppCompatActivity() {
             } else {
                 handlerMainLooper.post {
                     manageVisibility(SearchVisibilityState.SEARCH_RESULT_SUCCESS_OR_NO_HISTORY)
-                    trackList.addAll(responseList)
+                    trackList.addAll(responseList.map { TrackToTrackForUi().trackToTrackForUi(it) })
                     trackAdapter.notifyDataSetChanged()
                 }
             }
@@ -269,8 +270,6 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         const val SEARCH_TEXT = "SEARCH_TEXT"
         const val TRACKS = "TRACKS"
-        const val TRACK_HISTORY_PREFERENCES = "track_history_preferences"
-        const val TRACK_HISTORY_KEY = "track_history_key"
         const val TRACK = "TRACK"
         private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
         private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L

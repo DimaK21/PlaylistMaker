@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.kryu.playlistmaker.R
-import ru.kryu.playlistmaker.domain.models.Track
+import ru.kryu.playlistmaker.presentation.models.TrackForUi
 
 class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.track_search, parent, false)
@@ -18,7 +18,7 @@ class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val trackTimeTv = itemView.findViewById<TextView>(R.id.track_time)
     private val imageTrackIv = itemView.findViewById<ImageView>(R.id.image_track)
 
-    fun bind(track: Track) {
+    fun bind(track: TrackForUi) {
         trackNameTv.text = track.trackName
         artistNameTv.text = track.artistName
         trackTimeTv.text = track.getFormatTrackTimeMillis()

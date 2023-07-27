@@ -3,27 +3,35 @@ package ru.kryu.playlistmaker.presentation.search
 import android.content.Context
 import ru.kryu.playlistmaker.Creator
 import ru.kryu.playlistmaker.domain.models.Track
+import ru.kryu.playlistmaker.presentation.mapper.TrackForUiToDomain
+import ru.kryu.playlistmaker.presentation.mapper.TrackToTrackForUi
+import ru.kryu.playlistmaker.presentation.models.TrackForUi
 
 class SearchHistory(private val context: Context) {
 
-    private val arrayListTrackHistory: ArrayList<Track> = getTrackHistory()
-    val listTrackHistory: List<Track> = arrayListTrackHistory
+    private val arrayListTrackHistory: ArrayList<TrackForUi> = getTrackHistory()
+    val listTrackHistory: List<TrackForUi> = arrayListTrackHistory
 
     private val creator = Creator
     private val trackHistoryInteractor = creator.provideTrackHistoryInteractor(context)
 
-    fun addTrack(track: Track) {
+    fun addTrack(track: TrackForUi) {
         arrayListTrackHistory.removeIf { it.trackId == track.trackId }
         arrayListTrackHistory.add(0, track)
         if (arrayListTrackHistory.size > TRACK_HISTORY_SIZE) arrayListTrackHistory.removeLast()
     }
 
-    private fun getTrackHistory(): ArrayList<Track> {
-        return trackHistoryInteractor.getTrackHistory() as ArrayList<Track>
+    private fun getTrackHistory(): ArrayList<TrackForUi> {
+        return trackHistoryInteractor.getTrackHistory()
+            .map { TrackToTrackForUi().trackToTrackForUi(it) } as ArrayList<TrackForUi>
     }
 
     fun saveTrackHistory() {
-        trackHistoryInteractor.saveTrackHistory(listTrackHistory)
+        trackHistoryInteractor.saveTrackHistory(listTrackHistory.map {
+            TrackForUiToDomain().trackForUiToDomain(
+                it
+            )
+        })
     }
 
     fun clearTrackHistory() {

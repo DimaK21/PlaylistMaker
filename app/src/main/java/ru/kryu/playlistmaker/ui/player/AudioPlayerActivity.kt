@@ -16,12 +16,14 @@ import ru.kryu.playlistmaker.Creator
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.domain.api.PlayerInteractor
 import ru.kryu.playlistmaker.domain.models.Track
+import ru.kryu.playlistmaker.presentation.mapper.TrackToTrackForUi
+import ru.kryu.playlistmaker.presentation.models.TrackForUi
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class AudioPlayerActivity : AppCompatActivity() {
 
-    private lateinit var track: Track
+    private lateinit var track: TrackForUi
 
     private val backArrowIb: ImageButton by lazy { findViewById(R.id.back_arrow) }
     private val albumCoverIv: ImageView by lazy { findViewById(R.id.album_cover) }
@@ -63,12 +65,18 @@ class AudioPlayerActivity : AppCompatActivity() {
         }
     }
 
-    private fun getTrack(): Track = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        intent.getParcelableExtra(TRACK, Track::class.java) ?: Track()
-    } else {
-        @Suppress("DEPRECATION")
-        intent.getParcelableExtra(TRACK) ?: Track()
-    }
+    private fun getTrack(): TrackForUi =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra(TRACK, TrackForUi::class.java)
+                ?: TrackToTrackForUi().trackToTrackForUi(
+                    Track()
+                )
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra(TRACK) ?: TrackToTrackForUi().trackToTrackForUi(
+                Track()
+            )
+        }
 
     private fun initTrackInfo() {
         Glide.with(this)
@@ -99,7 +107,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         }
         mediaPlayer.setOnPreparedListener(onPreparedListener)
 
-        val onCompletionListener = object :  PlayerInteractor.CompletionListener {
+        val onCompletionListener = object : PlayerInteractor.CompletionListener {
             override fun setOnCompletionListener() {
                 playButton.setImageResource(R.drawable.play_button)
                 playerState = PlayerState.STATE_PREPARED

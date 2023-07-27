@@ -2,10 +2,10 @@ package ru.kryu.playlistmaker.ui.search
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import ru.kryu.playlistmaker.domain.models.Track
+import ru.kryu.playlistmaker.presentation.models.TrackForUi
 
 class TrackAdapter(
-    private var trackList: ArrayList<Track>,
+    private var trackList: ArrayList<TrackForUi>,
     private val onTrackClickListener: OnTrackClickListener? = null
 ) :
     RecyclerView.Adapter<TrackViewHolder>() {
@@ -25,6 +25,6 @@ class TrackAdapter(
     }
 
     fun interface OnTrackClickListener {
-        fun onTrackClick(track: Track)
+        fun onTrackClick(track: TrackForUi)
     }
 }

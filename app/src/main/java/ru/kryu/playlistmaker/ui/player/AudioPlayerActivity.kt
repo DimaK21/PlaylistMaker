@@ -40,10 +40,8 @@ class AudioPlayerActivity : AppCompatActivity() {
     private val countryCurrentTv: TextView by lazy { findViewById(R.id.country_current_tv) }
     private val albumGroup: Group by lazy { findViewById(R.id.album_group) }
 
-    private val creator = Creator
-
     private var playerState = PlayerState.STATE_DEFAULT
-    private val mediaPlayer = creator.providePlayerInteractor()
+    private val mediaPlayer = Creator.providePlayerInteractor()
     private val handlerMainLooper = Handler(Looper.getMainLooper())
     private val timerRunnable = Runnable {
         timerUpdate()

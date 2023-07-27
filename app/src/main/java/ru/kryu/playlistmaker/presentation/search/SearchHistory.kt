@@ -8,11 +8,10 @@ import ru.kryu.playlistmaker.presentation.models.TrackForUi
 
 class SearchHistory(private val context: Context) {
 
+    private val trackHistoryInteractor = Creator.provideTrackHistoryInteractor(context)
+
     private val arrayListTrackHistory: ArrayList<TrackForUi> = getTrackHistory()
     val listTrackHistory: List<TrackForUi> = arrayListTrackHistory
-
-    private val creator = Creator
-    private val trackHistoryInteractor = creator.provideTrackHistoryInteractor(context)
 
     fun addTrack(track: TrackForUi) {
         arrayListTrackHistory.removeIf { it.trackId == track.trackId }

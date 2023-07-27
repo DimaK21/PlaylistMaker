@@ -84,6 +84,8 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        searchHistory = SearchHistory(applicationContext)
+
         val onTrackClickListener = TrackAdapter.OnTrackClickListener { track: TrackForUi ->
             if (clickDebounce()) {
                 searchHistory.addTrack(track)
@@ -94,7 +96,6 @@ class SearchActivity : AppCompatActivity() {
         }
         trackAdapter = TrackAdapter(trackList, onTrackClickListener)
 
-        searchHistory = SearchHistory(applicationContext)
         trackHistoryAdapter =
             TrackAdapter(
                 searchHistory.listTrackHistory as ArrayList<TrackForUi>,

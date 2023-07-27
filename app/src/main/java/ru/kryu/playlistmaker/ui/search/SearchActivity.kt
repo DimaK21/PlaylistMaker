@@ -24,8 +24,8 @@ import ru.kryu.playlistmaker.Creator
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.domain.models.Track
 import ru.kryu.playlistmaker.presentation.mapper.TrackToTrackForUi
-import ru.kryu.playlistmaker.presentation.search.SearchHistory
 import ru.kryu.playlistmaker.presentation.models.TrackForUi
+import ru.kryu.playlistmaker.presentation.search.SearchHistory
 import ru.kryu.playlistmaker.ui.player.AudioPlayerActivity
 
 class SearchActivity : AppCompatActivity() {
@@ -96,7 +96,10 @@ class SearchActivity : AppCompatActivity() {
 
         searchHistory = SearchHistory(applicationContext)
         trackHistoryAdapter =
-            TrackAdapter(searchHistory.listTrackHistory as ArrayList<TrackForUi>, onTrackClickListener)
+            TrackAdapter(
+                searchHistory.listTrackHistory as ArrayList<TrackForUi>,
+                onTrackClickListener
+            )
         recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
         if (searchHistory.listTrackHistory.isEmpty()) {

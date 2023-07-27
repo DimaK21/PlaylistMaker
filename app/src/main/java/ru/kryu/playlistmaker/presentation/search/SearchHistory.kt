@@ -2,7 +2,6 @@ package ru.kryu.playlistmaker.presentation.search
 
 import android.content.Context
 import ru.kryu.playlistmaker.Creator
-import ru.kryu.playlistmaker.domain.models.Track
 import ru.kryu.playlistmaker.presentation.mapper.TrackForUiToDomain
 import ru.kryu.playlistmaker.presentation.mapper.TrackToTrackForUi
 import ru.kryu.playlistmaker.presentation.models.TrackForUi

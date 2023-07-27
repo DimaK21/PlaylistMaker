@@ -14,11 +14,11 @@ interface PlayerInteractor {
     fun setOnPreparedListener(preparedListener: PreparedListener)
     fun setOnCompletionListener(completionListener: CompletionListener)
 
-    interface PreparedListener{
+    interface PreparedListener {
         fun setOnPreparedListener()
     }
 
-    interface CompletionListener{
+    interface CompletionListener {
         fun setOnCompletionListener()
     }
 }

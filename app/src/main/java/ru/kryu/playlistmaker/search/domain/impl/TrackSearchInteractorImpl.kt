@@ -1,7 +1,7 @@
-package ru.kryu.playlistmaker.search.domain
+package ru.kryu.playlistmaker.search.domain.impl
 
-import ru.kryu.playlistmaker.search.domain.TrackSearchInteractor
-import ru.kryu.playlistmaker.search.domain.TrackSearchRepository
+import ru.kryu.playlistmaker.search.domain.api.TrackSearchInteractor
+import ru.kryu.playlistmaker.search.domain.api.TrackSearchRepository
 import java.util.concurrent.Executors
 
 class TrackSearchInteractorImpl(private val repository: TrackSearchRepository):

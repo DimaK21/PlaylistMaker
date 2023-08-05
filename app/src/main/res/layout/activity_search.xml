@@ -14,7 +14,7 @@
         <LinearLayout style="@style/HeadLinerLayout">
 
             <ImageView
-                android:id="@+id/search_arrow"
+                android:id="@+id/button_back_search"
                 style="@style/HeadImage"
                 android:contentDescription="@string/back_arrow" />
 
@@ -51,7 +51,7 @@
                 android:textSize="@dimen/settings_text_size" />
 
             <ImageView
-                android:id="@+id/edit_text_clear"
+                android:id="@+id/clear_button"
                 style="@style/EditTextClear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

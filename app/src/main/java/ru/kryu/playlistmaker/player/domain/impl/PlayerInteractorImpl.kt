@@ -1,7 +1,7 @@
-package ru.kryu.playlistmaker.player.domain
+package ru.kryu.playlistmaker.player.domain.impl
 
-import ru.kryu.playlistmaker.player.domain.PlayerRepository
-import ru.kryu.playlistmaker.player.domain.PlayerInteractor
+import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
+import ru.kryu.playlistmaker.player.domain.api.PlayerRepository
 
 class PlayerInteractorImpl(private val repository: PlayerRepository) : PlayerInteractor {
     override fun preparePlayer(url: String) {

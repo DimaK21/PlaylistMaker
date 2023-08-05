@@ -2,7 +2,7 @@ package ru.kryu.playlistmaker.player.data.player
 
 import android.media.MediaPlayer
 import ru.kryu.playlistmaker.player.data.Player
-import ru.kryu.playlistmaker.player.domain.PlayerInteractor
+import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
 
 class AndroidMediaPlayer : Player {
 

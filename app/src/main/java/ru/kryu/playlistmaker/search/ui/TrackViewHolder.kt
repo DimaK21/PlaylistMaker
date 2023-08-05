@@ -1,31 +1,24 @@
 package ru.kryu.playlistmaker.search.ui
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.kryu.playlistmaker.R
+import ru.kryu.playlistmaker.databinding.TrackSearchBinding
 import ru.kryu.playlistmaker.player.ui.models.TrackForUi
 
-class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-    LayoutInflater.from(parent.context).inflate(R.layout.track_search, parent, false)
+class TrackViewHolder(private val binding: TrackSearchBinding) : RecyclerView.ViewHolder(
+    binding.root
 ) {
-    private val trackNameTv = itemView.findViewById<TextView>(R.id.track_name)
-    private val artistNameTv = itemView.findViewById<TextView>(R.id.artist_name)
-    private val trackTimeTv = itemView.findViewById<TextView>(R.id.track_time)
-    private val imageTrackIv = itemView.findViewById<ImageView>(R.id.image_track)
 
     fun bind(track: TrackForUi) {
-        trackNameTv.text = track.trackName
-        artistNameTv.text = track.artistName
-        trackTimeTv.text = track.getFormatTrackTimeMillis()
+        binding.trackName.text = track.trackName
+        binding.artistName.text = track.artistName
+        binding.trackTime.text = track.getFormatTrackTimeMillis()
         Glide.with(itemView)
             .load(track.artworkUrl100)
             .placeholder(R.drawable.search_placeholder)
             .transform(RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.image_track_corners)))
-            .into(imageTrackIv)
+            .into(binding.imageTrack)
     }
 }

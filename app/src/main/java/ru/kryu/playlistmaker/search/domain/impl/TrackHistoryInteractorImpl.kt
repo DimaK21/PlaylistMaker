@@ -1,4 +1,8 @@
-package ru.kryu.playlistmaker.search.domain
+package ru.kryu.playlistmaker.search.domain.impl
+
+import ru.kryu.playlistmaker.search.domain.model.Track
+import ru.kryu.playlistmaker.search.domain.api.TrackHistoryInteractor
+import ru.kryu.playlistmaker.search.domain.api.TrackHistoryRepository
 
 class TrackHistoryInteractorImpl(private val repository: TrackHistoryRepository):
     TrackHistoryInteractor {

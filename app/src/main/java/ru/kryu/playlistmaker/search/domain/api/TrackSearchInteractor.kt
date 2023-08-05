@@ -1,4 +1,6 @@
-package ru.kryu.playlistmaker.search.domain
+package ru.kryu.playlistmaker.search.domain.api
+
+import ru.kryu.playlistmaker.search.domain.model.Track
 
 interface TrackSearchInteractor {
     fun searchTracks(expression: String, consumer: TrackSearchConsumer)

@@ -2,8 +2,8 @@ package ru.kryu.playlistmaker.search.data
 
 import ru.kryu.playlistmaker.search.data.storage.mapper.TrackForStorageToDomain
 import ru.kryu.playlistmaker.search.data.storage.mapper.TrackToTrackForStorage
-import ru.kryu.playlistmaker.search.domain.TrackHistoryRepository
-import ru.kryu.playlistmaker.search.domain.Track
+import ru.kryu.playlistmaker.search.domain.api.TrackHistoryRepository
+import ru.kryu.playlistmaker.search.domain.model.Track
 
 class TrackHistoryRepositoryImpl(private val historyStorage: HistoryStorage) :
     TrackHistoryRepository {

@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.search.domain
+package ru.kryu.playlistmaker.search.domain.model
 
 
 data class Track(

@@ -3,45 +3,40 @@ package ru.kryu.playlistmaker.settings.ui.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.FrameLayout
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.switchmaterial.SwitchMaterial
-import ru.kryu.playlistmaker.app.App
 import ru.kryu.playlistmaker.R
+import ru.kryu.playlistmaker.app.App
+import ru.kryu.playlistmaker.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivitySettingsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val buttonBack = findViewById<ImageView>(R.id.settings_arrow)
-        val themeSwitcher = findViewById<SwitchMaterial>(R.id.theme_switcher)
-        val buttonShare = findViewById<FrameLayout>(R.id.share)
-        val buttonSupport = findViewById<FrameLayout>(R.id.support)
-        val buttonAgreement = findViewById<FrameLayout>(R.id.agreement)
-
-        buttonBack.setOnClickListener {
+        binding.buttonBackSettings.setOnClickListener {
             finish()
         }
 
-        themeSwitcher.isChecked = (applicationContext as App).darkTheme
-        themeSwitcher.setOnCheckedChangeListener { swither, checked ->
+        binding.themeSwitcher.isChecked = (applicationContext as App).darkTheme
+        binding.themeSwitcher.setOnCheckedChangeListener { swither, checked ->
             (applicationContext as App).switchTheme(checked)
             val sharedPrefs = getSharedPreferences(App.USER_PREFERENCES, MODE_PRIVATE)
             sharedPrefs.edit()
-                .putBoolean(App.DARK_THEME_KEY, themeSwitcher.isChecked)
+                .putBoolean(App.DARK_THEME_KEY, binding.themeSwitcher.isChecked)
                 .apply()
         }
 
-        buttonShare.setOnClickListener {
+        binding.shareFrame.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.url_practicum))
             shareIntent.type = "text/plain"
             startActivity(Intent.createChooser(shareIntent, null))
         }
 
-        buttonSupport.setOnClickListener {
+        binding.supportFrame.setOnClickListener {
             val supportIntent = Intent(Intent.ACTION_SENDTO)
             supportIntent.data = Uri.parse("mailto:")
             supportIntent.putExtra(
@@ -56,7 +51,7 @@ class SettingsActivity : AppCompatActivity() {
             startActivity(supportIntent)
         }
 
-        buttonAgreement.setOnClickListener {
+        binding.agreementFrame.setOnClickListener {
             val agreementIntent = Intent(Intent.ACTION_VIEW)
             agreementIntent.data = Uri.parse(getString(R.string.url_user_agreement))
             startActivity(agreementIntent)

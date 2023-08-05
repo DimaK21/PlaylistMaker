@@ -1,6 +1,6 @@
 package ru.kryu.playlistmaker.player.data
 
-import ru.kryu.playlistmaker.player.domain.PlayerInteractor
+import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
 
 interface Player {
 

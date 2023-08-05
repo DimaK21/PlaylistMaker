@@ -5,40 +5,23 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.Group
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import ru.kryu.playlistmaker.creator.Creator
 import ru.kryu.playlistmaker.R
-import ru.kryu.playlistmaker.player.domain.PlayerInteractor
-import ru.kryu.playlistmaker.search.domain.Track
+import ru.kryu.playlistmaker.creator.Creator
+import ru.kryu.playlistmaker.databinding.ActivityAudioPlayerBinding
+import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
 import ru.kryu.playlistmaker.player.ui.mapper.TrackToTrackForUi
 import ru.kryu.playlistmaker.player.ui.models.TrackForUi
+import ru.kryu.playlistmaker.search.domain.model.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class AudioPlayerActivity : AppCompatActivity() {
 
     private lateinit var track: TrackForUi
-
-    private val backArrowIb: ImageButton by lazy { findViewById(R.id.back_arrow) }
-    private val albumCoverIv: ImageView by lazy { findViewById(R.id.album_cover) }
-    private val trackNameTv: TextView by lazy { findViewById(R.id.track_name_tv) }
-    private val artistNameTv: TextView by lazy { findViewById(R.id.artist_name_tv) }
-    private val addButton: ImageButton by lazy { findViewById(R.id.add_button) }
-    private val playButton: ImageButton by lazy { findViewById(R.id.play_button) }
-    private val likeButton: ImageButton by lazy { findViewById(R.id.like_button) }
-    private val timerTv: TextView by lazy { findViewById(R.id.timer) }
-    private val fullTrackTimeCurrentTv: TextView by lazy { findViewById(R.id.full_track_time_current_tv) }
-    private val albumCurrentTv: TextView by lazy { findViewById(R.id.album_current_tv) }
-    private val yearCurrentTv: TextView by lazy { findViewById(R.id.year_current_tv) }
-    private val genreCurrentTv: TextView by lazy { findViewById(R.id.genre_current_tv) }
-    private val countryCurrentTv: TextView by lazy { findViewById(R.id.country_current_tv) }
-    private val albumGroup: Group by lazy { findViewById(R.id.album_group) }
+    private lateinit var binding: ActivityAudioPlayerBinding
 
     private var playerState = PlayerState.STATE_DEFAULT
     private val mediaPlayer = Creator.providePlayerInteractor()
@@ -49,16 +32,17 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_audio_player)
+        binding = ActivityAudioPlayerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        playButton.isEnabled = false
+        binding.playButton.isEnabled = false
         track = getTrack()
-        backArrowIb.setOnClickListener {
+        binding.buttonBackPlayer.setOnClickListener {
             finish()
         }
         initTrackInfo()
         preparePlayer()
-        playButton.setOnClickListener {
+        binding.playButton.setOnClickListener {
             playbackControl()
         }
     }
@@ -81,17 +65,17 @@ class AudioPlayerActivity : AppCompatActivity() {
             .load(track.artworkUrl512)
             .placeholder(R.drawable.search_placeholder)
             .transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.corners_8)))
-            .into(albumCoverIv)
-        trackNameTv.text = track.trackName
-        artistNameTv.text = track.artistName
-        fullTrackTimeCurrentTv.text = track.getFormatTrackTimeMillis()
-        albumCurrentTv.text = track.collectionName
+            .into(binding.albumCover)
+        binding.trackNameTv.text = track.trackName
+        binding.artistNameTv.text = track.artistName
+        binding.fullTrackTimeCurrentTv.text = track.getFormatTrackTimeMillis()
+        binding.albumCurrentTv.text = track.collectionName
         if (track.collectionName == "") {
-            albumGroup.visibility = View.GONE
+            binding.albumGroup.visibility = View.GONE
         }
-        yearCurrentTv.text = track.releaseDate.substring(START_INDEX, END_INDEX)
-        genreCurrentTv.text = track.primaryGenreName
-        countryCurrentTv.text = track.country
+        binding.yearCurrentTv.text = track.releaseDate.substring(START_INDEX, END_INDEX)
+        binding.genreCurrentTv.text = track.primaryGenreName
+        binding.countryCurrentTv.text = track.country
     }
 
     private fun preparePlayer() {
@@ -100,17 +84,17 @@ class AudioPlayerActivity : AppCompatActivity() {
         val onPreparedListener = object : PlayerInteractor.PreparedListener {
             override fun setOnPreparedListener() {
                 playerState = PlayerState.STATE_PREPARED
-                playButton.isEnabled = true
+                binding.playButton.isEnabled = true
             }
         }
         mediaPlayer.setOnPreparedListener(onPreparedListener)
 
         val onCompletionListener = object : PlayerInteractor.CompletionListener {
             override fun setOnCompletionListener() {
-                playButton.setImageResource(R.drawable.play_button)
+                binding.playButton.setImageResource(R.drawable.play_button)
                 playerState = PlayerState.STATE_PREPARED
                 handlerMainLooper.removeCallbacks(timerRunnable)
-                timerTv.text = getString(R.string.thirty_seconds)
+                binding.timer.text = getString(R.string.thirty_seconds)
             }
         }
         mediaPlayer.setOnCompletionListener(onCompletionListener)
@@ -126,14 +110,14 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private fun startPlayer() {
         mediaPlayer.startPlayer()
-        playButton.setImageResource(R.drawable.stop_button)
+        binding.playButton.setImageResource(R.drawable.stop_button)
         playerState = PlayerState.STATE_PLAYING
         timerUpdate()
     }
 
     private fun pausePlayer() {
         mediaPlayer.pausePlayer()
-        playButton.setImageResource(R.drawable.play_button)
+        binding.playButton.setImageResource(R.drawable.play_button)
         playerState = PlayerState.STATE_PAUSED
         handlerMainLooper.removeCallbacks(timerRunnable)
     }
@@ -150,7 +134,7 @@ class AudioPlayerActivity : AppCompatActivity() {
     }
 
     private fun timerUpdate() {
-        timerTv.text =
+        binding.timer.text =
             SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition())
         handlerMainLooper.postDelayed(timerRunnable, DELAY_MILLIS)
     }

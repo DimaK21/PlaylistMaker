@@ -7,15 +7,15 @@ import ru.kryu.playlistmaker.search.data.TrackSearchRepositoryImpl
 import ru.kryu.playlistmaker.search.data.network.RetrofitNetworkClient
 import ru.kryu.playlistmaker.player.data.player.AndroidMediaPlayer
 import ru.kryu.playlistmaker.search.data.storage.SharedPrefsHistory
-import ru.kryu.playlistmaker.player.domain.PlayerInteractor
-import ru.kryu.playlistmaker.player.domain.PlayerRepository
-import ru.kryu.playlistmaker.search.domain.TrackHistoryInteractor
-import ru.kryu.playlistmaker.search.domain.TrackHistoryRepository
-import ru.kryu.playlistmaker.search.domain.TrackSearchInteractor
-import ru.kryu.playlistmaker.search.domain.TrackSearchRepository
-import ru.kryu.playlistmaker.player.domain.PlayerInteractorImpl
-import ru.kryu.playlistmaker.search.domain.TrackHistoryInteractorImpl
-import ru.kryu.playlistmaker.search.domain.TrackSearchInteractorImpl
+import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
+import ru.kryu.playlistmaker.player.domain.api.PlayerRepository
+import ru.kryu.playlistmaker.search.domain.api.TrackHistoryInteractor
+import ru.kryu.playlistmaker.search.domain.api.TrackHistoryRepository
+import ru.kryu.playlistmaker.search.domain.api.TrackSearchInteractor
+import ru.kryu.playlistmaker.search.domain.api.TrackSearchRepository
+import ru.kryu.playlistmaker.player.domain.impl.PlayerInteractorImpl
+import ru.kryu.playlistmaker.search.domain.impl.TrackHistoryInteractorImpl
+import ru.kryu.playlistmaker.search.domain.impl.TrackSearchInteractorImpl
 
 object Creator {
 

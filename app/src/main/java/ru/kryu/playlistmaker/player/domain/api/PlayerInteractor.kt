@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.player.domain
+package ru.kryu.playlistmaker.player.domain.api
 
 interface PlayerInteractor {
     fun preparePlayer(url: String)

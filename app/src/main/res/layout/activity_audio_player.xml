@@ -8,7 +8,7 @@
     tools:context=".player.ui.activity.AudioPlayerActivity">
 
     <ImageButton
-        android:id="@+id/back_arrow"
+        android:id="@+id/button_back_player"
         android:layout_width="@dimen/size_back_arrow"
         android:layout_height="@dimen/size_back_arrow"
         android:layout_marginStart="@dimen/margin_back_arrow"

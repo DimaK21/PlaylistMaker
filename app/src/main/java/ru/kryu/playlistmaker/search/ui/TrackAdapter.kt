@@ -4,14 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.kryu.playlistmaker.databinding.TrackSearchBinding
-import ru.kryu.playlistmaker.player.ui.models.TrackForUi
+import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
-class TrackAdapter(
-    private var trackList: ArrayList<TrackForUi>,
-    private val onTrackClickListener: OnTrackClickListener? = null
-) :
+class TrackAdapter(private val onTrackClickListener: OnTrackClickListener? = null) :
     RecyclerView.Adapter<TrackViewHolder>() {
 
+    var trackList = ArrayList<TrackForUi>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val layoutInspector = LayoutInflater.from(parent.context)
         return TrackViewHolder(TrackSearchBinding.inflate(layoutInspector, parent, false))

@@ -2,9 +2,9 @@ package ru.kryu.playlistmaker.search.ui
 
 import android.content.Context
 import ru.kryu.playlistmaker.creator.Creator
-import ru.kryu.playlistmaker.player.ui.mapper.TrackForUiToDomain
-import ru.kryu.playlistmaker.player.ui.mapper.TrackToTrackForUi
-import ru.kryu.playlistmaker.player.ui.models.TrackForUi
+import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiToDomain
+import ru.kryu.playlistmaker.search.ui.mapper.TrackToTrackForUi
+import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
 class SearchHistory(private val context: Context) {
 

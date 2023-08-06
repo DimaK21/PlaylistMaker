@@ -12,8 +12,8 @@ import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.creator.Creator
 import ru.kryu.playlistmaker.databinding.ActivityAudioPlayerBinding
 import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
-import ru.kryu.playlistmaker.player.ui.mapper.TrackToTrackForUi
-import ru.kryu.playlistmaker.player.ui.models.TrackForUi
+import ru.kryu.playlistmaker.search.ui.mapper.TrackToTrackForUi
+import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 import ru.kryu.playlistmaker.search.domain.model.Track
 import java.text.SimpleDateFormat
 import java.util.Locale

@@ -27,12 +27,12 @@ object Creator {
         return PlayerInteractorImpl(getPlayerRepository())
     }
 
-    private fun getTrackSearchRepository(): TrackSearchRepository {
-        return TrackSearchRepositoryImpl(RetrofitNetworkClient())
+    private fun getTrackSearchRepository(context: Context): TrackSearchRepository {
+        return TrackSearchRepositoryImpl(RetrofitNetworkClient(context))
     }
 
-    fun provideTrackSearchInteractor(): TrackSearchInteractor {
-        return TrackSearchInteractorImpl(getTrackSearchRepository())
+    fun provideTrackSearchInteractor(context: Context): TrackSearchInteractor {
+        return TrackSearchInteractorImpl(getTrackSearchRepository(context))
     }
 
     private fun getTrackHistoryRepository(context: Context): TrackHistoryRepository {

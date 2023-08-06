@@ -5,7 +5,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.TrackSearchBinding
-import ru.kryu.playlistmaker.player.ui.models.TrackForUi
+import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
 class TrackViewHolder(private val binding: TrackSearchBinding) : RecyclerView.ViewHolder(
     binding.root

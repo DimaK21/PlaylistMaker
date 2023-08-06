@@ -1,7 +1,7 @@
-package ru.kryu.playlistmaker.player.ui.mapper
+package ru.kryu.playlistmaker.search.ui.mapper
 
 import ru.kryu.playlistmaker.search.domain.model.Track
-import ru.kryu.playlistmaker.player.ui.models.TrackForUi
+import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
 class TrackForUiToDomain {
     fun trackForUiToDomain(trackForUI: TrackForUi): Track {

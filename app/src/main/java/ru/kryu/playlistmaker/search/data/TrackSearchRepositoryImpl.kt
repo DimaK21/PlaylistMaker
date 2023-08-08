@@ -17,7 +17,7 @@ class TrackSearchRepositoryImpl(private val networkClient: NetworkClient): Track
             }
             200 -> {
                 Resource.Success((response as ITunesResponse).results.map {
-                    TrackDtoToDomain().trackDataToDomain(it)
+                    TrackDtoToDomain().map(it)
                 })
             }
             else -> {

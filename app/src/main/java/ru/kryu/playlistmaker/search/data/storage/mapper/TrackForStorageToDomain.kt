@@ -4,7 +4,7 @@ import ru.kryu.playlistmaker.search.data.storage.models.TrackForStorage
 import ru.kryu.playlistmaker.search.domain.model.Track
 
 class TrackForStorageToDomain {
-    fun trackForStorageToDomain(trackForStorage: TrackForStorage): Track {
+    fun map(trackForStorage: TrackForStorage): Track {
         return Track(
             trackId = trackForStorage.trackId,
             trackName = trackForStorage.trackName,

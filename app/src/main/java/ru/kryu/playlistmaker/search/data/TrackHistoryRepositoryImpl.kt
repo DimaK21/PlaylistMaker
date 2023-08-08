@@ -9,12 +9,12 @@ class TrackHistoryRepositoryImpl(private val historyStorage: HistoryStorage) :
     TrackHistoryRepository {
     override fun getTrackHistory(): List<Track> {
         return historyStorage.getTrackHistory()
-            .map { TrackForStorageToDomain().trackForStorageToDomain(it) }
+            .map { TrackForStorageToDomain().map(it) }
     }
 
     override fun saveTrackHistory(list: List<Track>) {
         historyStorage.saveTrackHistory(list.map {
-            TrackToTrackForStorage().trackToTrackForStorage(it)
+            TrackToTrackForStorage().map(it)
         })
     }
 

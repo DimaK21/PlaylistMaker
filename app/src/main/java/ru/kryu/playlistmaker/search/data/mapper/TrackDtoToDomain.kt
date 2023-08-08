@@ -4,7 +4,7 @@ import ru.kryu.playlistmaker.search.data.dto.TrackDto
 import ru.kryu.playlistmaker.search.domain.model.Track
 
 class TrackDtoToDomain {
-    fun trackDataToDomain(trackData: TrackDto): Track {
+    fun map(trackData: TrackDto): Track {
         return Track(
             trackId = trackData.trackId,
             trackName = trackData.trackName,

@@ -3,12 +3,12 @@ package ru.kryu.playlistmaker.settings.ui.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.app.App
 import ru.kryu.playlistmaker.databinding.ActivitySettingsBinding
 
-class SettingsActivity : ComponentActivity() {
+class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
     override fun onCreate(savedInstanceState: Bundle?) {

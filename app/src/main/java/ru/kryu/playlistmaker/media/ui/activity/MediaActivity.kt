@@ -1,12 +1,12 @@
 package ru.kryu.playlistmaker.media.ui.activity
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.media.ui.view_model.MediaViewModel
 
-class MediaActivity : ComponentActivity() {
+class MediaActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MediaViewModel
 
@@ -14,6 +14,9 @@ class MediaActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
 
-        viewModel = ViewModelProvider(this, MediaViewModel.getViewModelFactory())[MediaViewModel::class.java]
+        viewModel = ViewModelProvider(
+            this,
+            MediaViewModel.getViewModelFactory()
+        )[MediaViewModel::class.java]
     }
 }

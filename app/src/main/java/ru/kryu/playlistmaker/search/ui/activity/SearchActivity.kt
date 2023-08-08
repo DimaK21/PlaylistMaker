@@ -9,7 +9,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +20,7 @@ import ru.kryu.playlistmaker.search.ui.TrackSearchState
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 import ru.kryu.playlistmaker.search.ui.view_model.SearchViewModel
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : ComponentActivity() {
 
     private var lastRequest: String = ""
     private lateinit var binding: ActivitySearchBinding
@@ -74,7 +74,7 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-//                userText = s.toString()
+
             }
         }
 
@@ -85,7 +85,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         binding.buttonRefresh.setOnClickListener {
-            if (clickDebounce()){
+            if (clickDebounce()) {
                 viewModel.searchWithoutDebounce(lastRequest)
             }
         }

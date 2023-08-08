@@ -63,7 +63,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
                     override fun consume(foundTracks: List<Track>?, errorMessage: String?) {
                         val tracks = mutableListOf<TrackForUi>()
                         if (foundTracks != null) {
-                            tracks.addAll(foundTracks.map { TrackToTrackForUi().trackToTrackForUi(it) })
+                            tracks.addAll(foundTracks.map { TrackToTrackForUi().map(it) })
                         }
 
                         when {
@@ -117,12 +117,12 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
 
     private fun getTrackHistory(): MutableList<TrackForUi> {
         return trackHistoryInteractor.getTrackHistory()
-            .map { TrackToTrackForUi().trackToTrackForUi(it) } as MutableList<TrackForUi>
+            .map { TrackToTrackForUi().map(it) } as MutableList<TrackForUi>
     }
 
     private fun saveTrackHistory() {
         trackHistoryInteractor.saveTrackHistory(tracksHistory.map {
-            TrackForUiToDomain().trackForUiToDomain(
+            TrackForUiToDomain().map(
                 it
             )
         })

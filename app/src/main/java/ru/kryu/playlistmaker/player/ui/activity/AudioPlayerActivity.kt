@@ -5,26 +5,24 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.kryu.playlistmaker.R
-import ru.kryu.playlistmaker.creator.Creator
 import ru.kryu.playlistmaker.databinding.ActivityAudioPlayerBinding
-import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
+import ru.kryu.playlistmaker.player.ui.PlayerState
+import ru.kryu.playlistmaker.player.ui.view_model.AudioPlayerViewModel
+import ru.kryu.playlistmaker.search.domain.model.Track
 import ru.kryu.playlistmaker.search.ui.mapper.TrackToTrackForUi
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
-import ru.kryu.playlistmaker.search.domain.model.Track
-import java.text.SimpleDateFormat
-import java.util.Locale
 
-class AudioPlayerActivity : AppCompatActivity() {
+class AudioPlayerActivity : ComponentActivity() {
 
     private lateinit var track: TrackForUi
     private lateinit var binding: ActivityAudioPlayerBinding
+    private lateinit var viewModel: AudioPlayerViewModel
 
-    private var playerState = PlayerState.STATE_DEFAULT
-    private val mediaPlayer = Creator.providePlayerInteractor()
     private val handlerMainLooper = Handler(Looper.getMainLooper())
     private val timerRunnable = Runnable {
         timerUpdate()
@@ -35,27 +33,30 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding = ActivityAudioPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.playButton.isEnabled = false
         track = getTrack()
+        viewModel = ViewModelProvider(
+            this,
+            AudioPlayerViewModel.getViewModelFactory(track.previewUrl)
+        )[AudioPlayerViewModel::class.java]
+        viewModel.playerStateLiveData.observe(this) { render(it) }
         binding.buttonBackPlayer.setOnClickListener {
             finish()
         }
         initTrackInfo()
-        preparePlayer()
         binding.playButton.setOnClickListener {
-            playbackControl()
+            viewModel.playbackControl()
         }
     }
 
     private fun getTrack(): TrackForUi =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra(TRACK, TrackForUi::class.java)
-                ?: TrackToTrackForUi().trackToTrackForUi(
+                ?: TrackToTrackForUi().map(
                     Track()
                 )
         } else {
             @Suppress("DEPRECATION")
-            intent.getParcelableExtra(TRACK) ?: TrackToTrackForUi().trackToTrackForUi(
+            intent.getParcelableExtra(TRACK) ?: TrackToTrackForUi().map(
                 Track()
             )
         }
@@ -78,65 +79,49 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding.countryCurrentTv.text = track.country
     }
 
-    private fun preparePlayer() {
-        mediaPlayer.preparePlayer(track.previewUrl)
-
-        val onPreparedListener = object : PlayerInteractor.PreparedListener {
-            override fun setOnPreparedListener() {
-                playerState = PlayerState.STATE_PREPARED
-                binding.playButton.isEnabled = true
-            }
-        }
-        mediaPlayer.setOnPreparedListener(onPreparedListener)
-
-        val onCompletionListener = object : PlayerInteractor.CompletionListener {
-            override fun setOnCompletionListener() {
-                binding.playButton.setImageResource(R.drawable.play_button)
-                playerState = PlayerState.STATE_PREPARED
-                handlerMainLooper.removeCallbacks(timerRunnable)
-                binding.timer.text = getString(R.string.thirty_seconds)
-            }
-        }
-        mediaPlayer.setOnCompletionListener(onCompletionListener)
-    }
-
-    private fun playbackControl() {
-        when (playerState) {
-            PlayerState.STATE_PLAYING -> pausePlayer()
-            PlayerState.STATE_PREPARED, PlayerState.STATE_PAUSED -> startPlayer()
-            else -> Unit
-        }
-    }
-
-    private fun startPlayer() {
-        mediaPlayer.startPlayer()
-        binding.playButton.setImageResource(R.drawable.stop_button)
-        playerState = PlayerState.STATE_PLAYING
-        timerUpdate()
-    }
-
-    private fun pausePlayer() {
-        mediaPlayer.pausePlayer()
-        binding.playButton.setImageResource(R.drawable.play_button)
-        playerState = PlayerState.STATE_PAUSED
-        handlerMainLooper.removeCallbacks(timerRunnable)
-    }
-
     override fun onPause() {
         super.onPause()
-        pausePlayer()
+        viewModel.pausePlayer()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         handlerMainLooper.removeCallbacks(timerRunnable)
-        mediaPlayer.stopPlayer()
     }
 
     private fun timerUpdate() {
-        binding.timer.text =
-            SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition())
+        binding.timer.text = viewModel.getCurrentPosition()
         handlerMainLooper.postDelayed(timerRunnable, DELAY_MILLIS)
+    }
+
+    private fun render(state: PlayerState) {
+        when (state) {
+            PlayerState.STATE_DEFAULT -> renderStateDefault()
+            PlayerState.STATE_PREPARED -> renderStatePrepared()
+            PlayerState.STATE_PLAYING -> renderStatePlaying()
+            PlayerState.STATE_PAUSED -> renderStatePaused()
+        }
+    }
+
+    private fun renderStatePaused() {
+        binding.playButton.setImageResource(R.drawable.play_button)
+        handlerMainLooper.removeCallbacks(timerRunnable)
+    }
+
+    private fun renderStatePlaying() {
+        binding.playButton.setImageResource(R.drawable.stop_button)
+        timerUpdate()
+    }
+
+    private fun renderStatePrepared() {
+        binding.playButton.isEnabled = true
+        handlerMainLooper.removeCallbacks(timerRunnable)
+        binding.timer.text = getString(R.string.thirty_seconds)
+        binding.playButton.setImageResource(R.drawable.play_button)
+    }
+
+    private fun renderStateDefault() {
+        binding.playButton.isEnabled = false
     }
 
     companion object {
@@ -146,10 +131,4 @@ class AudioPlayerActivity : AppCompatActivity() {
         private const val DELAY_MILLIS = 300L
     }
 
-    enum class PlayerState {
-        STATE_DEFAULT,
-        STATE_PREPARED,
-        STATE_PLAYING,
-        STATE_PAUSED
-    }
 }

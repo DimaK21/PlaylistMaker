@@ -21,12 +21,12 @@ class SearchHistory(private val context: Context) {
 
     private fun getTrackHistory(): ArrayList<TrackForUi> {
         return trackHistoryInteractor.getTrackHistory()
-            .map { TrackToTrackForUi().trackToTrackForUi(it) } as ArrayList<TrackForUi>
+            .map { TrackToTrackForUi().map(it) } as ArrayList<TrackForUi>
     }
 
     fun saveTrackHistory() {
         trackHistoryInteractor.saveTrackHistory(listTrackHistory.map {
-            TrackForUiToDomain().trackForUiToDomain(
+            TrackForUiToDomain().map(
                 it
             )
         })

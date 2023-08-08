@@ -4,7 +4,7 @@ import ru.kryu.playlistmaker.search.domain.model.Track
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
 class TrackForUiToDomain {
-    fun trackForUiToDomain(trackForUI: TrackForUi): Track {
+    fun map(trackForUI: TrackForUi): Track {
         return Track(
             trackId = trackForUI.trackId,
             trackName = trackForUI.trackName,

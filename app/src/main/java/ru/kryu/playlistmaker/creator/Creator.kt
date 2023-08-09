@@ -16,6 +16,11 @@ import ru.kryu.playlistmaker.search.domain.api.TrackSearchInteractor
 import ru.kryu.playlistmaker.search.domain.api.TrackSearchRepository
 import ru.kryu.playlistmaker.search.domain.impl.TrackHistoryInteractorImpl
 import ru.kryu.playlistmaker.search.domain.impl.TrackSearchInteractorImpl
+import ru.kryu.playlistmaker.settings.data.DarkThemeRepositoryImpl
+import ru.kryu.playlistmaker.settings.data.SharedPrefsDarkTheme
+import ru.kryu.playlistmaker.settings.domain.api.DarkThemeInteractor
+import ru.kryu.playlistmaker.settings.domain.api.DarkThemeRepository
+import ru.kryu.playlistmaker.settings.domain.impl.DarkThemeInteractorImpl
 import ru.kryu.playlistmaker.sharing.data.ActionSendRepositoryImpl
 import ru.kryu.playlistmaker.sharing.data.ActionSendToRepositoryImpl
 import ru.kryu.playlistmaker.sharing.data.ActionViewRepositoryImpl
@@ -80,6 +85,14 @@ object Creator {
 
     fun provideActionViewUseCase(context: Context): ActionViewUseCase {
         return ActionViewUseCaseImpl(getActionViewRepository(context))
+    }
+
+    private fun getDarkThemeRepository(context: Context): DarkThemeRepository {
+        return DarkThemeRepositoryImpl(SharedPrefsDarkTheme(context))
+    }
+
+    fun provideDarkThemeInteractor(context: Context): DarkThemeInteractor {
+        return DarkThemeInteractorImpl(getDarkThemeRepository(context))
     }
 
 }

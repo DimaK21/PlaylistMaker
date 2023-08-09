@@ -6,10 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.creator.Creator
 import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
-import ru.kryu.playlistmaker.player.ui.PlayerState
 import java.text.SimpleDateFormat
 import java.util.Locale
 

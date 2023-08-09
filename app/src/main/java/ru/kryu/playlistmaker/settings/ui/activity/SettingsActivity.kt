@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.app.App
 import ru.kryu.playlistmaker.databinding.ActivitySettingsBinding
+import ru.kryu.playlistmaker.settings.ui.view_model.DarkThemeState
 import ru.kryu.playlistmaker.settings.ui.view_model.SettingsViewModel
 
 class SettingsActivity : AppCompatActivity() {
@@ -21,18 +22,16 @@ class SettingsActivity : AppCompatActivity() {
             this,
             SettingsViewModel.getViewModelFactory()
         )[SettingsViewModel::class.java]
+        viewModel.darkThemeStateLiveData.observe(this) { render(it) }
 
         binding.buttonBackSettings.setOnClickListener {
             finish()
         }
 
-        binding.themeSwitcher.isChecked = (applicationContext as App).darkTheme
+        binding.themeSwitcher.isChecked =
+            (viewModel.darkThemeStateLiveData.value == DarkThemeState.STATE_DARK)
         binding.themeSwitcher.setOnCheckedChangeListener { swither, checked ->
-            (applicationContext as App).switchTheme(checked)
-            val sharedPrefs = getSharedPreferences(App.USER_PREFERENCES, MODE_PRIVATE)
-            sharedPrefs.edit()
-                .putBoolean(App.DARK_THEME_KEY, binding.themeSwitcher.isChecked)
-                .apply()
+            viewModel.changeState(checked)
         }
 
         binding.shareFrame.setOnClickListener {
@@ -49,6 +48,13 @@ class SettingsActivity : AppCompatActivity() {
 
         binding.agreementFrame.setOnClickListener {
             viewModel.doActionView(getString(R.string.url_user_agreement))
+        }
+    }
+
+    private fun render(state: DarkThemeState) {
+        when (state) {
+            DarkThemeState.STATE_DARK -> (application as App).switchTheme(true)
+            DarkThemeState.STATE_LITE -> (application as App).switchTheme(false)
         }
     }
 }

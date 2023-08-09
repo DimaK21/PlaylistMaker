@@ -15,7 +15,6 @@ import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.creator.Creator
 import ru.kryu.playlistmaker.search.domain.api.TrackSearchInteractor
 import ru.kryu.playlistmaker.search.domain.model.Track
-import ru.kryu.playlistmaker.search.ui.TrackSearchState
 import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiToDomain
 import ru.kryu.playlistmaker.search.ui.mapper.TrackToTrackForUi
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi

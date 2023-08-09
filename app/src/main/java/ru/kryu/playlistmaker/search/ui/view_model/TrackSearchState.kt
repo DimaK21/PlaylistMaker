@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.search.ui
+package ru.kryu.playlistmaker.search.ui.view_model
 
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 

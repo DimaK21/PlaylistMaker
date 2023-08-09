@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.search.ui
+package ru.kryu.playlistmaker.search.ui.recycler
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide

@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.search.ui
+package ru.kryu.playlistmaker.search.ui.recycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

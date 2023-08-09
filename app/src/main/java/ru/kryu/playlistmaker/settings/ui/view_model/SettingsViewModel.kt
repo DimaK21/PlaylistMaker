@@ -1,8 +1,6 @@
 package ru.kryu.playlistmaker.settings.ui.view_model
 
 import android.app.Application
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
@@ -15,7 +13,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         Creator.provideActionSendUseCase(getApplication<Application>().applicationContext)
     private val actionSendTo = Creator.provideActionSendToUseCase(getApplication<Application>())
     private val actionView = Creator.provideActionViewUseCase(getApplication<Application>())
-    val handler = Handler(Looper.getMainLooper())
 
     fun doActionSend(text: String) {
         actionSend.execute(text = text)

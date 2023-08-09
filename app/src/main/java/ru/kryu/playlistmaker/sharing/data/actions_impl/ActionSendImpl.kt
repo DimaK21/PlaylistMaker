@@ -10,7 +10,7 @@ class ActionSendImpl(private val context: Context) : ActionSend {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         intent.putExtra(Intent.EXTRA_TEXT, text)
         intent.type = "text/plain"
-        val shareIntent = Intent.createChooser(intent,"Share via")
+        val shareIntent = Intent.createChooser(intent, "Share via")
         shareIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(shareIntent)
     }

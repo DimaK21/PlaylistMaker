@@ -5,7 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import ru.kryu.playlistmaker.sharing.data.ActionView
 
-class ActionViewImpl(private val context: Context): ActionView {
+class ActionViewImpl(private val context: Context) : ActionView {
     override fun share(url: String) {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(url)

@@ -46,7 +46,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         handler.postAtTime(searchRunnable, SEARCH_REQUEST_TOKEN, postTime)
     }
 
-    fun searchWithoutDebounce(changedText: String){
+    fun searchWithoutDebounce(changedText: String) {
         latestSearchText = changedText
         handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
         val searchRunnable = Runnable { searchRequest(changedText) }
@@ -105,11 +105,12 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         tracksHistory.add(0, track)
         if (tracksHistory.size > TRACK_HISTORY_SIZE) tracksHistory.removeLast()
         if (stateLiveData.value is TrackSearchState.Content) {
-            val list = (stateLiveData.value as TrackSearchState.Content).tracks as MutableList<TrackForUi>
+            val list =
+                (stateLiveData.value as TrackSearchState.Content).tracks as MutableList<TrackForUi>
             list.remove(track)
-            list.add(0,track)
+            list.add(0, track)
             renderState(TrackSearchState.Content(list))
-        } else if (stateLiveData.value is TrackSearchState.History){
+        } else if (stateLiveData.value is TrackSearchState.History) {
             renderState(TrackSearchState.History(tracksHistory))
         }
     }

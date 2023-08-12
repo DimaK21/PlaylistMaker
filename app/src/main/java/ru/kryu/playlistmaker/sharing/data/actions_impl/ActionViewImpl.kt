@@ -3,6 +3,7 @@ package ru.kryu.playlistmaker.sharing.data.actions_impl
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import ru.kryu.playlistmaker.sharing.data.ActionView
 
 class ActionViewImpl(private val context: Context) : ActionView {
@@ -10,6 +11,10 @@ class ActionViewImpl(private val context: Context) : ActionView {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(url)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        context.startActivity(intent)
+        try {
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            Log.e("myTag", e.stackTraceToString())
+        }
     }
 }

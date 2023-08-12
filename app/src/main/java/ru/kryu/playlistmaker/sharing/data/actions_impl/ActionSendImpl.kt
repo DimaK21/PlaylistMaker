@@ -2,6 +2,7 @@ package ru.kryu.playlistmaker.sharing.data.actions_impl
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import ru.kryu.playlistmaker.sharing.data.ActionSend
 
 class ActionSendImpl(private val context: Context) : ActionSend {
@@ -12,6 +13,10 @@ class ActionSendImpl(private val context: Context) : ActionSend {
         intent.type = "text/plain"
         val shareIntent = Intent.createChooser(intent, "Share via")
         shareIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        context.startActivity(shareIntent)
+        try {
+            context.startActivity(shareIntent)
+        } catch (e: Exception) {
+            Log.e("myTag", e.stackTraceToString())
+        }
     }
 }

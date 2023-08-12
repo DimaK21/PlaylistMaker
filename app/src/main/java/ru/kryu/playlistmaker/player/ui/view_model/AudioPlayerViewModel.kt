@@ -1,5 +1,7 @@
 package ru.kryu.playlistmaker.player.ui.view_model
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,11 +13,24 @@ import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class AudioPlayerViewModel(private val trackUrl: String) : ViewModel() {
+class AudioPlayerViewModel(trackUrl: String) : ViewModel() {
 
     private var mutablePlayerStateLiveData = MutableLiveData<PlayerState>()
     val playerStateLiveData: LiveData<PlayerState> = mutablePlayerStateLiveData
     private val mediaPlayerInteractor = Creator.providePlayerInteractor()
+
+    private var mutablePlayerPositionLiveData = MutableLiveData<String>()
+    val playerPositionLiveData: LiveData<String> = mutablePlayerPositionLiveData
+
+    private val handlerMainLooper = Handler(Looper.getMainLooper())
+    private val timerRunnable = Runnable {
+        timerUpdate()
+    }
+
+    private fun timerUpdate() {
+        mutablePlayerPositionLiveData.value = getCurrentPosition()
+        handlerMainLooper.postDelayed(timerRunnable, DELAY_MILLIS)
+    }
 
     init {
         changeState(PlayerState.STATE_DEFAULT)
@@ -31,7 +46,9 @@ class AudioPlayerViewModel(private val trackUrl: String) : ViewModel() {
 
         val onCompletionListener = object : PlayerInteractor.CompletionListener {
             override fun setOnCompletionListener() {
+                handlerMainLooper.removeCallbacks(timerRunnable)
                 changeState(PlayerState.STATE_PREPARED)
+                mutablePlayerPositionLiveData.value = "00:00"
             }
         }
         mediaPlayerInteractor.setOnCompletionListener(onCompletionListener)
@@ -45,25 +62,27 @@ class AudioPlayerViewModel(private val trackUrl: String) : ViewModel() {
         }
     }
 
-    fun noScreen(){
+    fun noScreen() {
         pausePlayer()
     }
 
     private fun startPlayer() {
         mediaPlayerInteractor.startPlayer()
         changeState(PlayerState.STATE_PLAYING)
+        timerUpdate()
     }
 
     private fun pausePlayer() {
         mediaPlayerInteractor.pausePlayer()
         changeState(PlayerState.STATE_PAUSED)
+        handlerMainLooper.removeCallbacks(timerRunnable)
     }
 
     private fun changeState(playerState: PlayerState) {
         mutablePlayerStateLiveData.value = playerState
     }
 
-    fun getCurrentPosition(): String {
+    private fun getCurrentPosition(): String {
         return SimpleDateFormat(
             "mm:ss",
             Locale.getDefault()
@@ -72,10 +91,12 @@ class AudioPlayerViewModel(private val trackUrl: String) : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
+        handlerMainLooper.removeCallbacks(timerRunnable)
         mediaPlayerInteractor.stopPlayer()
     }
 
     companion object {
+        private const val DELAY_MILLIS = 300L
         fun getViewModelFactory(trackUrl: String): ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 AudioPlayerViewModel(trackUrl)

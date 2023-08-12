@@ -2,8 +2,6 @@ package ru.kryu.playlistmaker.player.ui.activity
 
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -23,11 +21,6 @@ class AudioPlayerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAudioPlayerBinding
     private lateinit var viewModel: AudioPlayerViewModel
 
-    private val handlerMainLooper = Handler(Looper.getMainLooper())
-    private val timerRunnable = Runnable {
-        timerUpdate()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAudioPlayerBinding.inflate(layoutInflater)
@@ -39,6 +32,7 @@ class AudioPlayerActivity : AppCompatActivity() {
             AudioPlayerViewModel.getViewModelFactory(track.previewUrl)
         )[AudioPlayerViewModel::class.java]
         viewModel.playerStateLiveData.observe(this) { render(it) }
+        viewModel.playerPositionLiveData.observe(this) { setTimer(it) }
         binding.buttonBackPlayer.setOnClickListener {
             finish()
         }
@@ -46,6 +40,10 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding.playButton.setOnClickListener {
             viewModel.onPlayerButtonClick()
         }
+    }
+
+    private fun setTimer(time: String?) {
+        binding.timer.text = time
     }
 
     private fun getTrack(): TrackForUi =
@@ -84,16 +82,6 @@ class AudioPlayerActivity : AppCompatActivity() {
         viewModel.noScreen()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        handlerMainLooper.removeCallbacks(timerRunnable)
-    }
-
-    private fun timerUpdate() {
-        binding.timer.text = viewModel.getCurrentPosition()
-        handlerMainLooper.postDelayed(timerRunnable, DELAY_MILLIS)
-    }
-
     private fun render(state: PlayerState) {
         when (state) {
             PlayerState.STATE_DEFAULT -> renderStateDefault()
@@ -105,18 +93,14 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private fun renderStatePaused() {
         binding.playButton.setImageResource(R.drawable.play_button)
-        handlerMainLooper.removeCallbacks(timerRunnable)
     }
 
     private fun renderStatePlaying() {
         binding.playButton.setImageResource(R.drawable.stop_button)
-        timerUpdate()
     }
 
     private fun renderStatePrepared() {
         binding.playButton.isEnabled = true
-        handlerMainLooper.removeCallbacks(timerRunnable)
-        binding.timer.text = getString(R.string.thirty_seconds)
         binding.playButton.setImageResource(R.drawable.play_button)
     }
 
@@ -128,7 +112,5 @@ class AudioPlayerActivity : AppCompatActivity() {
         private const val TRACK = "TRACK"
         private const val START_INDEX = 0
         private const val END_INDEX = 4
-        private const val DELAY_MILLIS = 300L
     }
-
 }

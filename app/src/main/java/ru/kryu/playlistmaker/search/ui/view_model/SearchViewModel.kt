@@ -31,6 +31,10 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     private val stateLiveData = MutableLiveData<TrackSearchState>()
     fun observeStateLiveData(): LiveData<TrackSearchState> = stateLiveData
 
+    private val mutableIsClickAllowedLiveData = MutableLiveData<Boolean>()
+    val isClickAllowedLiveData: LiveData<Boolean> = mutableIsClickAllowedLiveData
+    private var isClickAllowed = true
+
     val tracksHistory = getTrackHistory().apply {
         if (this.isEmpty()) {
             renderState(TrackSearchState.Content(emptyList()))
@@ -51,6 +55,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun searchWithoutDebounce(changedText: String) {
+        mutableIsClickAllowedLiveData.value = clickDebounce()
         latestSearchText = changedText
         handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
         val searchRunnable = Runnable { searchRequest(changedText) }
@@ -105,6 +110,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun onTrackClick(track: TrackForUi) {
+        mutableIsClickAllowedLiveData.value = clickDebounce()
         tracksHistory.removeIf { it.trackId == track.trackId }
         tracksHistory.add(0, track)
         if (tracksHistory.size > TRACK_HISTORY_SIZE) tracksHistory.removeLast()
@@ -142,10 +148,23 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         saveTrackHistory()
     }
 
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed(
+                { isClickAllowed = true },
+                CLICK_DEBOUNCE_DELAY_MILLIS
+            )
+        }
+        return current
+    }
+
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
         private val SEARCH_REQUEST_TOKEN = Any()
         private const val TRACK_HISTORY_SIZE = 10
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
 
         fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
             initializer {

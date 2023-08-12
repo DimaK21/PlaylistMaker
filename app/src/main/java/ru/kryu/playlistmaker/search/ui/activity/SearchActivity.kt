@@ -3,8 +3,6 @@ package ru.kryu.playlistmaker.search.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -24,13 +22,12 @@ class SearchActivity : AppCompatActivity() {
 
     private var lastRequest: String = ""
     private lateinit var binding: ActivitySearchBinding
-    private val handlerMainLooper = Handler(Looper.getMainLooper())
     private var isClickAllowed = true
     private lateinit var viewModel: SearchViewModel
     private lateinit var editTextTextWatcher: TextWatcher
 
     private val trackAdapter = TrackAdapter {
-        if (clickDebounce()) {
+        if (isClickAllowed) {
             val audioPlayerActivityIntent = Intent(this, AudioPlayerActivity::class.java)
             audioPlayerActivityIntent.putExtra(TRACK, it)
             startActivity(audioPlayerActivityIntent)
@@ -83,9 +80,12 @@ class SearchActivity : AppCompatActivity() {
         viewModel.observeStateLiveData().observe(this) {
             render(it)
         }
+        viewModel.isClickAllowedLiveData.observe(this) {
+            clickDebounce(it)
+        }
 
         binding.buttonRefresh.setOnClickListener {
-            if (clickDebounce()) {
+            if (isClickAllowed) {
                 viewModel.searchWithoutDebounce(lastRequest)
             }
         }
@@ -180,13 +180,8 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            handlerMainLooper.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY_MILLIS)
-        }
-        return current
+    private fun clickDebounce(isClickAllowed: Boolean) {
+        this.isClickAllowed = isClickAllowed
     }
 
     companion object {

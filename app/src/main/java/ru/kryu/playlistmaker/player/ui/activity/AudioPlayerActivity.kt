@@ -11,8 +11,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.ActivityAudioPlayerBinding
-import ru.kryu.playlistmaker.player.ui.view_model.PlayerState
 import ru.kryu.playlistmaker.player.ui.view_model.AudioPlayerViewModel
+import ru.kryu.playlistmaker.player.ui.view_model.PlayerState
 import ru.kryu.playlistmaker.search.domain.model.Track
 import ru.kryu.playlistmaker.search.ui.mapper.TrackToTrackForUi
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi

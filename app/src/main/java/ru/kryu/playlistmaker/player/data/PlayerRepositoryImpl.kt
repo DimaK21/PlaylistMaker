@@ -1,7 +1,7 @@
 package ru.kryu.playlistmaker.player.data
 
-import ru.kryu.playlistmaker.player.domain.api.PlayerRepository
 import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
+import ru.kryu.playlistmaker.player.domain.api.PlayerRepository
 
 class PlayerRepositoryImpl(private val player: Player) : PlayerRepository {
 

@@ -11,10 +11,10 @@ import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class AudioPlayerViewModel(private val trackUrl: String): ViewModel() {
+class AudioPlayerViewModel(private val trackUrl: String) : ViewModel() {
 
     private var mutablePlayerStateLiveData = MutableLiveData<PlayerState>()
-    val playerStateLiveData : LiveData<PlayerState> = mutablePlayerStateLiveData
+    val playerStateLiveData: LiveData<PlayerState> = mutablePlayerStateLiveData
     private val mediaPlayerInteractor = Creator.providePlayerInteractor()
 
     init {
@@ -59,8 +59,11 @@ class AudioPlayerViewModel(private val trackUrl: String): ViewModel() {
         mutablePlayerStateLiveData.value = playerState
     }
 
-    fun getCurrentPosition(): String{
-        return SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayerInteractor.currentPosition())
+    fun getCurrentPosition(): String {
+        return SimpleDateFormat(
+            "mm:ss",
+            Locale.getDefault()
+        ).format(mediaPlayerInteractor.currentPosition())
     }
 
     override fun onCleared() {

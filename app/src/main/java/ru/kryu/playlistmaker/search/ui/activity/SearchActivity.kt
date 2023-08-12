@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.kryu.playlistmaker.databinding.ActivitySearchBinding
 import ru.kryu.playlistmaker.player.ui.activity.AudioPlayerActivity
-import ru.kryu.playlistmaker.search.ui.recycler.TrackAdapter
-import ru.kryu.playlistmaker.search.ui.view_model.TrackSearchState
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
+import ru.kryu.playlistmaker.search.ui.recycler.TrackAdapter
 import ru.kryu.playlistmaker.search.ui.view_model.SearchViewModel
+import ru.kryu.playlistmaker.search.ui.view_model.TrackSearchState
 
 class SearchActivity : AppCompatActivity() {
 

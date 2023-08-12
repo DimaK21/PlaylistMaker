@@ -32,7 +32,11 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     fun observeStateLiveData(): LiveData<TrackSearchState> = stateLiveData
 
     val tracksHistory = getTrackHistory().apply {
-        renderState(TrackSearchState.History(this))
+        if (this.isEmpty()) {
+            renderState(TrackSearchState.Content(emptyList()))
+        } else {
+            renderState(TrackSearchState.History(this))
+        }
     }
 
     fun searchDebounce(changedText: String) {
@@ -42,7 +46,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         latestSearchText = changedText
         handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
         val searchRunnable = Runnable { searchRequest(changedText) }
-        val postTime = SystemClock.uptimeMillis() + SEARCH_DEBOUNCE_DELAY
+        val postTime = SystemClock.uptimeMillis() + SEARCH_DEBOUNCE_DELAY_MILLIS
         handler.postAtTime(searchRunnable, SEARCH_REQUEST_TOKEN, postTime)
     }
 
@@ -104,13 +108,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         tracksHistory.removeIf { it.trackId == track.trackId }
         tracksHistory.add(0, track)
         if (tracksHistory.size > TRACK_HISTORY_SIZE) tracksHistory.removeLast()
-        if (stateLiveData.value is TrackSearchState.Content) {
-            val list =
-                (stateLiveData.value as TrackSearchState.Content).tracks as MutableList<TrackForUi>
-            list.remove(track)
-            list.add(0, track)
-            renderState(TrackSearchState.Content(list))
-        } else if (stateLiveData.value is TrackSearchState.History) {
+        if (stateLiveData.value is TrackSearchState.History) {
             renderState(TrackSearchState.History(tracksHistory))
         }
     }
@@ -128,9 +126,14 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         })
     }
 
-    fun clearTrackHistory() {
+    fun onClearTrackHistoryClick() {
         tracksHistory.clear()
         trackHistoryInteractor.clearTrackHistory()
+        renderState(TrackSearchState.Content(emptyList()))
+    }
+
+    fun onClearButtonClick() {
+        renderState(TrackSearchState.History(tracksHistory))
     }
 
     override fun onCleared() {
@@ -140,7 +143,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     companion object {
-        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
         private val SEARCH_REQUEST_TOKEN = Any()
         private const val TRACK_HISTORY_SIZE = 10
 

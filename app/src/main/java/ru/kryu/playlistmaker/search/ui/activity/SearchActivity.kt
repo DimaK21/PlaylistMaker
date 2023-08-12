@@ -91,9 +91,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         binding.clearHistoryButton.setOnClickListener {
-            viewModel.clearTrackHistory()
-            trackAdapter.trackList.clear()
-            trackAdapter.notifyDataSetChanged()
+            viewModel.onClearTrackHistoryClick()
         }
     }
 
@@ -171,7 +169,7 @@ class SearchActivity : AppCompatActivity() {
         val inputMethodManager =
             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(window.decorView.windowToken, 0)
-        showHistory(viewModel.tracksHistory)
+        viewModel.onClearButtonClick()
     }
 
     private fun clearButtonVisibility(s: CharSequence?): Int {

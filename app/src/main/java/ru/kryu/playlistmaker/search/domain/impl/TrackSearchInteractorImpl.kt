@@ -2,7 +2,7 @@ package ru.kryu.playlistmaker.search.domain.impl
 
 import ru.kryu.playlistmaker.search.domain.api.TrackSearchInteractor
 import ru.kryu.playlistmaker.search.domain.api.TrackSearchRepository
-import ru.kryu.playlistmaker.util.Resource
+import ru.kryu.playlistmaker.search.domain.model.Resource
 import java.util.concurrent.Executors
 
 class TrackSearchInteractorImpl(private val repository: TrackSearchRepository) :

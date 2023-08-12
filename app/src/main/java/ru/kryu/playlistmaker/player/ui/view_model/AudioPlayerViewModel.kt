@@ -37,7 +37,7 @@ class AudioPlayerViewModel(private val trackUrl: String) : ViewModel() {
         mediaPlayerInteractor.setOnCompletionListener(onCompletionListener)
     }
 
-    fun playbackControl() {
+    fun onPlayerButtonClick() {
         when (mutablePlayerStateLiveData.value) {
             PlayerState.STATE_PLAYING -> pausePlayer()
             PlayerState.STATE_PREPARED, PlayerState.STATE_PAUSED -> startPlayer()
@@ -45,12 +45,16 @@ class AudioPlayerViewModel(private val trackUrl: String) : ViewModel() {
         }
     }
 
-    fun startPlayer() {
+    fun noScreen(){
+        pausePlayer()
+    }
+
+    private fun startPlayer() {
         mediaPlayerInteractor.startPlayer()
         changeState(PlayerState.STATE_PLAYING)
     }
 
-    fun pausePlayer() {
+    private fun pausePlayer() {
         mediaPlayerInteractor.pausePlayer()
         changeState(PlayerState.STATE_PAUSED)
     }

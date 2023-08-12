@@ -44,7 +44,7 @@ class AudioPlayerActivity : AppCompatActivity() {
         }
         initTrackInfo()
         binding.playButton.setOnClickListener {
-            viewModel.playbackControl()
+            viewModel.onPlayerButtonClick()
         }
     }
 
@@ -81,7 +81,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        viewModel.pausePlayer()
+        viewModel.noScreen()
     }
 
     override fun onDestroy() {

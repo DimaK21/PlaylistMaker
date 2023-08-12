@@ -104,7 +104,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         stateLiveData.postValue(state)
     }
 
-    fun addTrack(track: TrackForUi) {
+    fun onTrackClick(track: TrackForUi) {
         tracksHistory.removeIf { it.trackId == track.trackId }
         tracksHistory.add(0, track)
         if (tracksHistory.size > TRACK_HISTORY_SIZE) tracksHistory.removeLast()

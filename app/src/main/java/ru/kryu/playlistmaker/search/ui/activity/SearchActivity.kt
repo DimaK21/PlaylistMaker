@@ -34,7 +34,7 @@ class SearchActivity : AppCompatActivity() {
             val audioPlayerActivityIntent = Intent(this, AudioPlayerActivity::class.java)
             audioPlayerActivityIntent.putExtra(TRACK, it)
             startActivity(audioPlayerActivityIntent)
-            viewModel.addTrack(it)
+            viewModel.onTrackClick(it)
         }
     }
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.creator.Creator
 
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
@@ -25,7 +26,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         changeState(getDarkTheme())
     }
 
-    fun changeState(isDarkTheme: Boolean) {
+    private fun changeState(isDarkTheme: Boolean) {
         if (isDarkTheme) {
             mutableDarkThemeStateLiveData.value = DarkThemeState.STATE_DARK
         } else {
@@ -42,16 +43,24 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         darkThemeInteractor.saveDarkTheme(isDarkTheme)
     }
 
-    fun doActionSend(text: String) {
-        actionSend.execute(text = text)
+    fun switcherMoved(isChecked: Boolean) {
+        changeState(isDarkTheme = isChecked)
     }
 
-    fun doActionSendTo(email: Array<String>, subject: String, text: String) {
-        actionSendTo.execute(email = email, subject = subject, text = text)
+    fun onShareClick() {
+        actionSend.execute(text = getApplication<Application>().getString(R.string.url_practicum))
     }
 
-    fun doActionView(url: String) {
-        actionView.execute(url = url)
+    fun onSupportClick() {
+        actionSendTo.execute(
+            email = arrayOf(getApplication<Application>().getString(R.string.email_of_developer)),
+            subject = getApplication<Application>().getString(R.string.title_mail_to_developer),
+            text = getApplication<Application>().getString(R.string.thanks_to_developer)
+        )
+    }
+
+    fun onAgreementClick() {
+        actionView.execute(url = getApplication<Application>().getString(R.string.url_user_agreement))
     }
 
 

@@ -35,11 +35,12 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     val isClickAllowedLiveData: LiveData<Boolean> = mutableIsClickAllowedLiveData
     private var isClickAllowed = true
 
-    val tracksHistory = getTrackHistory().apply {
-        if (this.isEmpty()) {
+    init {
+        val list = getTrackHistory()
+        if (list.isEmpty()) {
             renderState(TrackSearchState.Content(emptyList()))
         } else {
-            renderState(TrackSearchState.History(this))
+            renderState(TrackSearchState.History(list))
         }
     }
 
@@ -111,11 +112,9 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
 
     fun onTrackClick(track: TrackForUi) {
         mutableIsClickAllowedLiveData.value = clickDebounce()
-        tracksHistory.removeIf { it.trackId == track.trackId }
-        tracksHistory.add(0, track)
-        if (tracksHistory.size > TRACK_HISTORY_SIZE) tracksHistory.removeLast()
+        trackHistoryInteractor.addTrack(TrackForUiToDomain().map(track))
         if (stateLiveData.value is TrackSearchState.History) {
-            renderState(TrackSearchState.History(tracksHistory))
+            renderState(TrackSearchState.History(getTrackHistory()))
         }
     }
 
@@ -125,21 +124,16 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     private fun saveTrackHistory() {
-        trackHistoryInteractor.saveTrackHistory(tracksHistory.map {
-            TrackForUiToDomain().map(
-                it
-            )
-        })
+        trackHistoryInteractor.saveTrackHistory()
     }
 
     fun onClearTrackHistoryClick() {
-        tracksHistory.clear()
         trackHistoryInteractor.clearTrackHistory()
         renderState(TrackSearchState.Content(emptyList()))
     }
 
     fun onClearButtonClick() {
-        renderState(TrackSearchState.History(tracksHistory))
+        renderState(TrackSearchState.History(getTrackHistory()))
     }
 
     override fun onCleared() {
@@ -163,7 +157,6 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
         private val SEARCH_REQUEST_TOKEN = Any()
-        private const val TRACK_HISTORY_SIZE = 10
         private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
 
         fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {

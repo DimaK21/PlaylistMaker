@@ -81,7 +81,7 @@ class SearchActivity : AppCompatActivity() {
             render(it)
         }
         viewModel.isClickAllowedLiveData.observe(this) {
-            clickDebounce(it)
+            isClickAllowed = it
         }
 
         binding.buttonRefresh.setOnClickListener {
@@ -178,10 +178,6 @@ class SearchActivity : AppCompatActivity() {
         } else {
             View.VISIBLE
         }
-    }
-
-    private fun clickDebounce(isClickAllowed: Boolean) {
-        this.isClickAllowed = isClickAllowed
     }
 
     companion object {

@@ -4,8 +4,8 @@ import ru.kryu.playlistmaker.search.data.dto.ITunesRequest
 import ru.kryu.playlistmaker.search.data.dto.ITunesResponse
 import ru.kryu.playlistmaker.search.data.mapper.TrackDtoToDomain
 import ru.kryu.playlistmaker.search.domain.api.TrackSearchRepository
-import ru.kryu.playlistmaker.search.domain.model.Track
 import ru.kryu.playlistmaker.search.domain.model.Resource
+import ru.kryu.playlistmaker.search.domain.model.Track
 
 class TrackSearchRepositoryImpl(private val networkClient: NetworkClient) : TrackSearchRepository {
 

@@ -11,11 +11,15 @@ class TrackHistoryInteractorImpl(private val repository: TrackHistoryRepository)
         return repository.getTrackHistory()
     }
 
-    override fun saveTrackHistory(list: List<Track>) {
-        repository.saveTrackHistory(list)
+    override fun saveTrackHistory() {
+        repository.saveTrackHistory()
     }
 
     override fun clearTrackHistory() {
         repository.clearTrackHistory()
+    }
+
+    override fun addTrack(track: Track) {
+        repository.addTrack(track)
     }
 }

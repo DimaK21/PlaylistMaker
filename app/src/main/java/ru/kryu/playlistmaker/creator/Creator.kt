@@ -29,10 +29,7 @@ import ru.kryu.playlistmaker.sharing.data.actions_impl.ActionSendToImpl
 import ru.kryu.playlistmaker.sharing.data.actions_impl.ActionViewImpl
 import ru.kryu.playlistmaker.sharing.domain.api.ActionSendRepository
 import ru.kryu.playlistmaker.sharing.domain.api.ActionSendToRepository
-import ru.kryu.playlistmaker.sharing.domain.api.ActionSendToUseCase
-import ru.kryu.playlistmaker.sharing.domain.api.ActionSendUseCase
 import ru.kryu.playlistmaker.sharing.domain.api.ActionViewRepository
-import ru.kryu.playlistmaker.sharing.domain.api.ActionViewUseCase
 import ru.kryu.playlistmaker.sharing.domain.impl.ActionSendToUseCaseImpl
 import ru.kryu.playlistmaker.sharing.domain.impl.ActionSendUseCaseImpl
 import ru.kryu.playlistmaker.sharing.domain.impl.ActionViewUseCaseImpl
@@ -67,7 +64,7 @@ object Creator {
         return ActionSendRepositoryImpl(ActionSendImpl(context))
     }
 
-    fun provideActionSendUseCase(context: Context): ActionSendUseCase {
+    fun provideActionSendUseCase(context: Context): ActionSendUseCaseImpl {
         return ActionSendUseCaseImpl(getActionSendRepository(context))
     }
 
@@ -75,7 +72,7 @@ object Creator {
         return ActionSendToRepositoryImpl(ActionSendToImpl(context))
     }
 
-    fun provideActionSendToUseCase(context: Context): ActionSendToUseCase {
+    fun provideActionSendToUseCase(context: Context): ActionSendToUseCaseImpl {
         return ActionSendToUseCaseImpl(getActionSendToRepository(context))
     }
 
@@ -83,7 +80,7 @@ object Creator {
         return ActionViewRepositoryImpl(ActionViewImpl(context))
     }
 
-    fun provideActionViewUseCase(context: Context): ActionViewUseCase {
+    fun provideActionViewUseCase(context: Context): ActionViewUseCaseImpl {
         return ActionViewUseCaseImpl(getActionViewRepository(context))
     }
 

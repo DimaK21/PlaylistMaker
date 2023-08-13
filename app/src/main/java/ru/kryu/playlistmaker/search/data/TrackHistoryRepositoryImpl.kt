@@ -7,7 +7,7 @@ import ru.kryu.playlistmaker.search.domain.model.Track
 class TrackHistoryRepositoryImpl(private val historyStorage: HistoryStorage) :
     TrackHistoryRepository {
 
-    private val trackHistory = getTrackHistoryFromStorage()
+    private val trackHistory = getTrackHistoryFromStorage().toMutableList()
 
     private fun getTrackHistoryFromStorage(): List<Track> {
         return historyStorage.getTrackHistory()
@@ -26,15 +26,13 @@ class TrackHistoryRepositoryImpl(private val historyStorage: HistoryStorage) :
 
     override fun clearTrackHistory() {
         historyStorage.clearTrackHistory()
-        (trackHistory as MutableList<Track>).clear()
+        trackHistory.clear()
     }
 
     override fun addTrack(track: Track) {
-        with(trackHistory as MutableList<Track>) {
-            this.removeIf { it.trackId == track.trackId }
-            this.add(0, track)
-            if (this.size > TRACK_HISTORY_SIZE) this.removeLast()
-        }
+        trackHistory.removeIf { it.trackId == track.trackId }
+        trackHistory.add(0, track)
+        if (trackHistory.size > TRACK_HISTORY_SIZE) trackHistory.removeLast()
     }
 
     companion object {

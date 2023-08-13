@@ -36,12 +36,7 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     private var isClickAllowed = true
 
     init {
-        val list = getTrackHistory()
-        if (list.isEmpty()) {
-            renderState(TrackSearchState.Content(emptyList()))
-        } else {
-            renderState(TrackSearchState.History(list))
-        }
+        renderHistoryCheck()
     }
 
     fun searchDebounce(changedText: String) {
@@ -133,7 +128,16 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun onClearButtonClick() {
-        renderState(TrackSearchState.History(getTrackHistory()))
+        renderHistoryCheck()
+    }
+
+    private fun renderHistoryCheck() {
+        val list = getTrackHistory()
+        if (list.isEmpty()) {
+            renderState(TrackSearchState.Content(emptyList()))
+        } else {
+            renderState(TrackSearchState.History(list))
+        }
     }
 
     override fun onCleared() {

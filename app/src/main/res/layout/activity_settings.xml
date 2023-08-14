@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
     android:orientation="vertical"
-    tools:context=".ui.settings.SettingsActivity">
+    tools:context=".settings.ui.activity.SettingsActivity">
 
     <LinearLayout style="@style/HeadLinerLayout">
 
         <ImageView
-            android:id="@+id/settings_arrow"
+            android:id="@+id/button_back_settings"
             style="@style/HeadImage"
             android:contentDescription="@string/back_arrow" />
 
@@ -21,7 +21,7 @@
 
 
     <FrameLayout
-        android:id="@+id/dark_theme"
+        android:id="@+id/dark_theme_frame"
         style="@style/SettingsFrameLayout"
         android:layout_marginTop="40dp"
         android:paddingEnd="18dp">
@@ -36,7 +36,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/share"
+        android:id="@+id/share_frame"
         style="@style/SettingsFrameLayout"
         android:foreground="?attr/selectableItemBackground"
         android:paddingEnd="16dp">
@@ -52,7 +52,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/support"
+        android:id="@+id/support_frame"
         style="@style/SettingsFrameLayout"
         android:foreground="?attr/selectableItemBackground"
         android:paddingEnd="14dp">
@@ -68,7 +68,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/agreement"
+        android:id="@+id/agreement_frame"
         style="@style/SettingsFrameLayout"
         android:foreground="?attr/selectableItemBackground"
         android:paddingEnd="20dp">

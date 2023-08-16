@@ -4,9 +4,7 @@ import android.media.MediaPlayer
 import ru.kryu.playlistmaker.player.data.Player
 import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
 
-class AndroidMediaPlayer : Player {
-
-    private val mediaPlayer = MediaPlayer()
+class AndroidMediaPlayer(private val mediaPlayer: MediaPlayer) : Player {
 
     override fun preparePlayer(dto: Any) {
         mediaPlayer.setDataSource(dto as String)

@@ -5,19 +5,17 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import ru.kryu.playlistmaker.creator.Creator
 import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class AudioPlayerViewModel(trackUrl: String) : ViewModel() {
+class AudioPlayerViewModel(
+    trackUrl: String,
+    private val mediaPlayerInteractor: PlayerInteractor
+) : ViewModel() {
 
     private var mutablePlayerStateLiveData = MutableLiveData<PlayerState>()
     val playerStateLiveData: LiveData<PlayerState> = mutablePlayerStateLiveData
-    private val mediaPlayerInteractor = Creator.providePlayerInteractor()
 
     private var mutablePlayerPositionLiveData = MutableLiveData<String>()
     val playerPositionLiveData: LiveData<String> = mutablePlayerPositionLiveData
@@ -97,10 +95,10 @@ class AudioPlayerViewModel(trackUrl: String) : ViewModel() {
 
     companion object {
         private const val DELAY_MILLIS = 300L
-        fun getViewModelFactory(trackUrl: String): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                AudioPlayerViewModel(trackUrl)
-            }
-        }
+//        fun getViewModelFactory(trackUrl: String): ViewModelProvider.Factory = viewModelFactory {
+//            initializer {
+//                AudioPlayerViewModel(trackUrl)
+//            }
+//        }
     }
 }

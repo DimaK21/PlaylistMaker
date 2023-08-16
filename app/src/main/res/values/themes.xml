@@ -11,6 +11,7 @@
         <item name="colorOnSecondary">@color/app_black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
         <item name="android:navigationBarColor">?attr/colorPrimaryVariant</item>
     </style>
@@ -18,6 +19,7 @@
     <style name="Theme.PlaylistMaker.MainActivity" parent="Theme.PlaylistMaker">
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/main_background</item>
+        <item name="android:windowLightStatusBar">false</item>
         <!-- Customize your theme here. -->
         <item name="android:navigationBarColor">@color/main_background</item>
         <item name="android:background">@color/main_background</item>

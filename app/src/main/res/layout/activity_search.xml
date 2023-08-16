@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
-    tools:context=".ui.search.SearchActivity">
+    tools:context=".search.ui.activity.SearchActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         <LinearLayout style="@style/HeadLinerLayout">
 
             <ImageView
-                android:id="@+id/search_arrow"
+                android:id="@+id/button_back_search"
                 style="@style/HeadImage"
                 android:contentDescription="@string/back_arrow" />
 
@@ -51,7 +51,7 @@
                 android:textSize="@dimen/settings_text_size" />
 
             <ImageView
-                android:id="@+id/edit_text_clear"
+                android:id="@+id/clear_button"
                 style="@style/EditTextClear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -86,9 +86,9 @@
                 android:id="@+id/progress_bar"
                 android:layout_width="@dimen/progress_bar"
                 android:layout_height="@dimen/progress_bar"
-                android:indeterminateTint="@color/main_background"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/search_placeholder_margin_top"
+                android:indeterminateTint="@color/main_background"
                 android:visibility="gone" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -131,6 +131,7 @@
                 <Button
                     android:id="@+id/button_refresh"
                     style="@style/button_refresh"
+                    android:foreground="?attr/selectableItemBackground"
                     android:text="@string/refresh" />
             </LinearLayout>
 
@@ -142,6 +143,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/search_margin_top"
+            android:foreground="?attr/selectableItemBackground"
             android:text="@string/clear_history"
             android:visibility="gone" />
 

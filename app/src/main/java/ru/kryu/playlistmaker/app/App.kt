@@ -5,11 +5,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import ru.kryu.playlistmaker.creator.Creator
-import ru.kryu.playlistmaker.player.di.audioPlayerViewModelModule
-import ru.kryu.playlistmaker.player.di.playerDataModule
-import ru.kryu.playlistmaker.player.di.playerInteractorModule
+import ru.kryu.playlistmaker.media.di.mediaModule
 import ru.kryu.playlistmaker.player.di.playerModule
-import ru.kryu.playlistmaker.player.di.playerRepositoryModule
 
 class App : Application() {
 
@@ -19,8 +16,8 @@ class App : Application() {
             androidContext(this@App)
             modules(
                 playerModule,
-
-            )
+                mediaModule,
+                )
         }
 
         val darkThemeInteractor = Creator.provideDarkThemeInteractor(this)

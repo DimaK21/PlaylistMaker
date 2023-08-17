@@ -6,6 +6,6 @@ import ru.kryu.playlistmaker.player.ui.view_model.AudioPlayerViewModel
 
 val audioPlayerViewModelModule = module {
     viewModel { (trackUrl: String) ->
-        AudioPlayerViewModel(trackUrl, get())
+        AudioPlayerViewModel(trackUrl = trackUrl, mediaPlayerInteractor = get())
     }
 }

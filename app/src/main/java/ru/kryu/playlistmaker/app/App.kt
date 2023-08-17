@@ -7,6 +7,7 @@ import org.koin.core.context.startKoin
 import ru.kryu.playlistmaker.creator.Creator
 import ru.kryu.playlistmaker.media.di.mediaModule
 import ru.kryu.playlistmaker.player.di.playerModule
+import ru.kryu.playlistmaker.sharing.di.sharingModule
 
 class App : Application() {
 
@@ -17,7 +18,8 @@ class App : Application() {
             modules(
                 playerModule,
                 mediaModule,
-                )
+                sharingModule,
+            )
         }
 
         val darkThemeInteractor = Creator.provideDarkThemeInteractor(this)

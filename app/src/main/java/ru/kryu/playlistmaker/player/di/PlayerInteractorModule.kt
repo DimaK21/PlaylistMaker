@@ -6,7 +6,7 @@ import ru.kryu.playlistmaker.player.domain.impl.PlayerInteractorImpl
 
 val playerInteractorModule = module {
 
-    single<PlayerInteractor> {
+    factory<PlayerInteractor> {
         PlayerInteractorImpl(repository = get())
     }
 }

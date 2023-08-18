@@ -2,13 +2,14 @@ package ru.kryu.playlistmaker.app
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
+import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
-import ru.kryu.playlistmaker.creator.Creator
 import ru.kryu.playlistmaker.media.di.mediaModule
 import ru.kryu.playlistmaker.player.di.playerModule
 import ru.kryu.playlistmaker.search.di.searchModule
 import ru.kryu.playlistmaker.settings.di.settingsModule
+import ru.kryu.playlistmaker.settings.domain.api.DarkThemeInteractor
 import ru.kryu.playlistmaker.sharing.di.sharingModule
 
 class App : Application() {
@@ -26,7 +27,7 @@ class App : Application() {
             )
         }
 
-        val darkThemeInteractor = Creator.provideDarkThemeInteractor(this)
+        val darkThemeInteractor: DarkThemeInteractor by inject()
         switchTheme(darkThemeInteractor.getDarkTheme())
     }
 

@@ -6,7 +6,7 @@ import ru.kryu.playlistmaker.player.domain.api.PlayerRepository
 
 val playerRepositoryModule = module {
 
-    single<PlayerRepository> {
+    factory<PlayerRepository> {
         PlayerRepositoryImpl(player = get())
     }
 }

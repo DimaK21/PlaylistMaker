@@ -6,11 +6,11 @@ import ru.kryu.playlistmaker.player.data.Player
 import ru.kryu.playlistmaker.player.data.player.AndroidMediaPlayer
 
 val playerDataModule = module {
-    single<Player> {
+    factory<Player> {
         AndroidMediaPlayer(mediaPlayer = get())
     }
 
-    single {
+    factory {
         MediaPlayer()
     }
 }

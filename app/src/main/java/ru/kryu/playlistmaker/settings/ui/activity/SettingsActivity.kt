@@ -2,7 +2,8 @@ package ru.kryu.playlistmaker.settings.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.app.App
 import ru.kryu.playlistmaker.databinding.ActivitySettingsBinding
 import ru.kryu.playlistmaker.settings.ui.view_model.DarkThemeState
@@ -11,16 +12,13 @@ import ru.kryu.playlistmaker.settings.ui.view_model.SettingsViewModel
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
-    private lateinit var viewModel: SettingsViewModel
+    private val viewModel: SettingsViewModel by viewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(
-            this,
-            SettingsViewModel.getViewModelFactory()
-        )[SettingsViewModel::class.java]
         viewModel.darkThemeStateLiveData.observe(this) { render(it) }
 
         binding.buttonBackSettings.setOnClickListener {
@@ -34,15 +32,19 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         binding.shareFrame.setOnClickListener {
-            viewModel.onShareClick()
+            viewModel.onShareClick(getString(R.string.url_practicum))
         }
 
         binding.supportFrame.setOnClickListener {
-            viewModel.onSupportClick()
+            viewModel.onSupportClick(
+                arrayOf(getString(R.string.email_of_developer)),
+                getString(R.string.title_mail_to_developer),
+                getString(R.string.thanks_to_developer)
+            )
         }
 
         binding.agreementFrame.setOnClickListener {
-            viewModel.onAgreementClick()
+            viewModel.onAgreementClick(getString(R.string.url_user_agreement))
         }
     }
 

@@ -1,26 +1,22 @@
 package ru.kryu.playlistmaker.settings.ui.view_model
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import ru.kryu.playlistmaker.R
-import ru.kryu.playlistmaker.creator.Creator
+import androidx.lifecycle.ViewModel
+import ru.kryu.playlistmaker.settings.domain.api.DarkThemeInteractor
+import ru.kryu.playlistmaker.sharing.domain.impl.ActionSendToUseCaseImpl
+import ru.kryu.playlistmaker.sharing.domain.impl.ActionSendUseCaseImpl
+import ru.kryu.playlistmaker.sharing.domain.impl.ActionViewUseCaseImpl
 
-class SettingsViewModel(application: Application) : AndroidViewModel(application) {
+class SettingsViewModel(
+    private val actionSend: ActionSendUseCaseImpl,
+    private val actionSendTo: ActionSendToUseCaseImpl,
+    private val actionView: ActionViewUseCaseImpl,
+    private val darkThemeInteractor: DarkThemeInteractor,
+) : ViewModel() {
 
     private var mutableDarkThemeStateLiveData = MutableLiveData<DarkThemeState>()
     val darkThemeStateLiveData: LiveData<DarkThemeState> = mutableDarkThemeStateLiveData
-
-    private val actionSend =
-        Creator.provideActionSendUseCase(getApplication<Application>())
-    private val actionSendTo = Creator.provideActionSendToUseCase(getApplication<Application>())
-    private val actionView = Creator.provideActionViewUseCase(getApplication<Application>())
-    private val darkThemeInteractor =
-        Creator.provideDarkThemeInteractor(getApplication<Application>())
 
     init {
         changeState(getDarkTheme())
@@ -47,28 +43,19 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         changeState(isDarkTheme = isChecked)
     }
 
-    fun onShareClick() {
-        actionSend.execute(text = getApplication<Application>().getString(R.string.url_practicum))
+    fun onShareClick(text: String) {
+        actionSend.execute(text = text)
     }
 
-    fun onSupportClick() {
+    fun onSupportClick(email: Array<String>, subject: String, text: String) {
         actionSendTo.execute(
-            email = arrayOf(getApplication<Application>().getString(R.string.email_of_developer)),
-            subject = getApplication<Application>().getString(R.string.title_mail_to_developer),
-            text = getApplication<Application>().getString(R.string.thanks_to_developer)
+            email = email,
+            subject = subject,
+            text = text,
         )
     }
 
-    fun onAgreementClick() {
-        actionView.execute(url = getApplication<Application>().getString(R.string.url_user_agreement))
-    }
-
-
-    companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                SettingsViewModel(this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application)
-            }
-        }
+    fun onAgreementClick(url: String) {
+        actionView.execute(url = url)
     }
 }

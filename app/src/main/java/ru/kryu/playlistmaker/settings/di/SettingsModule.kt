@@ -5,7 +5,6 @@ import ru.kryu.playlistmaker.sharing.di.sharingModule
 
 val settingsModule = module {
     includes(
-        sharingModule,
         settingsDataModule,
         settingsRepositoryModule,
         settingsInteractorModule,

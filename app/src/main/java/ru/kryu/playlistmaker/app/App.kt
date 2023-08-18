@@ -7,7 +7,9 @@ import org.koin.core.context.startKoin
 import ru.kryu.playlistmaker.creator.Creator
 import ru.kryu.playlistmaker.media.di.mediaModule
 import ru.kryu.playlistmaker.player.di.playerModule
+import ru.kryu.playlistmaker.search.di.searchModule
 import ru.kryu.playlistmaker.settings.di.settingsModule
+import ru.kryu.playlistmaker.sharing.di.sharingModule
 
 class App : Application() {
 
@@ -19,6 +21,8 @@ class App : Application() {
                 playerModule,
                 mediaModule,
                 settingsModule,
+                sharingModule,
+                searchModule,
             )
         }
 

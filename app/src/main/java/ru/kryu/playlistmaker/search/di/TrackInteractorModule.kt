@@ -5,16 +5,17 @@ import ru.kryu.playlistmaker.search.domain.api.TrackHistoryInteractor
 import ru.kryu.playlistmaker.search.domain.api.TrackSearchInteractor
 import ru.kryu.playlistmaker.search.domain.impl.TrackHistoryInteractorImpl
 import ru.kryu.playlistmaker.search.domain.impl.TrackSearchInteractorImpl
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 val trackInteractorModule = module {
-    single<TrackHistoryInteractor> {
+    factory<TrackHistoryInteractor> {
         TrackHistoryInteractorImpl(repository = get())
     }
-    single<TrackSearchInteractor> {
+    factory<TrackSearchInteractor> {
         TrackSearchInteractorImpl(repository = get(), executor = get())
     }
-    single {
+    factory<ExecutorService> {
         Executors.newCachedThreadPool()
     }
 }

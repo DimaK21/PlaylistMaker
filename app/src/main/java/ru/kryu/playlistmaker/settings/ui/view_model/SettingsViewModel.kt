@@ -4,14 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.kryu.playlistmaker.settings.domain.api.DarkThemeInteractor
-import ru.kryu.playlistmaker.sharing.domain.impl.ActionSendToUseCaseImpl
-import ru.kryu.playlistmaker.sharing.domain.impl.ActionSendUseCaseImpl
-import ru.kryu.playlistmaker.sharing.domain.impl.ActionViewUseCaseImpl
+import ru.kryu.playlistmaker.sharing.domain.impl.ActionSendToUseCase
+import ru.kryu.playlistmaker.sharing.domain.impl.ActionSendUseCase
+import ru.kryu.playlistmaker.sharing.domain.impl.ActionViewUseCase
 
 class SettingsViewModel(
-    private val actionSend: ActionSendUseCaseImpl,
-    private val actionSendTo: ActionSendToUseCaseImpl,
-    private val actionView: ActionViewUseCaseImpl,
+    private val actionSend: ActionSendUseCase,
+    private val actionSendTo: ActionSendToUseCase,
+    private val actionView: ActionViewUseCase,
     private val darkThemeInteractor: DarkThemeInteractor,
 ) : ViewModel() {
 

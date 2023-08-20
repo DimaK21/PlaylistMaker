@@ -5,7 +5,7 @@ import ru.kryu.playlistmaker.settings.domain.api.DarkThemeInteractor
 import ru.kryu.playlistmaker.settings.domain.impl.DarkThemeInteractorImpl
 
 val settingsInteractorModule = module {
-    single<DarkThemeInteractor> {
+    factory<DarkThemeInteractor> {
         DarkThemeInteractorImpl(darkThemeRepository = get())
     }
 }

@@ -1,6 +1,7 @@
 package ru.kryu.playlistmaker.settings.di
 
 import android.app.Application
+import android.content.SharedPreferences
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import ru.kryu.playlistmaker.settings.data.DarkThemeStorage
@@ -12,7 +13,7 @@ val settingsDataModule = module {
     single<DarkThemeStorage> {
         SharedPrefsDarkTheme(sharedPrefs = get())
     }
-    single {
+    single<SharedPreferences> {
         androidContext().getSharedPreferences(
             USER_PREFERENCES,
             Application.MODE_PRIVATE

@@ -1,7 +1,9 @@
 package ru.kryu.playlistmaker.search.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import org.koin.android.ext.koin.androidContext
@@ -28,7 +30,7 @@ val searchDataModule = module {
             .build()
             .create(ITunesApiService::class.java)
     }
-    single {
+    single<NetworkCapabilities?> {
         val connectivityManager = androidContext().getSystemService(
             Context.CONNECTIVITY_SERVICE
         ) as ConnectivityManager
@@ -38,13 +40,13 @@ val searchDataModule = module {
     single<HistoryStorage> {
         SharedPrefsHistory(sharedPreferences = get(), gson = get())
     }
-    single {
+    single<SharedPreferences> {
         androidContext().getSharedPreferences(
             TRACK_HISTORY_PREFERENCES,
             AppCompatActivity.MODE_PRIVATE
         )
     }
-    factory {
+    factory<Gson> {
         Gson()
     }
 }

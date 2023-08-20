@@ -95,10 +95,5 @@ class AudioPlayerViewModel(
 
     companion object {
         private const val DELAY_MILLIS = 300L
-//        fun getViewModelFactory(trackUrl: String): ViewModelProvider.Factory = viewModelFactory {
-//            initializer {
-//                AudioPlayerViewModel(trackUrl)
-//            }
-//        }
     }
 }

@@ -12,20 +12,20 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import ru.kryu.playlistmaker.R
-import ru.kryu.playlistmaker.creator.Creator
+import ru.kryu.playlistmaker.search.domain.api.TrackHistoryInteractor
 import ru.kryu.playlistmaker.search.domain.api.TrackSearchInteractor
 import ru.kryu.playlistmaker.search.domain.model.Track
 import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiToDomain
 import ru.kryu.playlistmaker.search.ui.mapper.TrackToTrackForUi
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
-class SearchViewModel(application: Application) : AndroidViewModel(application) {
+class SearchViewModel(
+    application: Application,
+    private val trackSearchInteractor: TrackSearchInteractor,
+    private val trackHistoryInteractor: TrackHistoryInteractor
+) : AndroidViewModel(application) {
 
     private var latestSearchText: String? = null
-    private val trackSearchInteractor =
-        Creator.provideTrackSearchInteractor(getApplication<Application>())
-    private val trackHistoryInteractor =
-        Creator.provideTrackHistoryInteractor(getApplication<Application>())
     private val handler = Handler(Looper.getMainLooper())
 
     private val stateLiveData = MutableLiveData<TrackSearchState>()
@@ -162,11 +162,5 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
         private val SEARCH_REQUEST_TOKEN = Any()
         private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
-
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                SearchViewModel(this[APPLICATION_KEY] as Application)
-            }
-        }
     }
 }

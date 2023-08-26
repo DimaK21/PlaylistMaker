@@ -4,9 +4,10 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.ActivityAudioPlayerBinding
 import ru.kryu.playlistmaker.player.ui.view_model.AudioPlayerViewModel
@@ -19,7 +20,9 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private lateinit var track: TrackForUi
     private lateinit var binding: ActivityAudioPlayerBinding
-    private lateinit var viewModel: AudioPlayerViewModel
+    private val viewModel: AudioPlayerViewModel by viewModel {
+        parametersOf(track.previewUrl)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,10 +30,6 @@ class AudioPlayerActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         track = getTrack()
-        viewModel = ViewModelProvider(
-            this,
-            AudioPlayerViewModel.getViewModelFactory(track.previewUrl)
-        )[AudioPlayerViewModel::class.java]
         viewModel.playerStateLiveData.observe(this) { render(it) }
         viewModel.playerPositionLiveData.observe(this) { setTimer(it) }
         binding.buttonBackPlayer.setOnClickListener {

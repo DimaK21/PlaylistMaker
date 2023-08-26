@@ -3,12 +3,12 @@ package ru.kryu.playlistmaker.search.domain.impl
 import ru.kryu.playlistmaker.search.domain.api.TrackSearchInteractor
 import ru.kryu.playlistmaker.search.domain.api.TrackSearchRepository
 import ru.kryu.playlistmaker.search.domain.model.Resource
-import java.util.concurrent.Executors
+import java.util.concurrent.ExecutorService
 
-class TrackSearchInteractorImpl(private val repository: TrackSearchRepository) :
-    TrackSearchInteractor {
-
-    private val executor = Executors.newCachedThreadPool()
+class TrackSearchInteractorImpl(
+    private val repository: TrackSearchRepository,
+    private val executor: ExecutorService,
+) : TrackSearchInteractor {
 
     override fun searchTracks(
         expression: String,

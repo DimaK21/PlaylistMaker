@@ -4,14 +4,14 @@ import ru.kryu.playlistmaker.search.data.storage.mapper.MapperTrackForStorage
 import ru.kryu.playlistmaker.search.domain.api.TrackHistoryRepository
 import ru.kryu.playlistmaker.search.domain.model.Track
 
-class TrackHistoryRepositoryImpl(private val historyStorage: HistoryStorage) :
-    TrackHistoryRepository {
+class TrackHistoryRepositoryImpl(
+    private val historyStorage: HistoryStorage,
+    private val trackHistory: MutableList<Track>
+) : TrackHistoryRepository {
 
-    private val trackHistory = getTrackHistoryFromStorage().toMutableList()
-
-    private fun getTrackHistoryFromStorage(): List<Track> {
-        return historyStorage.getTrackHistory()
-            .map { MapperTrackForStorage().mapTrackForStorageToDomain(it) }
+    init {
+        trackHistory.addAll(historyStorage.getTrackHistory()
+            .map { MapperTrackForStorage().mapTrackForStorageToDomain(it) })
     }
 
     override fun getTrackHistory(): List<Track> {

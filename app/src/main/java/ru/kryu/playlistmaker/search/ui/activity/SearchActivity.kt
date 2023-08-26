@@ -8,9 +8,9 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.kryu.playlistmaker.databinding.ActivitySearchBinding
 import ru.kryu.playlistmaker.player.ui.activity.AudioPlayerActivity
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
@@ -23,7 +23,7 @@ class SearchActivity : AppCompatActivity() {
     private var lastRequest: String = ""
     private lateinit var binding: ActivitySearchBinding
     private var isClickAllowed = true
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel: SearchViewModel by viewModel()
     private lateinit var editTextTextWatcher: TextWatcher
 
     private val trackAdapter = TrackAdapter {
@@ -39,11 +39,6 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        viewModel = ViewModelProvider(
-            this,
-            SearchViewModel.getViewModelFactory()
-        )[SearchViewModel::class.java]
 
         binding.recyclerViewSearch.adapter = trackAdapter
         binding.recyclerViewSearch.layoutManager =

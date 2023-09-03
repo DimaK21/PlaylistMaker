@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.kryu.playlistmaker.playlist.domain.model.Playlist
 
-class PlaylistsViewModel: ViewModel() {
+class PlaylistsViewModel : ViewModel() {
 
     private val listPlaylistsMutableLiveData = MutableLiveData<List<Playlist>>()
     val listPlaylistsLiveData = listPlaylistsMutableLiveData

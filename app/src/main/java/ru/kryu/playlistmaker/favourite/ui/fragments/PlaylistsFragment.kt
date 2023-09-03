@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.favourite.ui.activity
+package ru.kryu.playlistmaker.favourite.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

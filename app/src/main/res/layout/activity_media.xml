@@ -22,11 +22,12 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
-        style="@style/tab_layout_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_back_arrow"
+        app:tabBackground="?attr/colorPrimary"
         app:tabIndicatorColor="?attr/colorOnPrimary"
+        app:tabTextAppearance="@style/tab_layout_text"
         app:tabTextColor="?attr/colorOnPrimary" />
 
     <androidx.viewpager2.widget.ViewPager2

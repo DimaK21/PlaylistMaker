@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.favourite.ui.activity
+package ru.kryu.playlistmaker.favourite.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import ru.kryu.playlistmaker.databinding.FragmentFavouritesBinding
 import ru.kryu.playlistmaker.favourite.ui.view_model.FavouritesViewModel
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
-class FavouritesFragment: Fragment() {
+class FavouritesFragment : Fragment() {
 
     private val favouritesViewModel: FavouritesViewModel by viewModel()
 
@@ -22,14 +22,14 @@ class FavouritesFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFavouritesBinding.inflate(inflater,container,false)
+        _binding = FragmentFavouritesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        favouritesViewModel.listFavouritesLiveData.observe(viewLifecycleOwner){
+        favouritesViewModel.listFavouritesLiveData.observe(viewLifecycleOwner) {
             render(it)
         }
     }
@@ -40,7 +40,7 @@ class FavouritesFragment: Fragment() {
         }
     }
 
-    companion object{
+    companion object {
         fun newInstance() = FavouritesFragment()
     }
 }

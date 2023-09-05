@@ -7,10 +7,6 @@ import android.os.SystemClock
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.search.domain.api.TrackHistoryInteractor
 import ru.kryu.playlistmaker.search.domain.api.TrackSearchInteractor
@@ -151,7 +147,10 @@ class SearchViewModel(
         if (isClickAllowed) {
             isClickAllowed = false
             handler.postDelayed(
-                { isClickAllowed = true },
+                {
+                    isClickAllowed = true
+                    mutableIsClickAllowedLiveData.value = true
+                },
                 CLICK_DEBOUNCE_DELAY_MILLIS
             )
         }

@@ -1,6 +1,5 @@
 package ru.kryu.playlistmaker.search.data.network
 
-import android.net.NetworkCapabilities
 import ru.kryu.playlistmaker.search.data.NetworkClient
 import ru.kryu.playlistmaker.search.data.dto.ITunesRequest
 import ru.kryu.playlistmaker.search.data.dto.ITunesResponse
@@ -8,7 +7,7 @@ import ru.kryu.playlistmaker.search.data.dto.Response
 
 class RetrofitNetworkClient(
     private val iTunesApiService: ITunesApiService,
-    private val networkCapabilities: NetworkCapabilities?,
+    private val connectionStateProvider: ConnectionStateProvider,
 ) : NetworkClient {
 
     override fun doRequest(dto: Any): Response {
@@ -33,13 +32,6 @@ class RetrofitNetworkClient(
     }
 
     private fun isConnected(): Boolean {
-        if (networkCapabilities != null) {
-            when {
-                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> return true
-                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> return true
-                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> return true
-            }
-        }
-        return false
+        return connectionStateProvider.isConnected()
     }
 }

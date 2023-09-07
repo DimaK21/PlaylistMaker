@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ru.kryu.playlistmaker.databinding.ActivityMainBinding
-import ru.kryu.playlistmaker.media.ui.activity.MediaActivity
+import ru.kryu.playlistmaker.favourite.ui.activity.MediaActivity
 import ru.kryu.playlistmaker.search.ui.activity.SearchActivity
 import ru.kryu.playlistmaker.settings.ui.activity.SettingsActivity
 

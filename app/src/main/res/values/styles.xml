@@ -148,4 +148,12 @@
         <item name="android:layout_marginStart">8dp</item>
     </style>
 
+    <style name="tab_layout_text" parent="@style/Widget.Material3.TabLayout">
+        <item name="fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">@dimen/search_placeholder_button_text</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
 </resources>

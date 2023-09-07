@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
-import ru.kryu.playlistmaker.media.di.mediaModule
+import ru.kryu.playlistmaker.favourite.di.favouriteModule
 import ru.kryu.playlistmaker.player.di.playerModule
 import ru.kryu.playlistmaker.search.di.searchModule
 import ru.kryu.playlistmaker.settings.di.settingsModule
@@ -20,7 +20,7 @@ class App : Application() {
             androidContext(this@App)
             modules(
                 playerModule,
-                mediaModule,
+                favouriteModule,
                 settingsModule,
                 sharingModule,
                 searchModule,

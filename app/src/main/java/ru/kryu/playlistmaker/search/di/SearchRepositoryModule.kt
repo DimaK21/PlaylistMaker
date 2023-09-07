@@ -8,7 +8,7 @@ import ru.kryu.playlistmaker.search.domain.api.TrackSearchRepository
 import ru.kryu.playlistmaker.search.domain.model.Track
 
 val searchRepositoryModule = module {
-    single<TrackSearchRepository> {
+    factory<TrackSearchRepository> {
         TrackSearchRepositoryImpl(networkClient = get())
     }
     single<TrackHistoryRepository> {

@@ -7,6 +7,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import ru.kryu.playlistmaker.favourite.di.favouriteModule
 import ru.kryu.playlistmaker.player.di.playerModule
+import ru.kryu.playlistmaker.playlist.di.playlistModule
 import ru.kryu.playlistmaker.search.di.searchModule
 import ru.kryu.playlistmaker.settings.di.settingsModule
 import ru.kryu.playlistmaker.settings.domain.api.DarkThemeInteractor
@@ -24,6 +25,7 @@ class App : Application() {
                 settingsModule,
                 sharingModule,
                 searchModule,
+                playlistModule,
             )
         }
 

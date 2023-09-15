@@ -14,13 +14,4 @@
         <!-- Customize your theme here. -->
         <item name="android:navigationBarColor">?attr/colorPrimaryVariant</item>
     </style>
-
-    <style name="Theme.PlaylistMaker.MainActivity" parent="Theme.PlaylistMaker">
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/app_black</item>
-        <!-- Customize your theme here. -->
-        <item name="android:navigationBarColor">@color/app_black</item>
-        <item name="android:background">@color/app_black</item>
-        <item name="colorOnPrimary">@color/black</item>
-    </style>
 </resources>

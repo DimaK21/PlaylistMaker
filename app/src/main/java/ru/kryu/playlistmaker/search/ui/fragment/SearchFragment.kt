@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.search.ui.activity
+package ru.kryu.playlistmaker.search.ui.fragment
 
 import android.content.Context
 import android.content.Intent
@@ -20,7 +20,7 @@ import ru.kryu.playlistmaker.search.ui.recycler.TrackAdapter
 import ru.kryu.playlistmaker.search.ui.view_model.SearchViewModel
 import ru.kryu.playlistmaker.search.ui.view_model.TrackSearchState
 
-class SearchFragment: Fragment() {
+class SearchFragment : Fragment() {
 
     private var lastRequest: String = ""
     private lateinit var binding: FragmentSearchBinding
@@ -36,12 +36,17 @@ class SearchFragment: Fragment() {
             viewModel.onTrackClick(it)
         }
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.recyclerViewSearch.adapter = trackAdapter
         binding.recyclerViewSearch.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
@@ -179,8 +184,5 @@ class SearchFragment: Fragment() {
 
     companion object {
         const val TRACK = "TRACK"
-        fun newInstance(): Fragment {
-            return SearchFragment()
-        }
     }
 }

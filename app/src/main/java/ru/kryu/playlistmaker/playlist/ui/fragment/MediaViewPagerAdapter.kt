@@ -1,9 +1,10 @@
-package ru.kryu.playlistmaker.favourite.ui.fragments
+package ru.kryu.playlistmaker.playlist.ui.fragment
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import ru.kryu.playlistmaker.favourite.ui.fragment.FavouritesFragment
 
 class MediaViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragmentManager, lifecycle) {

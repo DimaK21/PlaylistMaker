@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.favourite.ui.activity
+package ru.kryu.playlistmaker.playlist.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentMediaBinding
-import ru.kryu.playlistmaker.favourite.ui.fragments.MediaViewPagerAdapter
 
 class MediaFragment: Fragment() {
 

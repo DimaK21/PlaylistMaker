@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
     android:orientation="vertical"
-    tools:context=".settings.ui.activity.SettingsFragment">
+    tools:context=".settings.ui.fragment.SettingsFragment">
 
     <LinearLayout style="@style/HeadLinerLayout">
 

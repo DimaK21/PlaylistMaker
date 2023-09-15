@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
-    tools:context=".search.ui.activity.SearchFragment">
+    tools:context=".search.ui.fragment.SearchFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

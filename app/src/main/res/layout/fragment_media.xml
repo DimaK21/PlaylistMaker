@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
     android:orientation="vertical"
-    tools:context=".favourite.ui.activity.MediaActivity">
+    tools:context=".favourite.ui.activity.MediaFragment">
 
     <LinearLayout style="@style/HeadLinerLayout">
 

@@ -1,23 +1,29 @@
 package ru.kryu.playlistmaker.favourite.ui.activity
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentMediaBinding
 import ru.kryu.playlistmaker.favourite.ui.fragments.MediaViewPagerAdapter
 
-class MediaActivity : AppCompatActivity() {
+class MediaFragment: Fragment() {
 
     private lateinit var binding: FragmentMediaBinding
     private lateinit var tabMediator: TabLayoutMediator
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = FragmentMediaBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentMediaBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        binding.viewPager.adapter = MediaViewPagerAdapter(supportFragmentManager, lifecycle)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.viewPager.adapter = MediaViewPagerAdapter(childFragmentManager, lifecycle)
         tabMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when (position) {
                 0 -> tab.text = getString(R.string.favourites)
@@ -27,12 +33,12 @@ class MediaActivity : AppCompatActivity() {
         tabMediator.attach()
 
         binding.btnBackMedia.setOnClickListener {
-            finish()
+            activity?.onBackPressedDispatcher?.onBackPressed()
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         tabMediator.detach()
     }
 }

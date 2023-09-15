@@ -5,9 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -18,7 +20,7 @@ import ru.kryu.playlistmaker.search.ui.recycler.TrackAdapter
 import ru.kryu.playlistmaker.search.ui.view_model.SearchViewModel
 import ru.kryu.playlistmaker.search.ui.view_model.TrackSearchState
 
-class SearchActivity : AppCompatActivity() {
+class SearchFragment: Fragment() {
 
     private var lastRequest: String = ""
     private lateinit var binding: FragmentSearchBinding
@@ -28,24 +30,24 @@ class SearchActivity : AppCompatActivity() {
 
     private val trackAdapter = TrackAdapter {
         if (isClickAllowed) {
-            val audioPlayerActivityIntent = Intent(this, AudioPlayerActivity::class.java)
+            val audioPlayerActivityIntent = Intent(activity, AudioPlayerActivity::class.java)
             audioPlayerActivityIntent.putExtra(TRACK, it)
             startActivity(audioPlayerActivityIntent)
             viewModel.onTrackClick(it)
         }
     }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = FragmentSearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         binding.recyclerViewSearch.adapter = trackAdapter
         binding.recyclerViewSearch.layoutManager =
-            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
         binding.buttonBackSearch.setOnClickListener {
-            finish()
+            activity?.onBackPressedDispatcher?.onBackPressed()
         }
 
         binding.clearButton.setOnClickListener {
@@ -72,10 +74,10 @@ class SearchActivity : AppCompatActivity() {
 
         binding.editTextSearch.addTextChangedListener(editTextTextWatcher)
 
-        viewModel.observeStateLiveData().observe(this) {
+        viewModel.observeStateLiveData().observe(viewLifecycleOwner) {
             render(it)
         }
-        viewModel.isClickAllowedLiveData.observe(this) {
+        viewModel.isClickAllowedLiveData.observe(viewLifecycleOwner) {
             isClickAllowed = it
         }
 
@@ -90,8 +92,8 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         binding.editTextSearch.removeTextChangedListener(editTextTextWatcher)
     }
 
@@ -162,8 +164,8 @@ class SearchActivity : AppCompatActivity() {
         binding.editTextSearch.setText("")
         binding.editTextSearch.clearFocus()
         val inputMethodManager =
-            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(window.decorView.windowToken, 0)
+            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
         viewModel.onClearButtonClick()
     }
 
@@ -177,5 +179,8 @@ class SearchActivity : AppCompatActivity() {
 
     companion object {
         const val TRACK = "TRACK"
+        fun newInstance(): Fragment {
+            return SearchFragment()
+        }
     }
 }

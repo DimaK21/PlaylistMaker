@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.main.ui.activity
+package ru.kryu.playlistmaker.root.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +20,5 @@ class RootActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         binding.bottomNavigationView.setupWithNavController(navController)
-
     }
 }

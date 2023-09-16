@@ -19,7 +19,7 @@
             android:name=".player.ui.activity.AudioPlayerActivity"
             android:exported="true" />
         <activity
-            android:name=".main.ui.activity.RootActivity"
+            android:name=".root.ui.activity.RootActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>

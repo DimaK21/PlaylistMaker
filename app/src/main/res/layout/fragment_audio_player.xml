@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
-    tools:context=".player.ui.activity.AudioPlayerActivity">
+    tools:context=".player.ui.fragment.AudioPlayerFragment">
 
     <ImageButton
         android:id="@+id/button_back_player"

@@ -16,8 +16,8 @@
         android:label="fragment_search"
         tools:layout="@layout/fragment_search">
         <action
-            android:id="@+id/action_searchFragment_to_audioPlayerActivity"
-            app:destination="@id/audioPlayerActivity" />
+            android:id="@+id/action_searchFragment_to_audioPlayerFragment"
+            app:destination="@id/audioPlayerFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -32,9 +32,9 @@
         android:id="@+id/playlistsFragment"
         android:name="ru.kryu.playlistmaker.playlist.ui.fragment.PlaylistsFragment"
         android:label="PlaylistsFragment" />
-    <activity
-        android:id="@+id/audioPlayerActivity"
-        android:name="ru.kryu.playlistmaker.player.ui.activity.AudioPlayerActivity"
-        android:label="activity_audio_player"
-        tools:layout="@layout/activity_audio_player" />
+    <fragment
+        android:id="@+id/audioPlayerFragment"
+        android:name="ru.kryu.playlistmaker.player.ui.fragment.AudioPlayerFragment"
+        android:label="fragment_audio_player"
+        tools:layout="@layout/fragment_audio_player" />
 </navigation>

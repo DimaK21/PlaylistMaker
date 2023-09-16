@@ -1,7 +1,6 @@
 package ru.kryu.playlistmaker.search.ui.fragment
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,11 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentSearchBinding
-import ru.kryu.playlistmaker.player.ui.activity.AudioPlayerActivity
+import ru.kryu.playlistmaker.player.ui.fragment.AudioPlayerFragment
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 import ru.kryu.playlistmaker.search.ui.recycler.TrackAdapter
 import ru.kryu.playlistmaker.search.ui.view_model.SearchViewModel
@@ -23,30 +24,33 @@ import ru.kryu.playlistmaker.search.ui.view_model.TrackSearchState
 class SearchFragment : Fragment() {
 
     private var lastRequest: String = ""
-    private lateinit var binding: FragmentSearchBinding
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
     private var isClickAllowed = true
     private val viewModel: SearchViewModel by viewModel()
     private lateinit var editTextTextWatcher: TextWatcher
 
-    private val trackAdapter = TrackAdapter {
-        if (isClickAllowed) {
-            val audioPlayerActivityIntent = Intent(activity, AudioPlayerActivity::class.java)
-            audioPlayerActivityIntent.putExtra(TRACK, it)
-            startActivity(audioPlayerActivityIntent)
-            viewModel.onTrackClick(it)
-        }
-    }
+    private var trackAdapter: TrackAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        trackAdapter = TrackAdapter {
+            if (isClickAllowed) {
+                findNavController().navigate(
+                    R.id.action_searchFragment_to_audioPlayerFragment,
+                    AudioPlayerFragment.createArgs(it)
+                )
+                viewModel.onTrackClick(it)
+            }
+        }
         binding.recyclerViewSearch.adapter = trackAdapter
         binding.recyclerViewSearch.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
@@ -97,6 +101,8 @@ class SearchFragment : Fragment() {
         super.onDestroyView()
         binding.editTextSearch.removeTextChangedListener(editTextTextWatcher)
         viewModel.onDestroyView()
+        trackAdapter = null
+        _binding = null
     }
 
     private fun render(state: TrackSearchState) {
@@ -117,9 +123,9 @@ class SearchFragment : Fragment() {
         binding.clearHistoryButton.visibility = View.VISIBLE
         binding.recyclerViewSearch.visibility = View.VISIBLE
 
-        trackAdapter.trackList.clear()
-        trackAdapter.trackList.addAll(tracksHistory)
-        trackAdapter.notifyDataSetChanged()
+        trackAdapter?.trackList?.clear()
+        trackAdapter?.trackList?.addAll(tracksHistory)
+        trackAdapter?.notifyDataSetChanged()
     }
 
     private fun showContent(tracks: List<TrackForUi>) {
@@ -130,9 +136,9 @@ class SearchFragment : Fragment() {
         binding.clearHistoryButton.visibility = View.GONE
         binding.recyclerViewSearch.visibility = View.VISIBLE
 
-        trackAdapter.trackList.clear()
-        trackAdapter.trackList.addAll(tracks)
-        trackAdapter.notifyDataSetChanged()
+        trackAdapter?.trackList?.clear()
+        trackAdapter?.trackList?.addAll(tracks)
+        trackAdapter?.notifyDataSetChanged()
     }
 
     private fun showEmpty(message: String) {

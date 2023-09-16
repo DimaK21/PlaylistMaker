@@ -32,6 +32,9 @@ class AudioPlayerActivity : AppCompatActivity() {
         track = getTrack()
         viewModel.playerStateLiveData.observe(this) { render(it) }
         viewModel.playerPositionLiveData.observe(this) { setTimer(it) }
+        binding.buttonBackPlayer.setOnClickListener {
+            finish()
+        }
         initTrackInfo()
         binding.playButton.setOnClickListener {
             viewModel.onPlayerButtonClick()

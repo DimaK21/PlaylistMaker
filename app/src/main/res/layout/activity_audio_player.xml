@@ -7,6 +7,24 @@
     android:background="?attr/colorPrimary"
     tools:context=".player.ui.activity.AudioPlayerActivity">
 
+    <ImageButton
+        android:id="@+id/button_back_player"
+        android:layout_width="@dimen/size_back_arrow"
+        android:layout_height="@dimen/size_back_arrow"
+        android:layout_marginStart="@dimen/margin_back_arrow"
+        android:layout_marginTop="@dimen/margin_back_arrow"
+        android:background="@null"
+        android:clickable="true"
+        android:contentDescription="@string/back_arrow"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="@dimen/padding_back_arrow"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/left_arrow"
+        app:tint="?attr/colorOnPrimary" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/start_border_16"
         android:layout_width="wrap_content"

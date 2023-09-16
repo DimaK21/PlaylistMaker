@@ -32,10 +32,6 @@ class SettingsFragment : Fragment() {
 
         viewModel.darkThemeStateLiveData.observe(viewLifecycleOwner) { render(it) }
 
-        binding.buttonBackSettings.setOnClickListener {
-            activity?.onBackPressedDispatcher?.onBackPressed()
-        }
-
         binding.themeSwitcher.isChecked =
             (viewModel.darkThemeStateLiveData.value == DarkThemeState.STATE_DARK)
         binding.themeSwitcher.setOnCheckedChangeListener { _, checked ->

@@ -30,10 +30,6 @@ class MediaFragment: Fragment() {
             }
         }
         tabMediator.attach()
-
-        binding.btnBackMedia.setOnClickListener {
-            activity?.onBackPressedDispatcher?.onBackPressed()
-        }
     }
 
     override fun onDestroyView() {

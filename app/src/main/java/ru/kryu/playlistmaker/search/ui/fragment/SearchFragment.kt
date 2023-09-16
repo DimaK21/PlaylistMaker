@@ -51,10 +51,6 @@ class SearchFragment : Fragment() {
         binding.recyclerViewSearch.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
-        binding.buttonBackSearch.setOnClickListener {
-            activity?.onBackPressedDispatcher?.onBackPressed()
-        }
-
         binding.clearButton.setOnClickListener {
             clearButtonOnClick()
         }

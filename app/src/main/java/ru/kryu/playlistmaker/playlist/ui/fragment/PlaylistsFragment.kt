@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.kryu.playlistmaker.databinding.FragmentPlaylistsBinding
-import ru.kryu.playlistmaker.playlist.ui.view_model.PlaylistsViewModel
 import ru.kryu.playlistmaker.playlist.domain.model.Playlist
+import ru.kryu.playlistmaker.playlist.ui.view_model.PlaylistsViewModel
 
 class PlaylistsFragment : Fragment() {
 

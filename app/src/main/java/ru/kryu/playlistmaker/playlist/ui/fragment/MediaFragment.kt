@@ -9,12 +9,16 @@ import com.google.android.material.tabs.TabLayoutMediator
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentMediaBinding
 
-class MediaFragment: Fragment() {
+class MediaFragment : Fragment() {
 
     private lateinit var binding: FragmentMediaBinding
     private lateinit var tabMediator: TabLayoutMediator
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentMediaBinding.inflate(inflater, container, false)
         return binding.root
     }

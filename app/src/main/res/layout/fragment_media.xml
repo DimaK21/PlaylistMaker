@@ -8,17 +8,10 @@
     android:orientation="vertical"
     tools:context=".playlist.ui.fragment.MediaFragment">
 
-    <LinearLayout style="@style/HeadLinerLayout">
+    <TextView
+        style="@style/HeadText"
+        android:text="@string/media" />
 
-        <ImageView
-            android:id="@+id/btnBackMedia"
-            style="@style/HeadImage"
-            android:contentDescription="@string/back_arrow" />
-
-        <TextView
-            style="@style/HeadText"
-            android:text="@string/media" />
-    </LinearLayout>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"

@@ -11,17 +11,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout style="@style/HeadLinerLayout">
-
-            <ImageView
-                android:id="@+id/button_back_search"
-                style="@style/HeadImage"
-                android:contentDescription="@string/back_arrow" />
-
-            <TextView
-                style="@style/HeadText"
-                android:text="@string/search" />
-        </LinearLayout>
+        <TextView
+            style="@style/HeadText"
+            android:text="@string/search" />
 
         <FrameLayout
             android:layout_width="match_parent"

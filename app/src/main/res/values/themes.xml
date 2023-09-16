@@ -16,9 +16,4 @@
         <item name="android:navigationBarColor">?attr/colorPrimaryVariant</item>
     </style>
 
-    <style name="Theme.PlaylistMaker.RootActivity.BottomNavigationView" parent="Theme.PlaylistMaker">
-        <item name="colorSurface">@color/white</item>
-        <item name="colorOnSurface">@color/app_black</item>
-        <item name="colorPrimary">@color/main_background</item>
-    </style>
 </resources>

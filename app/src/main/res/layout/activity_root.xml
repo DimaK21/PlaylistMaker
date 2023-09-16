@@ -19,9 +19,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/root_navigation_graph" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/switch_track"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
-        android:theme="@style/Theme.PlaylistMaker.RootActivity.BottomNavigationView"
         style="@style/bottom_navigation_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

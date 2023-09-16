@@ -157,6 +157,9 @@
     </style>
 
     <style name="bottom_navigation_bar">
+        <item name="itemTextColor">@color/bottom_navigation_color</item>
+        <item name="itemIconTint">@color/bottom_navigation_color</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
         <item name="itemTextAppearanceInactive">@style/text_bottom_navigation</item>
         <item name="itemTextAppearanceActive">@style/text_bottom_navigation</item>
     </style>

@@ -27,6 +27,9 @@ class SearchViewModel(
     private val stateLiveData = MutableLiveData<TrackSearchState>()
     fun observeStateLiveData(): LiveData<TrackSearchState> = stateLiveData
 
+    private val toastLiveData = SingleLiveEvent<String?>()
+    fun observeToastLiveData(): LiveData<String?> = toastLiveData
+
     private val mutableIsClickAllowedLiveData = MutableLiveData<Boolean>()
     val isClickAllowedLiveData: LiveData<Boolean> = mutableIsClickAllowedLiveData
     private var isClickAllowed = true
@@ -73,6 +76,7 @@ class SearchViewModel(
                                         errorMessage = getApplication<Application>().getString(R.string.connection_problems)
                                     )
                                 )
+                                toastLiveData.postValue(errorMessage)
                             }
 
                             tracks.isEmpty() -> {

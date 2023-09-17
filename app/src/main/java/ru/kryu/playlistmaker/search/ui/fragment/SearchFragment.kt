@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -85,6 +86,9 @@ class SearchFragment : Fragment() {
         viewModel.isClickAllowedLiveData.observe(viewLifecycleOwner) {
             isClickAllowed = it
         }
+        viewModel.observeToastLiveData().observe(viewLifecycleOwner) {
+            showToast(it)
+        }
 
         binding.buttonRefresh.setOnClickListener {
             if (isClickAllowed) {
@@ -95,6 +99,10 @@ class SearchFragment : Fragment() {
         binding.clearHistoryButton.setOnClickListener {
             viewModel.onClearTrackHistoryClick()
         }
+    }
+
+    private fun showToast(message: String?) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {

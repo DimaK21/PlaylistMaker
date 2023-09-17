@@ -1,5 +1,6 @@
 package ru.kryu.playlistmaker.player.ui.fragment
 
+import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -119,6 +120,7 @@ class AudioPlayerFragment : Fragment() {
 
     private fun renderStateDefault() {
         binding.playButton.isEnabled = false
+        binding.playButton.setImageResource(R.drawable.play_button_gray)
     }
 
     override fun onDestroyView() {

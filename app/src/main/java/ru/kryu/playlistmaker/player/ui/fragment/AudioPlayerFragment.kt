@@ -119,6 +119,7 @@ class AudioPlayerFragment : Fragment() {
 
     private fun renderStateDefault() {
         binding.playButton.isEnabled = false
+        binding.playButton.setImageResource(R.drawable.play_button_gray)
     }
 
     override fun onDestroyView() {

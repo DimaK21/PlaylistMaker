@@ -14,7 +14,8 @@ import ru.kryu.playlistmaker.settings.ui.view_model.SettingsViewModel
 
 class SettingsFragment : Fragment() {
 
-    private lateinit var binding: FragmentSettingsBinding
+    private var _binding: FragmentSettingsBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: SettingsViewModel by viewModel()
 
 
@@ -23,7 +24,7 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -60,5 +61,10 @@ class SettingsFragment : Fragment() {
             DarkThemeState.STATE_DARK -> (activity?.application as App).switchTheme(true)
             DarkThemeState.STATE_LITE -> (activity?.application as App).switchTheme(false)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

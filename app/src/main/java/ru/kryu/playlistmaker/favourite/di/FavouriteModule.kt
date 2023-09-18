@@ -5,6 +5,5 @@ import org.koin.dsl.module
 val favouriteModule = module {
     includes(
         favouriteViewModelModule,
-
-        )
+    )
 }

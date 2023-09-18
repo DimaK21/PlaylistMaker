@@ -1,6 +1,5 @@
 package ru.kryu.playlistmaker.player.ui.fragment
 
-import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater

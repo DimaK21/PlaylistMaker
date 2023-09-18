@@ -53,32 +53,15 @@
         <item name="android:backgroundTint">@color/switch_track</item>
     </style>
 
-    <style name="HeadLinerLayout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="android:paddingTop">@dimen/main_padding_top</item>
-    </style>
-
     <style name="HeadText">
+        <item name="android:paddingTop">@dimen/main_padding_top</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="fontFamily">@font/ys_display_medium</item>
-        <item name="android:paddingHorizontal">8dp</item>
+        <item name="android:paddingHorizontal">@dimen/margin_back_arrow</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
         <item name="android:textFontWeight">500</item>
         <item name="android:textSize">@dimen/main_text_size</item>
-    </style>
-
-    <style name="HeadImage">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="contentDescription">@string/back_arrow</item>
-        <item name="android:paddingHorizontal">20dp</item>
-        <item name="android:paddingVertical">4dp</item>
-        <item name="android:src">@drawable/left_arrow</item>
-        <item name="tint">?attr/colorOnPrimary</item>
     </style>
 
     <style name="track_text">
@@ -154,6 +137,20 @@
         <item name="android:textFontWeight">500</item>
         <item name="android:textAllCaps">false</item>
         <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="bottom_navigation_bar">
+        <item name="itemTextColor">@color/bottom_navigation_color</item>
+        <item name="itemIconTint">@color/bottom_navigation_color</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="itemTextAppearanceInactive">@style/text_bottom_navigation</item>
+        <item name="itemTextAppearanceActive">@style/text_bottom_navigation</item>
+    </style>
+
+    <style name="text_bottom_navigation">
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/text_12</item>
+        <item name="android:textFontWeight">400</item>
     </style>
 
 </resources>

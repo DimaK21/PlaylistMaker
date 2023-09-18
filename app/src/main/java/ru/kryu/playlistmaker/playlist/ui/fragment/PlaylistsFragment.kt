@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.favourite.ui.fragments
+package ru.kryu.playlistmaker.playlist.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.kryu.playlistmaker.databinding.FragmentPlaylistsBinding
-import ru.kryu.playlistmaker.favourite.ui.view_model.PlaylistsViewModel
 import ru.kryu.playlistmaker.playlist.domain.model.Playlist
+import ru.kryu.playlistmaker.playlist.ui.view_model.PlaylistsViewModel
 
 class PlaylistsFragment : Fragment() {
 
@@ -38,6 +38,11 @@ class PlaylistsFragment : Fragment() {
         if (list.isNullOrEmpty()) {
             binding.groupEmpty.visibility = View.VISIBLE
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

@@ -1,39 +1,53 @@
-package ru.kryu.playlistmaker.player.ui.activity
+package ru.kryu.playlistmaker.player.ui.fragment
 
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.kryu.playlistmaker.R
-import ru.kryu.playlistmaker.databinding.ActivityAudioPlayerBinding
+import ru.kryu.playlistmaker.databinding.FragmentAudioPlayerBinding
 import ru.kryu.playlistmaker.player.ui.view_model.AudioPlayerViewModel
 import ru.kryu.playlistmaker.player.ui.view_model.PlayerState
 import ru.kryu.playlistmaker.search.domain.model.Track
 import ru.kryu.playlistmaker.search.ui.mapper.TrackToTrackForUi
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
-class AudioPlayerActivity : AppCompatActivity() {
+class AudioPlayerFragment : Fragment() {
+
+    private var _binding: FragmentAudioPlayerBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var track: TrackForUi
-    private lateinit var binding: ActivityAudioPlayerBinding
+
     private val viewModel: AudioPlayerViewModel by viewModel {
         parametersOf(track.previewUrl)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityAudioPlayerBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentAudioPlayerBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         track = getTrack()
-        viewModel.playerStateLiveData.observe(this) { render(it) }
-        viewModel.playerPositionLiveData.observe(this) { setTimer(it) }
+        viewModel.playerStateLiveData.observe(viewLifecycleOwner) { render(it) }
+        viewModel.playerPositionLiveData.observe(viewLifecycleOwner) { setTimer(it) }
         binding.buttonBackPlayer.setOnClickListener {
-            finish()
+            findNavController().navigateUp()
         }
         initTrackInfo()
         binding.playButton.setOnClickListener {
@@ -47,13 +61,13 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private fun getTrack(): TrackForUi =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra(TRACK, TrackForUi::class.java)
+            arguments?.getParcelable(TRACK, TrackForUi::class.java)
                 ?: TrackToTrackForUi().map(
                     Track()
                 )
         } else {
             @Suppress("DEPRECATION")
-            intent.getParcelableExtra(TRACK) ?: TrackToTrackForUi().map(
+            arguments?.getParcelable(TRACK) ?: TrackToTrackForUi().map(
                 Track()
             )
         }
@@ -107,9 +121,17 @@ class AudioPlayerActivity : AppCompatActivity() {
         binding.playButton.isEnabled = false
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     companion object {
         private const val TRACK = "TRACK"
         private const val START_INDEX = 0
         private const val END_INDEX = 4
+
+        fun createArgs(track: TrackForUi): Bundle =
+            bundleOf(TRACK to track)
     }
 }

@@ -104,6 +104,7 @@ class SearchViewModel(
     fun onTrackClick(track: TrackForUi) {
         mutableIsClickAllowedLiveData.value = clickDebounce()
         trackHistoryInteractor.addTrack(TrackForUiToDomain().map(track))
+        saveTrackHistory()
         if (stateLiveData.value is TrackSearchState.History) {
             renderState(TrackSearchState.History(getTrackHistory()))
         }
@@ -139,7 +140,6 @@ class SearchViewModel(
     override fun onCleared() {
         super.onCleared()
         handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
-        saveTrackHistory()
     }
 
     private fun clickDebounce(): Boolean {
@@ -155,6 +155,10 @@ class SearchViewModel(
             )
         }
         return current
+    }
+
+    fun onDestroyView() {
+        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
     }
 
     companion object {

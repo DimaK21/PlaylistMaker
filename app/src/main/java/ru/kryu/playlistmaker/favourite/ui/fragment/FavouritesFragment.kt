@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.favourite.ui.fragments
+package ru.kryu.playlistmaker.favourite.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -38,6 +38,11 @@ class FavouritesFragment : Fragment() {
         if (list.isNullOrEmpty()) {
             binding.groupEmpty.visibility = View.VISIBLE
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

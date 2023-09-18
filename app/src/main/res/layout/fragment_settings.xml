@@ -5,20 +5,11 @@
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
     android:orientation="vertical"
-    tools:context=".settings.ui.activity.SettingsActivity">
+    tools:context=".settings.ui.fragment.SettingsFragment">
 
-    <LinearLayout style="@style/HeadLinerLayout">
-
-        <ImageView
-            android:id="@+id/button_back_settings"
-            style="@style/HeadImage"
-            android:contentDescription="@string/back_arrow" />
-
-        <TextView
-            style="@style/HeadText"
-            android:text="@string/settings" />
-    </LinearLayout>
-
+    <TextView
+        style="@style/HeadText"
+        android:text="@string/settings" />
 
     <FrameLayout
         android:id="@+id/dark_theme_frame"

@@ -6,5 +6,5 @@ val favouriteModule = module {
     includes(
         favouriteViewModelModule,
 
-    )
+        )
 }

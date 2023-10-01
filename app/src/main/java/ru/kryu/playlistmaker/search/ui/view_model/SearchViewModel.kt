@@ -1,12 +1,14 @@
 package ru.kryu.playlistmaker.search.ui.view_model
 
 import android.app.Application
-import android.os.Handler
-import android.os.Looper
-import android.os.SystemClock
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.search.domain.api.TrackHistoryInteractor
 import ru.kryu.playlistmaker.search.domain.api.TrackSearchInteractor
@@ -22,7 +24,7 @@ class SearchViewModel(
 ) : AndroidViewModel(application) {
 
     private var latestSearchText: String? = null
-    private val handler = Handler(Looper.getMainLooper())
+    private var searchJob: Job? = null
 
     private val stateLiveData = MutableLiveData<TrackSearchState>()
     fun observeStateLiveData(): LiveData<TrackSearchState> = stateLiveData
@@ -43,18 +45,18 @@ class SearchViewModel(
             return
         }
         latestSearchText = changedText
-        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
-        val searchRunnable = Runnable { searchRequest(changedText) }
-        val postTime = SystemClock.uptimeMillis() + SEARCH_DEBOUNCE_DELAY_MILLIS
-        handler.postAtTime(searchRunnable, SEARCH_REQUEST_TOKEN, postTime)
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(SEARCH_DEBOUNCE_DELAY_MILLIS)
+            searchRequest(changedText)
+        }
     }
 
     fun searchWithoutDebounce(changedText: String) {
-        mutableIsClickAllowedLiveData.value = clickDebounce()
+        clickDebounce()
         latestSearchText = changedText
-        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
-        val searchRunnable = Runnable { searchRequest(changedText) }
-        handler.post(searchRunnable)
+        searchRequest(changedText)
+        Log.d("MyTag", "click")
     }
 
     private fun searchRequest(newSearchText: String) {
@@ -106,7 +108,7 @@ class SearchViewModel(
     }
 
     fun onTrackClick(track: TrackForUi) {
-        mutableIsClickAllowedLiveData.value = clickDebounce()
+        clickDebounce()
         trackHistoryInteractor.addTrack(TrackForUiToDomain().map(track))
         saveTrackHistory()
         if (stateLiveData.value is TrackSearchState.History) {
@@ -141,33 +143,20 @@ class SearchViewModel(
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
-    }
-
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
+    private fun clickDebounce() {
         if (isClickAllowed) {
             isClickAllowed = false
-            handler.postDelayed(
-                {
-                    isClickAllowed = true
-                    mutableIsClickAllowedLiveData.value = true
-                },
-                CLICK_DEBOUNCE_DELAY_MILLIS
-            )
+            mutableIsClickAllowedLiveData.postValue(false)
+            viewModelScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY_MILLIS)
+                isClickAllowed = true
+                mutableIsClickAllowedLiveData.postValue(true)
+            }
         }
-        return current
-    }
-
-    fun onDestroyView() {
-        handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
     }
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY_MILLIS = 2000L
-        private val SEARCH_REQUEST_TOKEN = Any()
         private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
     }
 }

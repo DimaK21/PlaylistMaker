@@ -108,7 +108,6 @@ class SearchFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding.editTextSearch.removeTextChangedListener(editTextTextWatcher)
-        viewModel.onDestroyView()
         trackAdapter = null
         _binding = null
     }

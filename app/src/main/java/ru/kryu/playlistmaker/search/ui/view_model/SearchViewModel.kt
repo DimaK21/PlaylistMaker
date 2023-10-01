@@ -62,44 +62,47 @@ class SearchViewModel(
     private fun searchRequest(newSearchText: String) {
         if (newSearchText.isNotEmpty()) {
             renderState(TrackSearchState.Loading)
-            trackSearchInteractor.searchTracks(
-                newSearchText,
-                object : TrackSearchInteractor.TrackSearchConsumer {
-                    override fun consume(foundTracks: List<Track>?, errorMessage: String?) {
-                        val tracks = mutableListOf<TrackForUi>()
-                        if (foundTracks != null) {
-                            tracks.addAll(foundTracks.map { TrackToTrackForUi().map(it) })
-                        }
-
-                        when {
-                            errorMessage != null -> {
-                                renderState(
-                                    TrackSearchState.Error(
-                                        errorMessage = getApplication<Application>().getString(R.string.connection_problems)
-                                    )
-                                )
-                                toastLiveData.postValue(errorMessage)
-                            }
-
-                            tracks.isEmpty() -> {
-                                renderState(
-                                    TrackSearchState.Empty(
-                                        message = getApplication<Application>().getString(R.string.nothing_was_found)
-                                    )
-                                )
-                            }
-
-                            else -> {
-                                renderState(
-                                    TrackSearchState.Content(
-                                        tracks = tracks
-                                    )
-                                )
-                            }
-                        }
+            viewModelScope.launch {
+                trackSearchInteractor
+                    .searchTracks(newSearchText)
+                    .collect { pair ->
+                        processResult(pair.first, pair.second)
                     }
-                }
-            )
+            }
+        }
+    }
+
+    private fun processResult(foundTracks: List<Track>?, errorMessage: String?) {
+        val tracks = mutableListOf<TrackForUi>()
+        if (foundTracks != null) {
+            tracks.addAll(foundTracks.map { TrackToTrackForUi().map(it) })
+        }
+
+        when {
+            errorMessage != null -> {
+                renderState(
+                    TrackSearchState.Error(
+                        errorMessage = getApplication<Application>().getString(R.string.connection_problems)
+                    )
+                )
+                toastLiveData.postValue(errorMessage)
+            }
+
+            tracks.isEmpty() -> {
+                renderState(
+                    TrackSearchState.Empty(
+                        message = getApplication<Application>().getString(R.string.nothing_was_found)
+                    )
+                )
+            }
+
+            else -> {
+                renderState(
+                    TrackSearchState.Content(
+                        tracks = tracks
+                    )
+                )
+            }
         }
     }
 

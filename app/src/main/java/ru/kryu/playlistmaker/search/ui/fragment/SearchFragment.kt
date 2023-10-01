@@ -191,8 +191,4 @@ class SearchFragment : Fragment() {
             View.VISIBLE
         }
     }
-
-    companion object {
-        const val TRACK = "TRACK"
-    }
 }

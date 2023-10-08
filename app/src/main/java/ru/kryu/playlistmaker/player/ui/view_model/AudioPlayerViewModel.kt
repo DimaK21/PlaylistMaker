@@ -51,6 +51,7 @@ class AudioPlayerViewModel(
             }
         }
         mediaPlayerInteractor.setOnCompletionListener(onCompletionListener)
+        mutableIsFavouriteLiveData.postValue(track.isFavorite)
     }
 
     private fun timerUpdate() {
@@ -105,12 +106,12 @@ class AudioPlayerViewModel(
     fun onFavoriteClicked() {
         viewModelScope.launch {
             if (track.isFavorite) {
-                track.isFavorite = false
                 favouritesInteractor.removeTrack(trackForUiToDomain.map(track))
+                track.isFavorite = false
                 mutableIsFavouriteLiveData.postValue(false)
             } else {
-                track.isFavorite = true
                 favouritesInteractor.addTrack(trackForUiToDomain.map(track))
+                track.isFavorite = true
                 mutableIsFavouriteLiveData.postValue(true)
             }
         }

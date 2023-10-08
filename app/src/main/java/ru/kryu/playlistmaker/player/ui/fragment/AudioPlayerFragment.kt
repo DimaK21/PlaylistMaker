@@ -46,12 +46,24 @@ class AudioPlayerFragment : Fragment() {
         track = getTrack()
         viewModel.playerStateLiveData.observe(viewLifecycleOwner) { render(it) }
         viewModel.playerPositionLiveData.observe(viewLifecycleOwner) { setTimer(it) }
+        viewModel.isFavouriteLiveData.observe(viewLifecycleOwner) { setLikeIcon(it) }
         binding.buttonBackPlayer.setOnClickListener {
             findNavController().navigateUp()
         }
         initTrackInfo()
         binding.playButton.setOnClickListener {
             viewModel.onPlayerButtonClick()
+        }
+        binding.likeButton.setOnClickListener {
+            viewModel.onFavoriteClicked()
+        }
+    }
+
+    private fun setLikeIcon(isFavourite: Boolean) {
+        if (isFavourite) {
+            binding.likeButton.setImageResource(R.drawable.button_like_yes)
+        } else {
+            binding.likeButton.setImageResource(R.drawable.button_like_no)
         }
     }
 
@@ -132,7 +144,7 @@ class AudioPlayerFragment : Fragment() {
         private const val START_INDEX = 0
         private const val END_INDEX = 4
 
-//        fun createArgs(track: TrackForUi): Bundle =
-//            bundleOf(TRACK to track)
+        fun createArgs(track: TrackForUi): Bundle =
+            bundleOf(TRACK to track)
     }
 }

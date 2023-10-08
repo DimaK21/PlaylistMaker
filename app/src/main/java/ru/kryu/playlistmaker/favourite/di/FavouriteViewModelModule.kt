@@ -6,6 +6,6 @@ import ru.kryu.playlistmaker.favourite.ui.view_model.FavouritesViewModel
 
 val favouriteViewModelModule = module {
     viewModel {
-        FavouritesViewModel()
+        FavouritesViewModel(favouritesInteractor = get(), trackToTrackForUi = get())
     }
 }

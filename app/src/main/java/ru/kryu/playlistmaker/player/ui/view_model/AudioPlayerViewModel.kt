@@ -1,10 +1,12 @@
 package ru.kryu.playlistmaker.player.ui.view_model
 
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -20,14 +22,15 @@ class AudioPlayerViewModel(
     private var mutablePlayerPositionLiveData = MutableLiveData<String>()
     val playerPositionLiveData: LiveData<String> = mutablePlayerPositionLiveData
 
-    private val handlerMainLooper = Handler(Looper.getMainLooper())
-    private val timerRunnable = Runnable {
-        timerUpdate()
-    }
+    private var timerJob: Job? = null
 
     private fun timerUpdate() {
-        mutablePlayerPositionLiveData.value = getCurrentPosition()
-        handlerMainLooper.postDelayed(timerRunnable, DELAY_MILLIS)
+        timerJob = viewModelScope.launch {
+            while (mutablePlayerStateLiveData.value == PlayerState.STATE_PLAYING) {
+                mutablePlayerPositionLiveData.value = getCurrentPosition()
+                delay(DELAY_MILLIS)
+            }
+        }
     }
 
     init {
@@ -44,7 +47,6 @@ class AudioPlayerViewModel(
 
         val onCompletionListener = object : PlayerInteractor.CompletionListener {
             override fun setOnCompletionListener() {
-                handlerMainLooper.removeCallbacks(timerRunnable)
                 changeState(PlayerState.STATE_PREPARED)
                 mutablePlayerPositionLiveData.value = "00:00"
             }
@@ -73,7 +75,7 @@ class AudioPlayerViewModel(
     private fun pausePlayer() {
         mediaPlayerInteractor.pausePlayer()
         changeState(PlayerState.STATE_PAUSED)
-        handlerMainLooper.removeCallbacks(timerRunnable)
+        timerJob?.cancel()
     }
 
     private fun changeState(playerState: PlayerState) {
@@ -89,7 +91,6 @@ class AudioPlayerViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        handlerMainLooper.removeCallbacks(timerRunnable)
         mediaPlayerInteractor.stopPlayer()
     }
 

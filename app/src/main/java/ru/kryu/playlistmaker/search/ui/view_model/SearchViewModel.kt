@@ -1,7 +1,6 @@
 package ru.kryu.playlistmaker.search.ui.view_model
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -56,7 +55,6 @@ class SearchViewModel(
         clickDebounce()
         latestSearchText = changedText
         searchRequest(changedText)
-        Log.d("MyTag", "click")
     }
 
     private fun searchRequest(newSearchText: String) {

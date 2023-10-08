@@ -16,6 +16,7 @@ class TrackForUiToDomain {
             primaryGenreName = trackForUI.primaryGenreName,
             country = trackForUI.country,
             previewUrl = trackForUI.previewUrl,
+            isFavorite = trackForUI.isFavorite
         )
     }
 }

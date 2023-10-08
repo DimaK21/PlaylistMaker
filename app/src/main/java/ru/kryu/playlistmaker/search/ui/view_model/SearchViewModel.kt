@@ -19,7 +19,9 @@ import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 class SearchViewModel(
     application: Application,
     private val trackSearchInteractor: TrackSearchInteractor,
-    private val trackHistoryInteractor: TrackHistoryInteractor
+    private val trackHistoryInteractor: TrackHistoryInteractor,
+    private val trackForUiToDomain: TrackForUiToDomain,
+    private val trackToTrackForUi: TrackToTrackForUi,
 ) : AndroidViewModel(application) {
 
     private var latestSearchText: String? = null
@@ -73,7 +75,7 @@ class SearchViewModel(
     private fun processResult(foundTracks: List<Track>?, errorMessage: String?) {
         val tracks = mutableListOf<TrackForUi>()
         if (foundTracks != null) {
-            tracks.addAll(foundTracks.map { TrackToTrackForUi().map(it) })
+            tracks.addAll(foundTracks.map { trackToTrackForUi.map(it) })
         }
 
         when {
@@ -110,7 +112,7 @@ class SearchViewModel(
 
     fun onTrackClick(track: TrackForUi) {
         clickDebounce()
-        trackHistoryInteractor.addTrack(TrackForUiToDomain().map(track))
+        trackHistoryInteractor.addTrack(trackForUiToDomain.map(track))
         saveTrackHistory()
         if (stateLiveData.value is TrackSearchState.History) {
             renderState(TrackSearchState.History(getTrackHistory()))
@@ -119,7 +121,7 @@ class SearchViewModel(
 
     private fun getTrackHistory(): MutableList<TrackForUi> {
         return trackHistoryInteractor.getTrackHistory()
-            .map { TrackToTrackForUi().map(it) } as MutableList<TrackForUi>
+            .map { trackToTrackForUi.map(it) } as MutableList<TrackForUi>
     }
 
     private fun saveTrackHistory() {

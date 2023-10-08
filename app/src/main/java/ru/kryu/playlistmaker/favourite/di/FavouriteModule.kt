@@ -7,5 +7,6 @@ val favouriteModule = module {
         favouriteViewModelModule,
         favouriteDataModule,
         favouriteRepositoryModule,
+        favouriteInteractorModule,
     )
 }

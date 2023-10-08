@@ -2,6 +2,7 @@ package ru.kryu.playlistmaker.search.data
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import ru.kryu.playlistmaker.favourite.data.db.AppDatabase
 import ru.kryu.playlistmaker.search.data.dto.ITunesRequest
 import ru.kryu.playlistmaker.search.data.dto.ITunesResponse
 import ru.kryu.playlistmaker.search.data.mapper.TrackDtoToDomain
@@ -9,7 +10,10 @@ import ru.kryu.playlistmaker.search.domain.api.TrackSearchRepository
 import ru.kryu.playlistmaker.search.domain.model.Resource
 import ru.kryu.playlistmaker.search.domain.model.Track
 
-class TrackSearchRepositoryImpl(private val networkClient: NetworkClient) : TrackSearchRepository {
+class TrackSearchRepositoryImpl(
+    private val networkClient: NetworkClient,
+    private val database: AppDatabase
+) : TrackSearchRepository {
 
     override fun searchTracks(expression: String): Flow<Resource<List<Track>>> = flow {
         val response = networkClient.doRequest(ITunesRequest(expression))
@@ -22,6 +26,12 @@ class TrackSearchRepositoryImpl(private val networkClient: NetworkClient) : Trac
                 val resource = Resource.Success((response as ITunesResponse).results.map {
                     TrackDtoToDomain().map(it)
                 })
+                val favouritesTracks = database.trackDao().getIdTracks()
+                resource.data?.map { track ->
+                    if (favouritesTracks.contains(track.trackId)) {
+                        track.isFavorite = true
+                    }
+                }
                 emit(resource)
             }
 

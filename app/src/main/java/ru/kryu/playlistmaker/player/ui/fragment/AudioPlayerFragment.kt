@@ -28,7 +28,7 @@ class AudioPlayerFragment : Fragment() {
     private lateinit var track: TrackForUi
 
     private val viewModel: AudioPlayerViewModel by viewModel {
-        parametersOf(track.previewUrl)
+        parametersOf(track)
     }
 
     override fun onCreateView(
@@ -132,7 +132,7 @@ class AudioPlayerFragment : Fragment() {
         private const val START_INDEX = 0
         private const val END_INDEX = 4
 
-        fun createArgs(track: TrackForUi): Bundle =
-            bundleOf(TRACK to track)
+//        fun createArgs(track: TrackForUi): Bundle =
+//            bundleOf(TRACK to track)
     }
 }

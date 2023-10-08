@@ -16,7 +16,6 @@ class FavouritesInteractorImpl(private val favouritesRepository: FavouritesRepos
     }
 
     override fun getTracks(): Flow<List<Track>> {
-        val tracks = favouritesRepository.getTracks().map {tracks -> tracks.reversed() }
-        return tracks
+        return favouritesRepository.getTracks().map { tracks -> tracks.reversed() }
     }
 }

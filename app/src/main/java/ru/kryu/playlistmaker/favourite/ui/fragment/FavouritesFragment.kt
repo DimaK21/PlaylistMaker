@@ -39,9 +39,9 @@ class FavouritesFragment : Fragment() {
 
         trackAdapter = TrackAdapter {
             findNavController().navigate(
-                R.id.action_favouritesFragment_to_audioPlayerFragment,
+                R.id.action_mediaFragment_to_audioPlayerFragment,
                 AudioPlayerFragment.createArgs(it)
-            )
+            ).apply { it.isFavorite = true }
         }
         binding.recyclerViewFavourites.adapter = trackAdapter
         binding.recyclerViewFavourites.layoutManager =

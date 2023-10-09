@@ -50,6 +50,7 @@ class FavouritesFragment : Fragment() {
         favouritesViewModel.favouritesLiveData.observe(viewLifecycleOwner) {
             render(it)
         }
+        favouritesViewModel.onViewCreatedOnScreen()
     }
 
     private fun render(state: FavouritesState) {

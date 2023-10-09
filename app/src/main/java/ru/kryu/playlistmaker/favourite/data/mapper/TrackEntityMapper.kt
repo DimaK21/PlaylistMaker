@@ -32,6 +32,7 @@ class TrackEntityMapper {
             primaryGenreName = track.primaryGenreName,
             country = track.country,
             previewUrl = track.previewUrl,
+            createTime = System.currentTimeMillis()
         )
     }
 }

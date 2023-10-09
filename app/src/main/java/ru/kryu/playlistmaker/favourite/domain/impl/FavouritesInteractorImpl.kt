@@ -1,7 +1,6 @@
 package ru.kryu.playlistmaker.favourite.domain.impl
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import ru.kryu.playlistmaker.favourite.domain.FavouritesInteractor
 import ru.kryu.playlistmaker.favourite.domain.FavouritesRepository
 import ru.kryu.playlistmaker.search.domain.model.Track
@@ -17,6 +16,6 @@ class FavouritesInteractorImpl(private val favouritesRepository: FavouritesRepos
     }
 
     override fun getTracks(): Flow<List<Track>> {
-        return favouritesRepository.getTracks().map { tracks -> tracks.reversed() }
+        return favouritesRepository.getTracks()
     }
 }

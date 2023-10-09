@@ -7,7 +7,9 @@ import ru.kryu.playlistmaker.favourite.data.db.AppDatabase
 
 val favouriteDataModule = module {
     single {
-        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db").build()
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db")
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
 }

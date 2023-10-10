@@ -12,16 +12,13 @@ import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.search.domain.api.TrackHistoryInteractor
 import ru.kryu.playlistmaker.search.domain.api.TrackSearchInteractor
 import ru.kryu.playlistmaker.search.domain.model.Track
-import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiToDomain
-import ru.kryu.playlistmaker.search.ui.mapper.TrackToTrackForUi
+import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
 class SearchViewModel(
     application: Application,
     private val trackSearchInteractor: TrackSearchInteractor,
     private val trackHistoryInteractor: TrackHistoryInteractor,
-    private val trackForUiToDomain: TrackForUiToDomain,
-    private val trackToTrackForUi: TrackToTrackForUi,
 ) : AndroidViewModel(application) {
 
     private var latestSearchText: String? = null
@@ -75,7 +72,7 @@ class SearchViewModel(
     private fun processResult(foundTracks: List<Track>?, errorMessage: String?) {
         val tracks = mutableListOf<TrackForUi>()
         if (foundTracks != null) {
-            tracks.addAll(foundTracks.map { trackToTrackForUi.map(it) })
+            tracks.addAll(foundTracks.map { TrackForUiMapper.map(it) })
         }
 
         when {
@@ -112,7 +109,7 @@ class SearchViewModel(
 
     fun onTrackClick(track: TrackForUi) {
         clickDebounce()
-        trackHistoryInteractor.addTrack(trackForUiToDomain.map(track))
+        trackHistoryInteractor.addTrack(TrackForUiMapper.map(track))
         saveTrackHistory()
         if (stateLiveData.value is TrackSearchState.History) {
             renderState(TrackSearchState.History(getTrackHistory()))
@@ -121,7 +118,7 @@ class SearchViewModel(
 
     private fun getTrackHistory(): MutableList<TrackForUi> {
         return trackHistoryInteractor.getTrackHistory()
-            .map { trackToTrackForUi.map(it) } as MutableList<TrackForUi>
+            .map { TrackForUiMapper.map(it) } as MutableList<TrackForUi>
     }
 
     private fun saveTrackHistory() {

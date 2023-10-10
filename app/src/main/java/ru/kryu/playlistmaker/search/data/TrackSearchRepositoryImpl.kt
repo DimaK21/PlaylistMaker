@@ -24,7 +24,7 @@ class TrackSearchRepositoryImpl(
 
             200 -> {
                 val resource = Resource.Success((response as ITunesResponse).results.map {
-                    TrackDtoToDomain().map(it)
+                    TrackDtoToDomain.map(it)
                 })
                 val favouritesTracks = database.trackDao().getIdTracks()
                 resource.data?.map { track ->

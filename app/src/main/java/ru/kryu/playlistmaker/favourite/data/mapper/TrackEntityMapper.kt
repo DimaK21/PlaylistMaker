@@ -3,7 +3,7 @@ package ru.kryu.playlistmaker.favourite.data.mapper
 import ru.kryu.playlistmaker.favourite.data.db.entity.TrackEntity
 import ru.kryu.playlistmaker.search.domain.model.Track
 
-class TrackEntityMapper {
+object TrackEntityMapper {
 
     fun map(track: TrackEntity): Track {
         return Track(

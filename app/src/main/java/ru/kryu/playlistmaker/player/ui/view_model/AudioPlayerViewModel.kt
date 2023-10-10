@@ -1,6 +1,5 @@
 package ru.kryu.playlistmaker.player.ui.view_model
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.kryu.playlistmaker.favourite.domain.FavouritesInteractor
 import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
-import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiToDomain
+import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -19,7 +18,6 @@ class AudioPlayerViewModel(
     private val track: TrackForUi,
     private val mediaPlayerInteractor: PlayerInteractor,
     private val favouritesInteractor: FavouritesInteractor,
-    private val trackForUiToDomain: TrackForUiToDomain,
 ) : ViewModel() {
 
     private var mutablePlayerStateLiveData = MutableLiveData<PlayerState>()
@@ -107,11 +105,11 @@ class AudioPlayerViewModel(
     fun onFavoriteClicked() {
         viewModelScope.launch {
             if (track.isFavorite) {
-                favouritesInteractor.removeTrack(trackForUiToDomain.map(track))
+                favouritesInteractor.removeTrack(TrackForUiMapper.map(track))
                 track.isFavorite = false
                 mutableIsFavouriteLiveData.postValue(false)
             } else {
-                favouritesInteractor.addTrack(trackForUiToDomain.map(track))
+                favouritesInteractor.addTrack(TrackForUiMapper.map(track))
                 track.isFavorite = true
                 mutableIsFavouriteLiveData.postValue(true)
             }

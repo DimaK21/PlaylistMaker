@@ -2,7 +2,6 @@ package ru.kryu.playlistmaker.player.ui.fragment
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,7 @@ import ru.kryu.playlistmaker.databinding.FragmentAudioPlayerBinding
 import ru.kryu.playlistmaker.player.ui.view_model.AudioPlayerViewModel
 import ru.kryu.playlistmaker.player.ui.view_model.PlayerState
 import ru.kryu.playlistmaker.search.domain.model.Track
-import ru.kryu.playlistmaker.search.ui.mapper.TrackToTrackForUi
+import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
 class AudioPlayerFragment : Fragment() {
@@ -75,12 +74,12 @@ class AudioPlayerFragment : Fragment() {
     private fun getTrack(): TrackForUi =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(TRACK, TrackForUi::class.java)
-                ?: TrackToTrackForUi().map(
+                ?: TrackForUiMapper.map(
                     Track()
                 )
         } else {
             @Suppress("DEPRECATION")
-            arguments?.getParcelable(TRACK) ?: TrackToTrackForUi().map(
+            arguments?.getParcelable(TRACK) ?: TrackForUiMapper.map(
                 Track()
             )
         }

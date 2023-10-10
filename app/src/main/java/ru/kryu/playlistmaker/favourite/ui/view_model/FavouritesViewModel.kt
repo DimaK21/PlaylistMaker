@@ -6,11 +6,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.kryu.playlistmaker.favourite.domain.FavouritesInteractor
 import ru.kryu.playlistmaker.search.domain.model.Track
-import ru.kryu.playlistmaker.search.ui.mapper.TrackToTrackForUi
+import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
 
 class FavouritesViewModel(
     private val favouritesInteractor: FavouritesInteractor,
-    private val trackToTrackForUi: TrackToTrackForUi,
 ) : ViewModel() {
 
     private val favouritesMutableLiveData = MutableLiveData<FavouritesState>()
@@ -31,7 +30,7 @@ class FavouritesViewModel(
             renderState(FavouritesState.Empty)
         } else {
             val tracksForUi = tracks.map { item ->
-                trackToTrackForUi.map(item)
+                TrackForUiMapper.map(item)
             }
             renderState(FavouritesState.Content(tracks = tracksForUi))
         }

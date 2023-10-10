@@ -9,19 +9,18 @@ import ru.kryu.playlistmaker.search.domain.model.Track
 
 class FavouritesRepositoryImpl(
     private val database: AppDatabase,
-    private val trackEntityMapper: TrackEntityMapper
 ) : FavouritesRepository {
 
     override suspend fun addTrack(track: Track) {
-        database.trackDao().addTrack(trackEntityMapper.map(track))
+        database.trackDao().addTrack(TrackEntityMapper.map(track))
     }
 
     override suspend fun removeTrack(track: Track) {
-        database.trackDao().removeTrack(trackEntityMapper.map(track))
+        database.trackDao().removeTrack(TrackEntityMapper.map(track))
     }
 
     override fun getTracks(): Flow<List<Track>> = flow {
         val tracks = database.trackDao().getTracks()
-        emit(tracks.map { track -> trackEntityMapper.map(track) })
+        emit(tracks.map { track -> TrackEntityMapper.map(track) })
     }
 }

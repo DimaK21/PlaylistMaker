@@ -1,7 +1,9 @@
 package ru.kryu.playlistmaker.search.data
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import ru.kryu.playlistmaker.favourite.data.db.AppDatabase
 import ru.kryu.playlistmaker.search.data.dto.ITunesRequest
 import ru.kryu.playlistmaker.search.data.dto.ITunesResponse
@@ -26,7 +28,9 @@ class TrackSearchRepositoryImpl(
                 val resource = Resource.Success((response as ITunesResponse).results.map {
                     TrackDtoToDomain.map(it)
                 })
-                val favouritesTracks = database.trackDao().getIdTracks()
+                val favouritesTracks = withContext(Dispatchers.IO) {
+                    database.trackDao().getIdTracks()
+                }
                 resource.data?.map { track ->
                     if (favouritesTracks.contains(track.trackId)) {
                         track.isFavorite = true

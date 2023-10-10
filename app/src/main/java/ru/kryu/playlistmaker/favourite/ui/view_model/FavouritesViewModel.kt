@@ -1,5 +1,6 @@
 package ru.kryu.playlistmaker.favourite.ui.view_model
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +14,7 @@ class FavouritesViewModel(
 ) : ViewModel() {
 
     private val favouritesMutableLiveData = MutableLiveData<FavouritesState>()
-    val favouritesLiveData = favouritesMutableLiveData
+    val favouritesLiveData: LiveData<FavouritesState> = favouritesMutableLiveData
 
     fun onViewCreatedOnScreen() {
         viewModelScope.launch {
@@ -27,16 +28,16 @@ class FavouritesViewModel(
 
     private fun handleResult(tracks: List<Track>) {
         if (tracks.isEmpty()) {
-            renderState(FavouritesState.Empty)
+            setState(FavouritesState.Empty)
         } else {
             val tracksForUi = tracks.map { item ->
                 TrackForUiMapper.map(item)
             }
-            renderState(FavouritesState.Content(tracks = tracksForUi))
+            setState(FavouritesState.Content(tracks = tracksForUi))
         }
     }
 
-    private fun renderState(state: FavouritesState) {
+    private fun setState(state: FavouritesState) {
         favouritesMutableLiveData.postValue(state)
     }
 }

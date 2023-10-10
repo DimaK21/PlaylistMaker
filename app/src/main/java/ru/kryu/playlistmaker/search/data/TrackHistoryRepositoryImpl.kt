@@ -1,8 +1,7 @@
 package ru.kryu.playlistmaker.search.data
 
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import ru.kryu.playlistmaker.favourite.data.db.AppDatabase
 import ru.kryu.playlistmaker.search.data.storage.mapper.MapperTrackForStorage
 import ru.kryu.playlistmaker.search.domain.api.TrackHistoryRepository
@@ -20,16 +19,15 @@ class TrackHistoryRepositoryImpl(
     }
 
     override fun getTrackHistory(): List<Track> {
-        val job = CoroutineScope(Dispatchers.IO).launch {
+        return runBlocking(Dispatchers.IO) {
             val favouritesTracks = database.trackDao().getIdTracks()
-            trackHistory.map { track ->
+            trackHistory.forEach() { track ->
                 if (favouritesTracks.contains(track.trackId)) {
                     track.isFavorite = true
                 }
             }
             trackHistory
         }
-        return trackHistory
     }
 
     override fun saveTrackHistory() {

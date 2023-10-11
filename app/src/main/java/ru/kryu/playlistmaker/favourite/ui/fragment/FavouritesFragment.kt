@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentFavouritesBinding
@@ -24,6 +27,7 @@ class FavouritesFragment : Fragment() {
     private var _binding: FragmentFavouritesBinding? = null
     private val binding get() = _binding!!
     private var trackAdapter: TrackAdapter? = null
+    private var isClickAllowed = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,10 +42,12 @@ class FavouritesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         trackAdapter = TrackAdapter {
-            findNavController().navigate(
-                R.id.action_mediaFragment_to_audioPlayerFragment,
-                AudioPlayerFragment.createArgs(it)
-            ).apply { it.isFavorite = true }
+            if (clickDebounce()) {
+                findNavController().navigate(
+                    R.id.action_mediaFragment_to_audioPlayerFragment,
+                    AudioPlayerFragment.createArgs(it)
+                ).apply { it.isFavorite = true }
+            }
         }
         binding.recyclerViewFavourites.adapter = trackAdapter
         binding.recyclerViewFavourites.layoutManager =
@@ -81,7 +87,20 @@ class FavouritesFragment : Fragment() {
         _binding = null
     }
 
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY_MILLIS)
+                isClickAllowed = true
+            }
+        }
+        return current
+    }
+
     companion object {
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
         fun newInstance() = FavouritesFragment()
     }
 }

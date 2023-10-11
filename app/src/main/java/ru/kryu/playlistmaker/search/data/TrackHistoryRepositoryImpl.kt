@@ -1,7 +1,7 @@
 package ru.kryu.playlistmaker.search.data
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import ru.kryu.playlistmaker.favourite.data.db.AppDatabase
 import ru.kryu.playlistmaker.search.data.storage.mapper.MapperTrackForStorage
 import ru.kryu.playlistmaker.search.domain.api.TrackHistoryRepository
@@ -18,16 +18,14 @@ class TrackHistoryRepositoryImpl(
             .map { MapperTrackForStorage().mapTrackForStorageToDomain(it) })
     }
 
-    override fun getTrackHistory(): List<Track> {
-        return runBlocking(Dispatchers.IO) {
-            val favouritesTracks = database.trackDao().getIdTracks()
-            trackHistory.forEach() { track ->
-                if (favouritesTracks.contains(track.trackId)) {
-                    track.isFavorite = true
-                }
+    override fun getTrackHistory(): Flow<List<Track>> = flow {
+        val favouritesTracks = database.trackDao().getIdTracks()
+        trackHistory.forEach() { track ->
+            if (favouritesTracks.contains(track.trackId)) {
+                track.isFavorite = true
             }
-            trackHistory
         }
+        emit(trackHistory)
     }
 
     override fun saveTrackHistory() {

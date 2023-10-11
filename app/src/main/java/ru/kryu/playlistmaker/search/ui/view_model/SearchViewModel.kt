@@ -5,8 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.search.domain.api.TrackHistoryInteractor
@@ -35,7 +37,7 @@ class SearchViewModel(
     private var isClickAllowed = true
 
     init {
-        renderHistoryCheck()
+        getTrackHistory()
     }
 
     fun searchDebounce(changedText: String) {
@@ -112,13 +114,23 @@ class SearchViewModel(
         trackHistoryInteractor.addTrack(TrackForUiMapper.map(track))
         saveTrackHistory()
         if (stateLiveData.value is TrackSearchState.History) {
-            renderState(TrackSearchState.History(getTrackHistory()))
+            getTrackHistory()
         }
     }
 
-    private fun getTrackHistory(): MutableList<TrackForUi> {
-        return trackHistoryInteractor.getTrackHistory()
-            .map { TrackForUiMapper.map(it) } as MutableList<TrackForUi>
+    private fun getTrackHistory() {
+        renderState(TrackSearchState.Content(emptyList()))
+        viewModelScope.launch(Dispatchers.IO) {
+            trackHistoryInteractor.getTrackHistory()
+                .map { tracks: List<Track> ->
+                    tracks.map { track: Track ->
+                        TrackForUiMapper.map(track)
+                    }
+                }
+                .collect { tracks: List<TrackForUi> ->
+                    renderHistoryCheck(tracks)
+                }
+        }
     }
 
     private fun saveTrackHistory() {
@@ -131,14 +143,11 @@ class SearchViewModel(
     }
 
     fun onClearButtonClick() {
-        renderHistoryCheck()
+        getTrackHistory()
     }
 
-    private fun renderHistoryCheck() {
-        val list = getTrackHistory()
-        if (list.isEmpty()) {
-            renderState(TrackSearchState.Content(emptyList()))
-        } else {
+    private fun renderHistoryCheck(list: List<TrackForUi>) {
+        if (list.isNotEmpty()) {
             renderState(TrackSearchState.History(list))
         }
     }

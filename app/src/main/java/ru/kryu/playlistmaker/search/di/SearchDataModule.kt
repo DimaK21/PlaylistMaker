@@ -33,7 +33,7 @@ val searchDataModule = module {
             .build()
             .create(ITunesApiService::class.java)
     }
-    factory<ConnectionStateProvider> {
+    factory {
         ConnectionStateProvider(connectivityManager = get())
     }
     factory<ConnectivityManager> {
@@ -50,7 +50,7 @@ val searchDataModule = module {
             AppCompatActivity.MODE_PRIVATE
         )
     }
-    factory<Gson> {
+    factory {
         Gson()
     }
 }

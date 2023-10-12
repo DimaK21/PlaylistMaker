@@ -10,6 +10,6 @@ class PlaylistsViewModel : ViewModel() {
     val listPlaylistsLiveData = listPlaylistsMutableLiveData
 
     init {
-        listPlaylistsMutableLiveData.postValue(emptyList<Playlist>())
+        listPlaylistsMutableLiveData.postValue(emptyList())
     }
 }

@@ -40,6 +40,12 @@ class SearchViewModel(
         getTrackHistory()
     }
 
+    fun onViewCreated() {
+        if (stateLiveData.value is TrackSearchState.History) {
+            getTrackHistory()
+        }
+    }
+
     fun searchDebounce(changedText: String) {
         if (latestSearchText == changedText) {
             return
@@ -113,9 +119,6 @@ class SearchViewModel(
         clickDebounce()
         trackHistoryInteractor.addTrack(TrackForUiMapper.map(track))
         saveTrackHistory()
-        if (stateLiveData.value is TrackSearchState.History) {
-            getTrackHistory()
-        }
     }
 
     private fun getTrackHistory() {

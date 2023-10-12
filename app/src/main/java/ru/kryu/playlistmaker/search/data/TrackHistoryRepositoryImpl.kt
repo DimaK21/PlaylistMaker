@@ -20,7 +20,7 @@ class TrackHistoryRepositoryImpl(
 
     override fun getTrackHistory(): Flow<List<Track>> = flow {
         val favouritesTracks = database.trackDao().getIdTracks()
-        trackHistory.forEach() { track ->
+        trackHistory.forEach { track ->
             if (favouritesTracks.contains(track.trackId)) {
                 track.isFavorite = true
             }

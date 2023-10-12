@@ -99,6 +99,8 @@ class SearchFragment : Fragment() {
         binding.clearHistoryButton.setOnClickListener {
             viewModel.onClearTrackHistoryClick()
         }
+
+        viewModel.onViewCreated()
     }
 
     private fun showToast(message: String?) {
@@ -116,8 +118,8 @@ class SearchFragment : Fragment() {
         when (state) {
             is TrackSearchState.History -> showHistory(state.tracks)
             is TrackSearchState.Content -> showContent(state.tracks)
-            is TrackSearchState.Empty -> showEmpty(state.message)
-            is TrackSearchState.Error -> showError(state.errorMessage)
+            is TrackSearchState.Empty -> showEmpty()
+            is TrackSearchState.Error -> showError()
             TrackSearchState.Loading -> showLoading()
         }
     }
@@ -148,7 +150,7 @@ class SearchFragment : Fragment() {
         trackAdapter?.notifyDataSetChanged()
     }
 
-    private fun showEmpty(message: String) {
+    private fun showEmpty() {
         binding.notFound.visibility = View.VISIBLE
         binding.noConnection.visibility = View.GONE
         binding.progressBar.visibility = View.GONE
@@ -157,7 +159,7 @@ class SearchFragment : Fragment() {
         binding.recyclerViewSearch.visibility = View.GONE
     }
 
-    private fun showError(errorMessage: String) {
+    private fun showError() {
         binding.notFound.visibility = View.GONE
         binding.noConnection.visibility = View.VISIBLE
         binding.progressBar.visibility = View.GONE

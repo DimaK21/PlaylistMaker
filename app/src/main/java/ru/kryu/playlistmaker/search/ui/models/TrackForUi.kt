@@ -18,6 +18,7 @@ data class TrackForUi(
     val country: String,
     val previewUrl: String,
     val artworkUrl512: String,
+    var isFavorite: Boolean,
 ) : Parcelable {
 
     fun getFormatTrackTimeMillis(): String =

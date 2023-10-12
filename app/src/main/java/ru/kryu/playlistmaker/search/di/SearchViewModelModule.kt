@@ -10,7 +10,7 @@ val searchViewModelModule = module {
         SearchViewModel(
             application = androidApplication(),
             trackSearchInteractor = get(),
-            trackHistoryInteractor = get()
+            trackHistoryInteractor = get(),
         )
     }
 }

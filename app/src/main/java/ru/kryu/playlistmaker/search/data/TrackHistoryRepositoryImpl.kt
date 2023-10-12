@@ -1,12 +1,16 @@
 package ru.kryu.playlistmaker.search.data
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import ru.kryu.playlistmaker.favourite.data.db.AppDatabase
 import ru.kryu.playlistmaker.search.data.storage.mapper.MapperTrackForStorage
 import ru.kryu.playlistmaker.search.domain.api.TrackHistoryRepository
 import ru.kryu.playlistmaker.search.domain.model.Track
 
 class TrackHistoryRepositoryImpl(
     private val historyStorage: HistoryStorage,
-    private val trackHistory: MutableList<Track>
+    private val trackHistory: MutableList<Track>,
+    private val database: AppDatabase,
 ) : TrackHistoryRepository {
 
     init {
@@ -14,8 +18,14 @@ class TrackHistoryRepositoryImpl(
             .map { MapperTrackForStorage().mapTrackForStorageToDomain(it) })
     }
 
-    override fun getTrackHistory(): List<Track> {
-        return trackHistory
+    override fun getTrackHistory(): Flow<List<Track>> = flow {
+        val favouritesTracks = database.trackDao().getIdTracks()
+        trackHistory.forEach { track ->
+            if (favouritesTracks.contains(track.trackId)) {
+                track.isFavorite = true
+            }
+        }
+        emit(trackHistory)
     }
 
     override fun saveTrackHistory() {

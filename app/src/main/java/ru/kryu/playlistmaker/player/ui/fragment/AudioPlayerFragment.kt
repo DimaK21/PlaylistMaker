@@ -17,7 +17,7 @@ import ru.kryu.playlistmaker.databinding.FragmentAudioPlayerBinding
 import ru.kryu.playlistmaker.player.ui.view_model.AudioPlayerViewModel
 import ru.kryu.playlistmaker.player.ui.view_model.PlayerState
 import ru.kryu.playlistmaker.search.domain.model.Track
-import ru.kryu.playlistmaker.search.ui.mapper.TrackToTrackForUi
+import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
 class AudioPlayerFragment : Fragment() {
@@ -28,7 +28,7 @@ class AudioPlayerFragment : Fragment() {
     private lateinit var track: TrackForUi
 
     private val viewModel: AudioPlayerViewModel by viewModel {
-        parametersOf(track.previewUrl)
+        parametersOf(track)
     }
 
     override fun onCreateView(
@@ -46,12 +46,24 @@ class AudioPlayerFragment : Fragment() {
         track = getTrack()
         viewModel.playerStateLiveData.observe(viewLifecycleOwner) { render(it) }
         viewModel.playerPositionLiveData.observe(viewLifecycleOwner) { setTimer(it) }
+        viewModel.isFavouriteLiveData.observe(viewLifecycleOwner) { setLikeIcon(it) }
         binding.buttonBackPlayer.setOnClickListener {
             findNavController().navigateUp()
         }
         initTrackInfo()
         binding.playButton.setOnClickListener {
             viewModel.onPlayerButtonClick()
+        }
+        binding.likeButton.setOnClickListener {
+            viewModel.onFavoriteClicked()
+        }
+    }
+
+    private fun setLikeIcon(isFavourite: Boolean) {
+        if (isFavourite) {
+            binding.likeButton.setImageResource(R.drawable.button_like_yes)
+        } else {
+            binding.likeButton.setImageResource(R.drawable.button_like_no)
         }
     }
 
@@ -62,12 +74,12 @@ class AudioPlayerFragment : Fragment() {
     private fun getTrack(): TrackForUi =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(TRACK, TrackForUi::class.java)
-                ?: TrackToTrackForUi().map(
+                ?: TrackForUiMapper.map(
                     Track()
                 )
         } else {
             @Suppress("DEPRECATION")
-            arguments?.getParcelable(TRACK) ?: TrackToTrackForUi().map(
+            arguments?.getParcelable(TRACK) ?: TrackForUiMapper.map(
                 Track()
             )
         }

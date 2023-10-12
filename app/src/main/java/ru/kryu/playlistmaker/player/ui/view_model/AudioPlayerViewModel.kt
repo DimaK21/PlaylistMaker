@@ -4,16 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.kryu.playlistmaker.favourite.domain.FavouritesInteractor
 import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
+import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
+import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 class AudioPlayerViewModel(
-    trackUrl: String,
-    private val mediaPlayerInteractor: PlayerInteractor
+    private val track: TrackForUi,
+    private val mediaPlayerInteractor: PlayerInteractor,
+    private val favouritesInteractor: FavouritesInteractor,
 ) : ViewModel() {
 
     private var mutablePlayerStateLiveData = MutableLiveData<PlayerState>()
@@ -22,21 +27,15 @@ class AudioPlayerViewModel(
     private var mutablePlayerPositionLiveData = MutableLiveData<String>()
     val playerPositionLiveData: LiveData<String> = mutablePlayerPositionLiveData
 
-    private var timerJob: Job? = null
+    private var mutableIsFavouriteLiveData = MutableLiveData<Boolean>()
+    val isFavouriteLiveData: LiveData<Boolean> = mutableIsFavouriteLiveData
 
-    private fun timerUpdate() {
-        timerJob = viewModelScope.launch {
-            while (mutablePlayerStateLiveData.value == PlayerState.STATE_PLAYING) {
-                mutablePlayerPositionLiveData.value = getCurrentPosition()
-                delay(DELAY_MILLIS)
-            }
-        }
-    }
+    private var timerJob: Job? = null
 
     init {
         changeState(PlayerState.STATE_DEFAULT)
 
-        mediaPlayerInteractor.preparePlayer(trackUrl)
+        mediaPlayerInteractor.preparePlayer(track.previewUrl)
 
         val onPreparedListener = object : PlayerInteractor.PreparedListener {
             override fun setOnPreparedListener() {
@@ -52,6 +51,16 @@ class AudioPlayerViewModel(
             }
         }
         mediaPlayerInteractor.setOnCompletionListener(onCompletionListener)
+        mutableIsFavouriteLiveData.postValue(track.isFavorite)
+    }
+
+    private fun timerUpdate() {
+        timerJob = viewModelScope.launch {
+            while (mutablePlayerStateLiveData.value == PlayerState.STATE_PLAYING) {
+                mutablePlayerPositionLiveData.value = getCurrentPosition()
+                delay(DELAY_MILLIS)
+            }
+        }
     }
 
     fun onPlayerButtonClick() {
@@ -92,6 +101,20 @@ class AudioPlayerViewModel(
     override fun onCleared() {
         super.onCleared()
         mediaPlayerInteractor.stopPlayer()
+    }
+
+    fun onFavoriteClicked() {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (track.isFavorite) {
+                favouritesInteractor.removeTrack(TrackForUiMapper.map(track))
+                track.isFavorite = false
+                mutableIsFavouriteLiveData.postValue(false)
+            } else {
+                favouritesInteractor.addTrack(TrackForUiMapper.map(track))
+                track.isFavorite = true
+                mutableIsFavouriteLiveData.postValue(true)
+            }
+        }
     }
 
     companion object {

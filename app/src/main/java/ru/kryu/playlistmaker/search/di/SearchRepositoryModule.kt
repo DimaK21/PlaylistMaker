@@ -9,12 +9,12 @@ import ru.kryu.playlistmaker.search.domain.model.Track
 
 val searchRepositoryModule = module {
     factory<TrackSearchRepository> {
-        TrackSearchRepositoryImpl(networkClient = get())
+        TrackSearchRepositoryImpl(networkClient = get(), database = get())
     }
     single<TrackHistoryRepository> {
-        TrackHistoryRepositoryImpl(historyStorage = get(), trackHistory = get())
+        TrackHistoryRepositoryImpl(historyStorage = get(), trackHistory = get(), database = get())
     }
-    single<MutableList<Track>> {
+    single {
         mutableListOf<Track>()
     }
 }

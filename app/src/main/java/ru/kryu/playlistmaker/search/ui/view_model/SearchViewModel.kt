@@ -1,26 +1,26 @@
 package ru.kryu.playlistmaker.search.ui.view_model
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.search.domain.api.TrackHistoryInteractor
 import ru.kryu.playlistmaker.search.domain.api.TrackSearchInteractor
 import ru.kryu.playlistmaker.search.domain.model.Track
-import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiToDomain
-import ru.kryu.playlistmaker.search.ui.mapper.TrackToTrackForUi
+import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
 class SearchViewModel(
     application: Application,
     private val trackSearchInteractor: TrackSearchInteractor,
-    private val trackHistoryInteractor: TrackHistoryInteractor
+    private val trackHistoryInteractor: TrackHistoryInteractor,
 ) : AndroidViewModel(application) {
 
     private var latestSearchText: String? = null
@@ -37,7 +37,13 @@ class SearchViewModel(
     private var isClickAllowed = true
 
     init {
-        renderHistoryCheck()
+        getTrackHistory()
+    }
+
+    fun onViewCreated() {
+        if (stateLiveData.value is TrackSearchState.History) {
+            getTrackHistory()
+        }
     }
 
     fun searchDebounce(changedText: String) {
@@ -56,7 +62,6 @@ class SearchViewModel(
         clickDebounce()
         latestSearchText = changedText
         searchRequest(changedText)
-        Log.d("MyTag", "click")
     }
 
     private fun searchRequest(newSearchText: String) {
@@ -75,7 +80,7 @@ class SearchViewModel(
     private fun processResult(foundTracks: List<Track>?, errorMessage: String?) {
         val tracks = mutableListOf<TrackForUi>()
         if (foundTracks != null) {
-            tracks.addAll(foundTracks.map { TrackToTrackForUi().map(it) })
+            tracks.addAll(foundTracks.map { TrackForUiMapper.map(it) })
         }
 
         when {
@@ -112,16 +117,23 @@ class SearchViewModel(
 
     fun onTrackClick(track: TrackForUi) {
         clickDebounce()
-        trackHistoryInteractor.addTrack(TrackForUiToDomain().map(track))
+        trackHistoryInteractor.addTrack(TrackForUiMapper.map(track))
         saveTrackHistory()
-        if (stateLiveData.value is TrackSearchState.History) {
-            renderState(TrackSearchState.History(getTrackHistory()))
-        }
     }
 
-    private fun getTrackHistory(): MutableList<TrackForUi> {
-        return trackHistoryInteractor.getTrackHistory()
-            .map { TrackToTrackForUi().map(it) } as MutableList<TrackForUi>
+    private fun getTrackHistory() {
+        renderState(TrackSearchState.Content(emptyList()))
+        viewModelScope.launch(Dispatchers.IO) {
+            trackHistoryInteractor.getTrackHistory()
+                .map { tracks: List<Track> ->
+                    tracks.map { track: Track ->
+                        TrackForUiMapper.map(track)
+                    }
+                }
+                .collect { tracks: List<TrackForUi> ->
+                    renderHistoryCheck(tracks)
+                }
+        }
     }
 
     private fun saveTrackHistory() {
@@ -134,14 +146,11 @@ class SearchViewModel(
     }
 
     fun onClearButtonClick() {
-        renderHistoryCheck()
+        getTrackHistory()
     }
 
-    private fun renderHistoryCheck() {
-        val list = getTrackHistory()
-        if (list.isEmpty()) {
-            renderState(TrackSearchState.Content(emptyList()))
-        } else {
+    private fun renderHistoryCheck(list: List<TrackForUi>) {
+        if (list.isNotEmpty()) {
             renderState(TrackSearchState.History(list))
         }
     }

@@ -37,4 +37,6 @@
     <string name="playlists">Плейлисты</string>
     <string name="playlist_cover">Обложка плейлиста</string>
     <string name="name_star">Название*</string>
+    <string name="Description">Описание</string>
+    <string name="create">Создать</string>
 </resources>

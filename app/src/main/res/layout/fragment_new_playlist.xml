@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/buttonBackNewPlaylist"
+        android:layout_width="@dimen/size_back_arrow"
+        android:layout_height="@dimen/size_back_arrow"
+        android:layout_marginStart="@dimen/margin_back_arrow"
+        android:layout_marginTop="@dimen/margin_back_arrow"
+        android:background="@null"
+        android:clickable="true"
+        android:contentDescription="@string/back_arrow"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="@dimen/padding_back_arrow"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/left_arrow"
+        app:tint="?attr/colorOnPrimary" />
+
+    <TextView
+        android:id="@+id/newPlayListHead"
+        style="@style/HeadTextNewPlaylist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/search_placeholder_tv_margin_horizontal"
+        android:text="@string/new_playlist"
+        app:layout_constraintBottom_toBottomOf="@id/buttonBackNewPlaylist"
+        app:layout_constraintStart_toEndOf="@id/buttonBackNewPlaylist"
+        app:layout_constraintTop_toTopOf="@id/buttonBackNewPlaylist" />
+
+    <View
+        android:id="@+id/newCover"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/search_placeholder_tv_margin_horizontal"
+        android:layout_marginTop="@dimen/margin_top_cover_player"
+        android:background="@drawable/new_cover_layer_list"
+        app:layout_constraintDimensionRatio="W,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/name_star"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/newCover">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etNamePlaylist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/button_top"
+            android:layout_marginTop="@dimen/margin_32"
+            android:paddingHorizontal="@dimen/button_top"
+            android:paddingVertical="@dimen/margin_18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/newCover" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

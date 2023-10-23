@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.settings.ui.view_model
+package ru.kryu.playlistmaker.settings.ui.viewmodel
 
 enum class DarkThemeState {
     STATE_DARK,

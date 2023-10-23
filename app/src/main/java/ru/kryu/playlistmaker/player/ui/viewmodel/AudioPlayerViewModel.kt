@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.player.ui.view_model
+package ru.kryu.playlistmaker.player.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -14,8 +14,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentAudioPlayerBinding
-import ru.kryu.playlistmaker.player.ui.view_model.AudioPlayerViewModel
-import ru.kryu.playlistmaker.player.ui.view_model.PlayerState
+import ru.kryu.playlistmaker.player.ui.viewmodel.AudioPlayerViewModel
+import ru.kryu.playlistmaker.player.ui.viewmodel.PlayerState
 import ru.kryu.playlistmaker.search.domain.model.Track
 import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi

@@ -2,10 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".createplaylist.ui.fragment.CreatePlaylistFragment">
 
     <ImageButton
-        android:id="@+id/buttonBackPlayer"
+        android:id="@+id/buttonBackNewPlaylist"
         android:layout_width="@dimen/size_back_arrow"
         android:layout_height="@dimen/size_back_arrow"
         android:layout_marginStart="@dimen/margin_back_arrow"
@@ -29,9 +31,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/search_placeholder_tv_margin_horizontal"
         android:text="@string/new_playlist"
-        app:layout_constraintBottom_toBottomOf="@id/buttonBackPlayer"
-        app:layout_constraintStart_toEndOf="@id/buttonBackPlayer"
-        app:layout_constraintTop_toTopOf="@id/buttonBackPlayer" />
+        app:layout_constraintBottom_toBottomOf="@id/buttonBackNewPlaylist"
+        app:layout_constraintStart_toEndOf="@id/buttonBackNewPlaylist"
+        app:layout_constraintTop_toTopOf="@id/buttonBackNewPlaylist" />
 
     <View
         android:id="@+id/newCover"

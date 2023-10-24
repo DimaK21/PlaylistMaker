@@ -36,13 +36,15 @@
         app:layout_constraintStart_toEndOf="@id/buttonBackNewPlaylist"
         app:layout_constraintTop_toTopOf="@id/buttonBackNewPlaylist" />
 
-    <View
+    <ImageView
         android:id="@+id/newCover"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="@dimen/search_placeholder_tv_margin_horizontal"
         android:layout_marginTop="@dimen/margin_top_cover_player"
         android:background="@drawable/new_cover_layer_list"
+        android:contentDescription="@string/cover"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@id/ilNamePlaylist"
         app:layout_constraintDimensionRatio="W,1:1"
         app:layout_constraintEnd_toEndOf="parent"

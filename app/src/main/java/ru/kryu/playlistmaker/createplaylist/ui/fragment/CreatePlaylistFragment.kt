@@ -1,14 +1,20 @@
 package ru.kryu.playlistmaker.createplaylist.ui.fragment
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -16,12 +22,16 @@ import com.markodevcic.peko.PermissionRequester
 import com.markodevcic.peko.PermissionResult
 import kotlinx.coroutines.launch
 import ru.kryu.playlistmaker.databinding.FragmentNewPlaylistBinding
+import java.io.File
+import java.io.FileOutputStream
+import java.util.UUID
 
 class CreatePlaylistFragment : Fragment() {
 
     private var _binding: FragmentNewPlaylistBinding? = null
     private val binding get() = _binding!!
     private val requester = PermissionRequester.instance()
+    private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +44,14 @@ class CreatePlaylistFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        pickMedia =
+            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+                if (uri != null) {
+                    binding.newCover.setImageURI(uri)
+                    saveImageToPrivateStorage(uri)
+                }
+            }
 
         binding.newCover.setOnClickListener {
             pickImage()
@@ -51,11 +69,10 @@ class CreatePlaylistFragment : Fragment() {
             } else {
                 android.Manifest.permission.READ_EXTERNAL_STORAGE
             }
-
             requester.request(permission).collect { result ->
                 when (result) {
                     is PermissionResult.Granted -> {
-                        selectImage()
+                        pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                     }
 
                     is PermissionResult.Denied.DeniedPermanently -> {
@@ -81,8 +98,18 @@ class CreatePlaylistFragment : Fragment() {
         }
     }
 
-    private fun selectImage() {
-
+    private fun saveImageToPrivateStorage(uri: Uri) {
+        val filePath =
+            File(activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "covers")
+        if (!filePath.exists()) {
+            filePath.mkdirs()
+        }
+        val file = File(filePath, "cover${UUID.randomUUID()}.jpg")
+        val inputStream = activity?.contentResolver?.openInputStream(uri)
+        val outputStream = FileOutputStream(file)
+        BitmapFactory
+            .decodeStream(inputStream)
+            .compress(Bitmap.CompressFormat.JPEG, 50, outputStream)
     }
 
     override fun onDestroyView() {

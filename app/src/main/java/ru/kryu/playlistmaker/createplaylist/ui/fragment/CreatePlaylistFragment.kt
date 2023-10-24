@@ -8,6 +8,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +34,7 @@ class CreatePlaylistFragment : Fragment() {
     private val binding get() = _binding!!
     private val requester = PermissionRequester.instance()
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
+    private lateinit var editTextTextWatcher: TextWatcher
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +63,21 @@ class CreatePlaylistFragment : Fragment() {
         binding.buttonBackNewPlaylist.setOnClickListener {
             findNavController().navigateUp()
         }
+
+        editTextTextWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                binding.btnCreateNewPlaylist.isEnabled = !s.isNullOrEmpty()
+            }
+        }
+        binding.etNamePlaylist.addTextChangedListener(editTextTextWatcher)
     }
 
     private fun pickImage() {
@@ -114,6 +132,7 @@ class CreatePlaylistFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.etNamePlaylist.removeTextChangedListener(editTextTextWatcher)
         _binding = null
     }
 }

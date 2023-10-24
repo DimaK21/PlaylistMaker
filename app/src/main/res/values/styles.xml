@@ -184,6 +184,8 @@
         <item name="android:paddingTop">@dimen/margin_18</item>
         <item name="android:paddingBottom">@dimen/margin_18</item>
         <item name="android:lines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:inputType">text</item>
     </style>
 
     <style name="text_new_playlist">

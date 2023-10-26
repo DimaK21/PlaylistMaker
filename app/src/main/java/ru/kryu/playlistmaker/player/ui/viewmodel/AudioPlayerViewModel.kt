@@ -106,12 +106,12 @@ class AudioPlayerViewModel(
     fun onFavoriteClicked() {
         viewModelScope.launch(Dispatchers.IO) {
             if (track.isFavorite) {
-                favouritesInteractor.removeTrack(TrackForUiMapper.map(track))
                 track.isFavorite = false
+                favouritesInteractor.removeTrack(TrackForUiMapper.map(track))
                 mutableIsFavouriteLiveData.postValue(false)
             } else {
-                favouritesInteractor.addTrack(TrackForUiMapper.map(track))
                 track.isFavorite = true
+                favouritesInteractor.addTrack(TrackForUiMapper.map(track))
                 mutableIsFavouriteLiveData.postValue(true)
             }
         }

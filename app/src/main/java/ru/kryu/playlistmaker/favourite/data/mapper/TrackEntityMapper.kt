@@ -17,6 +17,7 @@ object TrackEntityMapper {
             primaryGenreName = track.primaryGenreName,
             country = track.country,
             previewUrl = track.previewUrl,
+            isFavorite = track.isFavorite,
         )
     }
 
@@ -32,7 +33,8 @@ object TrackEntityMapper {
             primaryGenreName = track.primaryGenreName,
             country = track.country,
             previewUrl = track.previewUrl,
-            createTime = System.currentTimeMillis()
+            createTime = System.currentTimeMillis(),
+            isFavorite = track.isFavorite,
         )
     }
 }

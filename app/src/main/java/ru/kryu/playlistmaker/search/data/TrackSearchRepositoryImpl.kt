@@ -29,7 +29,7 @@ class TrackSearchRepositoryImpl(
                     TrackDtoToDomain.map(it)
                 })
                 val favouritesTracks = withContext(Dispatchers.IO) {
-                    database.trackDao().getIdTracks()
+                    database.trackFavouriteDao().getIdTracks()
                 }
                 resource.data?.map { track ->
                     if (favouritesTracks.contains(track.trackId)) {

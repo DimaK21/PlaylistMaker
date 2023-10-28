@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.favourite.domain
+package ru.kryu.playlistmaker.favourite.domain.api
 
 import kotlinx.coroutines.flow.Flow
 import ru.kryu.playlistmaker.search.domain.model.Track

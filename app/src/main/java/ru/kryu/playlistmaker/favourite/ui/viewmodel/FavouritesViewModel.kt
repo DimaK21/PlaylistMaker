@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import ru.kryu.playlistmaker.favourite.domain.FavouritesInteractor
+import ru.kryu.playlistmaker.favourite.domain.api.FavouritesInteractor
 import ru.kryu.playlistmaker.search.domain.model.Track
 import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
 

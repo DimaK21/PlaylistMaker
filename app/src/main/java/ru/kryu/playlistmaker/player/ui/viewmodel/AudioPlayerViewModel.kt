@@ -8,7 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.kryu.playlistmaker.favourite.domain.FavouritesInteractor
+import ru.kryu.playlistmaker.favourite.domain.api.FavouritesInteractor
 import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
 import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi

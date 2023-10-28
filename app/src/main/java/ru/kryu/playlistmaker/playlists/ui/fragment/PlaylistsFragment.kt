@@ -37,6 +37,8 @@ class PlaylistsFragment : Fragment() {
             render(it)
         }
 
+        playlistsViewModel.viewCreated()
+
         binding.btnNewPlaylist.setOnClickListener {
             findNavController().navigate(R.id.action_mediaFragment_to_createPlaylistFragment)
         }

@@ -16,7 +16,7 @@ class PlaylistViewHolder(private val binding: PlaylistItemBinding) :
         Glide.with(itemView)
             .load(playlist.playlistImage)
             .placeholder(R.drawable.search_placeholder)
-            .transform(RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.edit_text_corner_radius)))
+            .transform(RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.corners_8)))
             .into(binding.ivPlaylistImage)
     }
 }

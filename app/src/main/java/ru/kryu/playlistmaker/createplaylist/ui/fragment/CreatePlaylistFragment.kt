@@ -19,6 +19,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.markodevcic.peko.PermissionRequester
 import com.markodevcic.peko.PermissionResult
 import kotlinx.coroutines.launch
@@ -54,7 +56,10 @@ class CreatePlaylistFragment : Fragment() {
         pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
-                    binding.newCover.setImageURI(uri)
+                    Glide.with(this)
+                        .load(uri)
+                        .transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.corners_8)))
+                        .into(binding.newCover)
                     imageId = UUID.randomUUID().toString()
                     viewModel.mediaPicked(uri, imageId)
                 }

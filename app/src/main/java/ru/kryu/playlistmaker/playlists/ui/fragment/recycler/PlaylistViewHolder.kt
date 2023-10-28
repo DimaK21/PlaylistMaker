@@ -12,7 +12,7 @@ class PlaylistViewHolder(private val binding: PlaylistItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(playlist: PlaylistItemUi) {
         binding.tvPlaylistName.text = playlist.playlistName
-        binding.tvPlaylistTracksNumber.text = playlist.playlistTracksNumber.toString()
+        binding.tvPlaylistTracksNumber.text = playlist.getPlaylistTracksNumberText()
         Glide.with(itemView)
             .load(playlist.playlistImage)
             .placeholder(R.drawable.search_placeholder)

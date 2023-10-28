@@ -10,7 +10,7 @@ class CreatePlaylistInteractorImpl(private val createPlaylistRepository: CreateP
         createPlaylistRepository.createPlaylist(playlist)
     }
 
-    override suspend fun saveImageToPrivateStorage(path: String?) {
-        createPlaylistRepository.saveImageToPrivateStorage(path)
+    override suspend fun saveImageToPrivateStorage(path: String, imageId: String) {
+        createPlaylistRepository.saveImageToPrivateStorage(path, imageId)
     }
 }

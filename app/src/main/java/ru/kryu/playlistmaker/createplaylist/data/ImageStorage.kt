@@ -1,5 +1,5 @@
 package ru.kryu.playlistmaker.createplaylist.data
 
 interface ImageStorage {
-    fun saveImage(path: String?)
+    fun saveImage(path: String, imageId: String)
 }

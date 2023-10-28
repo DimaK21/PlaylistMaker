@@ -26,9 +26,9 @@ class CreatePlaylistViewModel(private val createPlaylistInteractor: CreatePlayli
         }
     }
 
-    fun mediaPicked(uri: Uri) {
+    fun mediaPicked(uri: Uri, imageId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            createPlaylistInteractor.saveImageToPrivateStorage(uri.toString())
+            createPlaylistInteractor.saveImageToPrivateStorage(uri.toString(), imageId)
         }
     }
 }

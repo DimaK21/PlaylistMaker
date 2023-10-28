@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
@@ -25,6 +26,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.createplaylist.ui.viewmodel.CreatePlaylistViewModel
 import ru.kryu.playlistmaker.databinding.FragmentNewPlaylistBinding
+import java.util.UUID
 
 class CreatePlaylistFragment : Fragment() {
 
@@ -34,6 +36,7 @@ class CreatePlaylistFragment : Fragment() {
     private val requester = PermissionRequester.instance()
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var editTextTextWatcher: TextWatcher
+    private var imageId = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,8 +54,9 @@ class CreatePlaylistFragment : Fragment() {
         pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
+                    imageId = UUID.randomUUID().toString()
                     binding.newCover.setImageURI(uri)
-                    viewModel.mediaPicked(uri)
+                    viewModel.mediaPicked(uri, imageId)
                 }
             }
 
@@ -66,9 +70,9 @@ class CreatePlaylistFragment : Fragment() {
 
         binding.btnCreateNewPlaylist.setOnClickListener {
             viewModel.onButtonSaveClick(
-                binding.etNamePlaylist.text.toString(),
-                binding.etDescriptionPlaylist.text.toString(),
-                ""
+                playlistName = binding.etNamePlaylist.text.toString(),
+                playlistDescription = binding.etDescriptionPlaylist.text.toString(),
+                playlistCoverPath = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.path + "/$FILE_DIRECTORY/cover-$imageId.jpg"
             )
         }
 
@@ -129,5 +133,9 @@ class CreatePlaylistFragment : Fragment() {
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         binding.etNamePlaylist.removeTextChangedListener(editTextTextWatcher)
         _binding = null
+    }
+
+    companion object {
+        const val FILE_DIRECTORY = "covers"
     }
 }

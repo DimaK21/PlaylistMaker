@@ -13,7 +13,7 @@ class CreatePlaylistRepositoryImpl(
         database.playlistDao().addPlaylist(playlist = PlaylistEntityMapper.map(playlist))
     }
 
-    override suspend fun saveImageToPrivateStorage(path: String?) {
-        imageStorage.saveImage(path)
+    override suspend fun saveImageToPrivateStorage(path: String, imageId: String) {
+        imageStorage.saveImage(path, imageId)
     }
 }

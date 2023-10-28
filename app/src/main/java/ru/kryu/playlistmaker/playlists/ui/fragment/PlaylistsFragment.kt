@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentPlaylistsBinding
-import ru.kryu.playlistmaker.playlists.domain.model.Playlist
-import ru.kryu.playlistmaker.playlists.ui.models.PlaylistItemUi
+import ru.kryu.playlistmaker.playlists.ui.fragment.recycler.PlaylistAdapter
 import ru.kryu.playlistmaker.playlists.ui.viewmodel.PlaylistsState
 import ru.kryu.playlistmaker.playlists.ui.viewmodel.PlaylistsViewModel
 
@@ -20,6 +21,7 @@ class PlaylistsFragment : Fragment() {
 
     private var _binding: FragmentPlaylistsBinding? = null
     private val binding get() = _binding!!
+    private var playlistAdapter: PlaylistAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +35,11 @@ class PlaylistsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        playlistAdapter = PlaylistAdapter()
+        binding.rvPlaylists.layoutManager =
+            GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+        binding.rvPlaylists.adapter = playlistAdapter
+
         playlistsViewModel.listPlaylistsLiveData.observe(viewLifecycleOwner) {
             render(it)
         }
@@ -45,11 +52,16 @@ class PlaylistsFragment : Fragment() {
     }
 
     private fun render(state: PlaylistsState) {
-        when (state){
+        when (state) {
             is PlaylistsState.Content -> {
                 binding.groupEmpty.visibility = View.GONE
                 binding.rvPlaylists.visibility = View.VISIBLE
+
+                playlistAdapter?.playlists?.clear()
+                playlistAdapter?.playlists?.addAll(state.playlists)
+                playlistAdapter?.notifyDataSetChanged()
             }
+
             PlaylistsState.Empty -> {
                 binding.groupEmpty.visibility = View.VISIBLE
                 binding.rvPlaylists.visibility = View.GONE
@@ -59,6 +71,8 @@ class PlaylistsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        playlistAdapter = null
+        binding.rvPlaylists.adapter = null
         _binding = null
     }
 

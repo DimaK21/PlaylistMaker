@@ -6,6 +6,6 @@ import ru.kryu.playlistmaker.createplaylist.domain.api.CreatePlaylistRepository
 
 val createPlaylistRepositoryModule = module {
     single<CreatePlaylistRepository> {
-        CreatePlaylistRepositoryImpl(get())
+        CreatePlaylistRepositoryImpl(database = get(), imageStorage = get())
     }
 }

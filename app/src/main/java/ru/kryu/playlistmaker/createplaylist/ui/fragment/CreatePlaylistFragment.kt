@@ -1,12 +1,9 @@
 package ru.kryu.playlistmaker.createplaylist.ui.fragment
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
@@ -25,11 +22,9 @@ import com.markodevcic.peko.PermissionRequester
 import com.markodevcic.peko.PermissionResult
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.createplaylist.ui.viewmodel.CreatePlaylistViewModel
 import ru.kryu.playlistmaker.databinding.FragmentNewPlaylistBinding
-import java.io.File
-import java.io.FileOutputStream
-import java.util.UUID
 
 class CreatePlaylistFragment : Fragment() {
 
@@ -57,7 +52,7 @@ class CreatePlaylistFragment : Fragment() {
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
                     binding.newCover.setImageURI(uri)
-                    saveImageToPrivateStorage(uri)
+                    viewModel.mediaPicked(uri)
                 }
             }
 
@@ -116,7 +111,7 @@ class CreatePlaylistFragment : Fragment() {
                     is PermissionResult.Denied.NeedsRationale -> {
                         Toast.makeText(
                             requireContext(),
-                            "Разрешение на доступ к файлам необходимо для выбора обложки плейлиста",
+                            getString(R.string.need_permission),
                             Toast.LENGTH_LONG
                         ).show()
                     }
@@ -127,20 +122,6 @@ class CreatePlaylistFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun saveImageToPrivateStorage(uri: Uri) {
-        val filePath =
-            File(activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "covers")
-        if (!filePath.exists()) {
-            filePath.mkdirs()
-        }
-        val file = File(filePath, "cover${UUID.randomUUID()}.jpg")
-        val inputStream = activity?.contentResolver?.openInputStream(uri)
-        val outputStream = FileOutputStream(file)
-        BitmapFactory
-            .decodeStream(inputStream)
-            .compress(Bitmap.CompressFormat.JPEG, 50, outputStream)
     }
 
     override fun onDestroyView() {

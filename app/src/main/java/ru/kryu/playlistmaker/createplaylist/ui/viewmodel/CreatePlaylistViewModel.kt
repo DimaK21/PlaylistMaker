@@ -1,5 +1,6 @@
 package ru.kryu.playlistmaker.createplaylist.ui.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -22,6 +23,12 @@ class CreatePlaylistViewModel(private val createPlaylistInteractor: CreatePlayli
         )
         viewModelScope.launch(Dispatchers.IO) {
             createPlaylistInteractor.createPlaylist(playlist)
+        }
+    }
+
+    fun mediaPicked(uri: Uri) {
+        viewModelScope.launch(Dispatchers.IO) {
+            createPlaylistInteractor.saveImageToPrivateStorage(uri.toString())
         }
     }
 }

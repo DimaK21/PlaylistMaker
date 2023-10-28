@@ -54,8 +54,8 @@ class CreatePlaylistFragment : Fragment() {
         pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 if (uri != null) {
-                    imageId = UUID.randomUUID().toString()
                     binding.newCover.setImageURI(uri)
+                    imageId = UUID.randomUUID().toString()
                     viewModel.mediaPicked(uri, imageId)
                 }
             }
@@ -72,8 +72,13 @@ class CreatePlaylistFragment : Fragment() {
             viewModel.onButtonSaveClick(
                 playlistName = binding.etNamePlaylist.text.toString(),
                 playlistDescription = binding.etDescriptionPlaylist.text.toString(),
-                playlistCoverPath = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.path + "/$FILE_DIRECTORY/cover-$imageId.jpg"
+                playlistCoverPath = if (imageId != "") {
+                    activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.path + "/$FILE_DIRECTORY/cover-$imageId.jpg"
+                } else {
+                    ""
+                }
             )
+            findNavController().navigateUp()
         }
 
         editTextTextWatcher = object : TextWatcher {

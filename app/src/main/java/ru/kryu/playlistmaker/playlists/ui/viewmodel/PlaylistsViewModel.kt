@@ -1,8 +1,8 @@
-package ru.kryu.playlistmaker.playlist.ui.viewmodel
+package ru.kryu.playlistmaker.playlists.ui.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ru.kryu.playlistmaker.playlist.domain.model.Playlist
+import ru.kryu.playlistmaker.playlists.domain.model.Playlist
 
 class PlaylistsViewModel : ViewModel() {
 

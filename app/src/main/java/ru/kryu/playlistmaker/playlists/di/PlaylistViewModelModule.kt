@@ -1,8 +1,8 @@
-package ru.kryu.playlistmaker.playlist.di
+package ru.kryu.playlistmaker.playlists.di
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import ru.kryu.playlistmaker.playlist.ui.viewmodel.PlaylistsViewModel
+import ru.kryu.playlistmaker.playlists.ui.viewmodel.PlaylistsViewModel
 
 val playlistViewModelModule = module {
     viewModel {

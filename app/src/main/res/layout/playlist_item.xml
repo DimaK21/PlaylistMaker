@@ -27,7 +27,7 @@
         tools:text="Название альбома очень очень очень очень очень очень очень очень длинное" />
 
     <TextView
-        android:id="@+id/tvPlaylistSongsNumber"
+        android:id="@+id/tvPlaylistTracksNumber"
         style="@style/text_bottom_navigation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

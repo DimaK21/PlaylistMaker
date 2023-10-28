@@ -1,7 +1,7 @@
 package ru.kryu.playlistmaker.createplaylist.data.mapper
 
 import ru.kryu.playlistmaker.createplaylist.data.db.entity.PlaylistEntity
-import ru.kryu.playlistmaker.playlist.domain.model.Playlist
+import ru.kryu.playlistmaker.playlists.domain.model.Playlist
 
 object PlaylistEntityMapper {
     fun map(playlist: PlaylistEntity): Playlist {

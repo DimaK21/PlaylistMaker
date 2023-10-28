@@ -1,6 +1,6 @@
 package ru.kryu.playlistmaker.createplaylist.domain.api
 
-import ru.kryu.playlistmaker.playlist.domain.model.Playlist
+import ru.kryu.playlistmaker.playlists.domain.model.Playlist
 
 interface CreatePlaylistRepository {
     suspend fun createPlaylist(playlist: Playlist)

@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.playlist.domain.model
+package ru.kryu.playlistmaker.playlists.domain.model
 
 data class Playlist(
     val playlistId: Long? = null,

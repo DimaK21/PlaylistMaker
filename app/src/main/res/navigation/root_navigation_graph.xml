@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mediaFragment"
-        android:name="ru.kryu.playlistmaker.playlist.ui.fragment.MediaFragment"
+        android:name="ru.kryu.playlistmaker.playlists.ui.fragment.MediaFragment"
         android:label="fragment_media"
         tools:layout="@layout/fragment_media" >
         <action
@@ -49,7 +49,7 @@
         android:label="FavouritesFragment" />
     <fragment
         android:id="@+id/playlistsFragment"
-        android:name="ru.kryu.playlistmaker.playlist.ui.fragment.PlaylistsFragment"
+        android:name="ru.kryu.playlistmaker.playlists.ui.fragment.PlaylistsFragment"
         android:label="PlaylistsFragment" />
     <fragment
         android:id="@+id/audioPlayerFragment"

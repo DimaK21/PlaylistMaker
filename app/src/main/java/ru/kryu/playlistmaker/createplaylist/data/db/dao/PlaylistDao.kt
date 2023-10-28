@@ -10,8 +10,6 @@ import ru.kryu.playlistmaker.createplaylist.data.db.entity.PlaylistEntity
 import ru.kryu.playlistmaker.createplaylist.data.db.entity.PlaylistTrackEntity
 import ru.kryu.playlistmaker.createplaylist.data.db.entity.PlaylistWithTracks
 import ru.kryu.playlistmaker.createplaylist.data.db.entity.TrackWithPlaylists
-import ru.kryu.playlistmaker.favourite.data.db.entity.TrackEntity
-import ru.kryu.playlistmaker.playlist.domain.model.Playlist
 
 @Dao
 interface PlaylistDao {
@@ -32,7 +30,7 @@ interface PlaylistDao {
     fun getTrackWithPlaylists(trackId: Long): TrackWithPlaylists?
 
     @Query("SELECT count(*) FROM playlist_track_table WHERE playlistId = :playlistId")
-    fun getCountTracksInPlaylist(playlistId: Long): Long
+    fun getCountTracksInPlaylist(playlistId: Long): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addPlaylist(playlist: PlaylistEntity)

@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.playlist.di
+package ru.kryu.playlistmaker.playlists.di
 
 import org.koin.dsl.module
 

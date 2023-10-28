@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.playlist.ui.fragment
+package ru.kryu.playlistmaker.playlists.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,8 +9,8 @@ import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentPlaylistsBinding
-import ru.kryu.playlistmaker.playlist.domain.model.Playlist
-import ru.kryu.playlistmaker.playlist.ui.viewmodel.PlaylistsViewModel
+import ru.kryu.playlistmaker.playlists.domain.model.Playlist
+import ru.kryu.playlistmaker.playlists.ui.viewmodel.PlaylistsViewModel
 
 class PlaylistsFragment : Fragment() {
 

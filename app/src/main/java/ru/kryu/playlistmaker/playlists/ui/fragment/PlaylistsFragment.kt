@@ -10,6 +10,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentPlaylistsBinding
 import ru.kryu.playlistmaker.playlists.domain.model.Playlist
+import ru.kryu.playlistmaker.playlists.ui.models.PlaylistItemUi
+import ru.kryu.playlistmaker.playlists.ui.viewmodel.PlaylistsState
 import ru.kryu.playlistmaker.playlists.ui.viewmodel.PlaylistsViewModel
 
 class PlaylistsFragment : Fragment() {
@@ -40,9 +42,16 @@ class PlaylistsFragment : Fragment() {
         }
     }
 
-    private fun render(list: List<Playlist>?) {
-        if (list.isNullOrEmpty()) {
-            binding.groupEmpty.visibility = View.VISIBLE
+    private fun render(state: PlaylistsState) {
+        when (state){
+            is PlaylistsState.Content -> {
+                binding.groupEmpty.visibility = View.GONE
+                binding.rvPlaylists.visibility = View.VISIBLE
+            }
+            PlaylistsState.Empty -> {
+                binding.groupEmpty.visibility = View.VISIBLE
+                binding.rvPlaylists.visibility = View.GONE
+            }
         }
     }
 

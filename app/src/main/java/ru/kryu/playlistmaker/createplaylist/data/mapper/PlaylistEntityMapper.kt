@@ -15,7 +15,7 @@ object PlaylistEntityMapper {
 
     fun map(playlist: Playlist): PlaylistEntity {
         return PlaylistEntity(
-            playlistId = playlist.playlistId,
+            playlistId = playlist.playlistId ?: 0,
             playlistName = playlist.playlistName,
             playlistDescription = playlist.playlistDescription,
             playlistCoverPath = playlist.playlistCoverPath,

@@ -43,4 +43,7 @@ interface PlaylistDao {
 
     @Delete
     fun removePlaylist(playlistEntity: PlaylistEntity)
+
+    @Query("SELECT * FROM playlist_table")
+    fun getPlaylists(): List<PlaylistEntity>
 }

@@ -6,6 +6,6 @@ import ru.kryu.playlistmaker.createplaylist.ui.viewmodel.CreatePlaylistViewModel
 
 val createPlaylistViewModelModule = module {
     viewModel {
-        CreatePlaylistViewModel()
+        CreatePlaylistViewModel(get())
     }
 }

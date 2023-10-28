@@ -1,6 +1,7 @@
 package ru.kryu.playlistmaker.createplaylist.data.db.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -38,4 +39,10 @@ interface PlaylistDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addTrackInPlaylist(playlistTrackEntity: PlaylistTrackEntity)
+
+    @Delete
+    fun removeTrackFromPlaylist(playlistTrackEntity: PlaylistTrackEntity)
+
+    @Delete
+    fun removePlaylist(playlistEntity: PlaylistEntity)
 }

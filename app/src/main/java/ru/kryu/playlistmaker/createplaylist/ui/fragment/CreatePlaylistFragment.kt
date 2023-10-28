@@ -24,6 +24,8 @@ import androidx.navigation.fragment.findNavController
 import com.markodevcic.peko.PermissionRequester
 import com.markodevcic.peko.PermissionResult
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.kryu.playlistmaker.createplaylist.ui.viewmodel.CreatePlaylistViewModel
 import ru.kryu.playlistmaker.databinding.FragmentNewPlaylistBinding
 import java.io.File
 import java.io.FileOutputStream
@@ -31,6 +33,7 @@ import java.util.UUID
 
 class CreatePlaylistFragment : Fragment() {
 
+    private val viewModel: CreatePlaylistViewModel by viewModel()
     private var _binding: FragmentNewPlaylistBinding? = null
     private val binding get() = _binding!!
     private val requester = PermissionRequester.instance()
@@ -64,6 +67,14 @@ class CreatePlaylistFragment : Fragment() {
 
         binding.buttonBackNewPlaylist.setOnClickListener {
             findNavController().navigateUp()
+        }
+
+        binding.btnCreateNewPlaylist.setOnClickListener {
+            viewModel.onButtonSaveClick(
+                binding.etNamePlaylist.text.toString(),
+                binding.etDescriptionPlaylist.text.toString(),
+                ""
+            )
         }
 
         editTextTextWatcher = object : TextWatcher {

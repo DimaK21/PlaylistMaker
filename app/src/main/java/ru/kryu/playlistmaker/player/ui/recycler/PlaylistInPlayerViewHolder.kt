@@ -1,25 +1,25 @@
-package ru.kryu.playlistmaker.playlists.ui.recycler
+package ru.kryu.playlistmaker.player.ui.recycler
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.kryu.playlistmaker.R
-import ru.kryu.playlistmaker.databinding.PlaylistItemBinding
+import ru.kryu.playlistmaker.databinding.PlaylistItemSmallBinding
 import ru.kryu.playlistmaker.playlists.ui.models.PlaylistItemUi
 
-class PlaylistViewHolder(private val binding: PlaylistItemBinding) :
+class PlaylistInPlayerViewHolder(private val binding: PlaylistItemSmallBinding) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(playlist: PlaylistItemUi) {
-        binding.tvPlaylistName.text = playlist.playlistName
-        binding.tvPlaylistTracksNumber.text = playlist.getPlaylistTracksNumberText()
+        binding.tvPlaylistNameSmall.text = playlist.playlistName
+        binding.tvPlaylistSongsNumberSmall.text = playlist.getPlaylistTracksNumberText()
         Glide.with(itemView)
             .load(playlist.playlistImage)
             .placeholder(R.drawable.search_placeholder)
             .transform(
                 CenterCrop(),
-                RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.corners_8))
+                RoundedCorners(itemView.resources.getDimensionPixelSize(R.dimen.image_track_corners))
             )
-            .into(binding.ivPlaylistImage)
+            .into(binding.ivPlaylistImageSmall)
     }
 }

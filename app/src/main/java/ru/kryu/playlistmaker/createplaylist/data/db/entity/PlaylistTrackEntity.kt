@@ -12,23 +12,3 @@ data class PlaylistTrackEntity(
     val playlistId: Long,
     val trackId: Long,
 )
-
-data class PlaylistWithTracks(
-    @Embedded val playlist: PlaylistEntity,
-    @Relation(
-        parentColumn = "playlistId",
-        entityColumn = "trackId",
-        associateBy = Junction(PlaylistTrackEntity::class)
-    )
-    val tracks: List<TrackEntity>
-)
-
-data class TrackWithPlaylists(
-    @Embedded val track: TrackEntity,
-    @Relation(
-        parentColumn = "trackId",
-        entityColumn = "playlistId",
-        associateBy = Junction(PlaylistTrackEntity::class)
-    )
-    val playlists: List<PlaylistEntity>
-)

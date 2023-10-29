@@ -8,7 +8,7 @@ import ru.kryu.playlistmaker.search.domain.model.Track
 
 object PlaylistTrackEntityMapper {
     fun map(playlist: PlaylistEntity, track: TrackEntity): PlaylistTrackEntity {
-        return PlaylistTrackEntity(playlistId = playlist.playlistId!!, trackId = track.trackId)
+        return PlaylistTrackEntity(playlistId = playlist.playlistId, trackId = track.trackId)
     }
 
     fun map(playlist: Playlist, track: Track): PlaylistTrackEntity {

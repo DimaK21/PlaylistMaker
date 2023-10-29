@@ -4,7 +4,7 @@ import ru.kryu.playlistmaker.playlists.domain.model.Playlist
 import ru.kryu.playlistmaker.playlists.ui.models.PlaylistItemUi
 
 object PlaylistItemUiMapper {
-    fun map(playlist: Playlist): PlaylistItemUi{
+    fun map(playlist: Playlist): PlaylistItemUi {
         return PlaylistItemUi(
             playlistId = playlist.playlistId!!,
             playlistImage = playlist.playlistCoverPath,
@@ -13,7 +13,7 @@ object PlaylistItemUiMapper {
         )
     }
 
-    fun map(playlist: PlaylistItemUi): Playlist{
+    fun map(playlist: PlaylistItemUi): Playlist {
         return Playlist(
             playlistId = playlist.playlistId,
             playlistCoverPath = playlist.playlistImage,

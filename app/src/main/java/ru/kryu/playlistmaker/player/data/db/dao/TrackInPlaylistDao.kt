@@ -4,9 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import ru.kryu.playlistmaker.createplaylist.data.db.entity.PlaylistEntity
 import ru.kryu.playlistmaker.createplaylist.data.db.entity.PlaylistTrackEntity
-import ru.kryu.playlistmaker.favourite.data.db.entity.TrackEntity
 
 @Dao
 interface TrackInPlaylistDao {

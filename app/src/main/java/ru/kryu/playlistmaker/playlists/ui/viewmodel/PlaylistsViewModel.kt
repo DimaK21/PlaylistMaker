@@ -22,14 +22,14 @@ class PlaylistsViewModel(private val playlistsInteractor: PlaylistsInteractor) :
     fun viewCreated() {
         setState(PlaylistsState.Empty)
         viewModelScope.launch(Dispatchers.IO) {
-            playlistsInteractor.getPlaylists().collect{ playlists ->
+            playlistsInteractor.getPlaylists().collect { playlists ->
                 handleResult(playlists)
             }
         }
     }
 
     private fun handleResult(playlists: List<Playlist>) {
-        if (playlists.isEmpty()){
+        if (playlists.isEmpty()) {
             setState(PlaylistsState.Empty)
         } else {
             val playlistsUi = playlists.map { playlist ->

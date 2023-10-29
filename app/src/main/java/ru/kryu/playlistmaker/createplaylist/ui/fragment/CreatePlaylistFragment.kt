@@ -66,7 +66,10 @@ class CreatePlaylistFragment : Fragment() {
                 if (uri != null) {
                     Glide.with(this)
                         .load(uri)
-                        .transform(CenterCrop(), RoundedCorners(resources.getDimensionPixelSize(R.dimen.corners_8)))
+                        .transform(
+                            CenterCrop(),
+                            RoundedCorners(resources.getDimensionPixelSize(R.dimen.corners_8))
+                        )
                         .into(binding.newCover)
                     if (imageId == "") imageId = UUID.randomUUID().toString()
                     viewModel.mediaPicked(uri, imageId)

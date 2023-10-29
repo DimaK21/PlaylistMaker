@@ -2,8 +2,6 @@ package ru.kryu.playlistmaker.player.domain.impl
 
 import ru.kryu.playlistmaker.player.domain.api.TrackInPlaylistInteractor
 import ru.kryu.playlistmaker.player.domain.api.TrackInPlaylistRepository
-import ru.kryu.playlistmaker.playlists.domain.model.Playlist
-import ru.kryu.playlistmaker.search.domain.model.Track
 
 class TrackInPlaylistInteractorImpl(private val trackInPlaylistRepository: TrackInPlaylistRepository) :
     TrackInPlaylistInteractor {

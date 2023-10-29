@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentPlaylistsBinding
-import ru.kryu.playlistmaker.playlists.ui.fragment.recycler.PlaylistAdapter
+import ru.kryu.playlistmaker.playlists.ui.recycler.PlaylistAdapter
 import ru.kryu.playlistmaker.playlists.ui.viewmodel.PlaylistsState
 import ru.kryu.playlistmaker.playlists.ui.viewmodel.PlaylistsViewModel
 

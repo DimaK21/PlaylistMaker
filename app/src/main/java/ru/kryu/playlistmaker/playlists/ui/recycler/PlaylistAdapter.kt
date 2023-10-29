@@ -1,4 +1,4 @@
-package ru.kryu.playlistmaker.playlists.ui.fragment.recycler
+package ru.kryu.playlistmaker.playlists.ui.recycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

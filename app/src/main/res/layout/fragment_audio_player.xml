@@ -277,7 +277,8 @@
         android:paddingHorizontal="@dimen/margin_4"
         app:behavior_hideable="true"
         app:behavior_peekHeight="@dimen/behavior_height"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:visibility="gone">
 
         <View
             android:layout_width="@dimen/margin_50"

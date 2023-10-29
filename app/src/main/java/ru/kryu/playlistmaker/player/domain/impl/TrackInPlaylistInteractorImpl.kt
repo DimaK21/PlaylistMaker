@@ -11,8 +11,8 @@ class TrackInPlaylistInteractorImpl(private val trackInPlaylistRepository: Track
         return trackInPlaylistRepository.isTrackInDb(idTrack)
     }
 
-    override suspend fun addTrackInPlaylist(playlist: Playlist, track: Track): Boolean {
-        return trackInPlaylistRepository.addTrackInPlaylist(playlist, track)
+    override suspend fun addTrackInPlaylist(playlistId: Long, trackId: Long): Boolean {
+        return trackInPlaylistRepository.addTrackInPlaylist(playlistId, trackId)
     }
 
 }

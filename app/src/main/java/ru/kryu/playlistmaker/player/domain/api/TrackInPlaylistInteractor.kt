@@ -5,5 +5,5 @@ import ru.kryu.playlistmaker.search.domain.model.Track
 
 interface TrackInPlaylistInteractor {
     suspend fun isTrackInDb(idTrack: Long): Boolean
-    suspend fun addTrackInPlaylist(playlist: Playlist, track: Track): Boolean
+    suspend fun addTrackInPlaylist(playlistId: Long, trackId: Long): Boolean
 }

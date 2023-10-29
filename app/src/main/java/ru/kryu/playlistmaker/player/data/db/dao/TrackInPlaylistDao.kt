@@ -16,6 +16,6 @@ interface TrackInPlaylistDao {
     @Query("SELECT EXISTS(SELECT * FROM playlist_track_table WHERE playlistId=:playlistId AND trackId=:trackId)")
     suspend fun existsTrackInPlaylist(playlistId: Long, trackId: Long): Boolean
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE, entity = PlaylistTrackEntity::class)
-    suspend fun addTrackInPlaylist(playlist: PlaylistEntity, track: TrackEntity)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addTrackInPlaylist(playlistTrackEntity: PlaylistTrackEntity)
 }

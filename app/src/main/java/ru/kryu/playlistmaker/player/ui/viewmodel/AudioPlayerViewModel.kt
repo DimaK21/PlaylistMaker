@@ -150,8 +150,8 @@ class AudioPlayerViewModel(
                 favouritesInteractor.addTrack(TrackForUiMapper.map(track))
             }
             val isAdded = trackInPlaylistInteractor.addTrackInPlaylist(
-                playlist = PlaylistItemUiMapper.map(playlistItemUi),
-                track = TrackForUiMapper.map(track)
+                playlistId = playlistItemUi.playlistId,
+                trackId = track.trackId
             )
             if (isAdded) {
                 messageLiveData.postValue(

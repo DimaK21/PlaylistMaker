@@ -13,7 +13,7 @@ import ru.kryu.playlistmaker.createplaylist.data.db.entity.TrackWithPlaylists
 
 @Dao
 interface PlaylistDao {
-    @Transaction
+/*    @Transaction
     @Query("SELECT * FROM playlist_table")
     fun getPlaylistsWithTracks(): List<PlaylistWithTracks>
 
@@ -27,7 +27,7 @@ interface PlaylistDao {
 
     @Transaction
     @Query("SELECT * FROM track_table WHERE trackId = :trackId")
-    fun getTrackWithPlaylists(trackId: Long): TrackWithPlaylists?
+    fun getTrackWithPlaylists(trackId: Long): TrackWithPlaylists?*/
 
     @Query("SELECT count(*) FROM playlist_track_table WHERE playlistId = :playlistId")
     fun getCountTracksInPlaylist(playlistId: Long): Int
@@ -35,14 +35,14 @@ interface PlaylistDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addPlaylist(playlist: PlaylistEntity)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+/*    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addTrackInPlaylist(playlistTrackEntity: PlaylistTrackEntity)
 
     @Delete
     fun removeTrackFromPlaylist(playlistTrackEntity: PlaylistTrackEntity)
 
     @Delete
-    fun removePlaylist(playlistEntity: PlaylistEntity)
+    fun removePlaylist(playlistEntity: PlaylistEntity)*/
 
     @Query("SELECT * FROM playlist_table")
     fun getPlaylists(): List<PlaylistEntity>

@@ -8,15 +8,20 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentAudioPlayerBinding
+import ru.kryu.playlistmaker.player.ui.recycler.PlaylistInPlayerAdapter
 import ru.kryu.playlistmaker.player.ui.viewmodel.AudioPlayerViewModel
 import ru.kryu.playlistmaker.player.ui.viewmodel.PlayerState
+import ru.kryu.playlistmaker.playlists.ui.models.PlaylistItemUi
 import ru.kryu.playlistmaker.search.domain.model.Track
 import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
@@ -25,7 +30,7 @@ class AudioPlayerFragment : Fragment() {
 
     private var _binding: FragmentAudioPlayerBinding? = null
     private val binding get() = _binding!!
-
+    private var playlistAdapter: PlaylistInPlayerAdapter? = null
     private lateinit var track: TrackForUi
 
     private val viewModel: AudioPlayerViewModel by viewModel {
@@ -48,6 +53,8 @@ class AudioPlayerFragment : Fragment() {
         viewModel.playerStateLiveData.observe(viewLifecycleOwner) { render(it) }
         viewModel.playerPositionLiveData.observe(viewLifecycleOwner) { setTimer(it) }
         viewModel.isFavouriteLiveData.observe(viewLifecycleOwner) { setLikeIcon(it) }
+        viewModel.listPlaylistsLiveData.observe(viewLifecycleOwner) { setListInAdapter(it) }
+        viewModel.observeMessageLiveData().observe(viewLifecycleOwner) { showMessage(it) }
         binding.buttonBackPlayer.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -62,6 +69,7 @@ class AudioPlayerFragment : Fragment() {
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         binding.addButton.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            viewModel.onAddButtonClicked()
         }
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -81,6 +89,31 @@ class AudioPlayerFragment : Fragment() {
                 binding.overlay.alpha = slideOffset + 0.6f
             }
         })
+        playlistAdapter = PlaylistInPlayerAdapter { playlist ->
+            viewModel.onPlaylistClicked(playlist)
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        }
+        binding.rvPlaylistsSmall.layoutManager =
+            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        binding.rvPlaylistsSmall.adapter = playlistAdapter
+        binding.btnNewPlaylist.setOnClickListener {
+            findNavController().navigate(R.id.action_audioPlayerFragment_to_createPlaylistFragment)
+        }
+    }
+
+    private fun showMessage(message: String?) {
+        if (!message.isNullOrEmpty()) {
+            Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
+                .show()
+        }
+    }
+
+    private fun setListInAdapter(playlists: List<PlaylistItemUi>?) {
+        if (playlists != null) {
+            playlistAdapter?.playlists?.clear()
+            playlistAdapter?.playlists?.addAll(playlists)
+            playlistAdapter?.notifyDataSetChanged()
+        }
     }
 
     private fun setLikeIcon(isFavourite: Boolean) {
@@ -160,6 +193,8 @@ class AudioPlayerFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        playlistAdapter = null
+        binding.rvPlaylistsSmall.adapter = null
         _binding = null
     }
 

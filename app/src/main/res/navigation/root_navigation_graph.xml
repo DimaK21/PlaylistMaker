@@ -9,21 +9,21 @@
         android:id="@+id/mediaFragment"
         android:name="ru.kryu.playlistmaker.playlists.ui.fragment.MediaFragment"
         android:label="fragment_media"
-        tools:layout="@layout/fragment_media" >
+        tools:layout="@layout/fragment_media">
         <action
             android:id="@+id/action_mediaFragment_to_audioPlayerFragment"
             app:destination="@id/audioPlayerFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/hold"
             app:popEnterAnim="@anim/hold"
-            app:popExitAnim="@anim/slide_out_left"/>
+            app:popExitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_mediaFragment_to_createPlaylistFragment"
             app:destination="@id/createPlaylistFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/hold"
             app:popEnterAnim="@anim/hold"
-            app:popExitAnim="@anim/slide_out_left"/>
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -55,7 +55,15 @@
         android:id="@+id/audioPlayerFragment"
         android:name="ru.kryu.playlistmaker.player.ui.fragment.AudioPlayerFragment"
         android:label="fragment_audio_player"
-        tools:layout="@layout/fragment_audio_player" />
+        tools:layout="@layout/fragment_audio_player">
+        <action
+            android:id="@+id/action_audioPlayerFragment_to_createPlaylistFragment"
+            app:destination="@id/createPlaylistFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/hold"
+            app:popEnterAnim="@anim/hold"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
     <fragment
         android:id="@+id/createPlaylistFragment"
         android:name="ru.kryu.playlistmaker.createplaylist.ui.fragment.CreatePlaylistFragment"

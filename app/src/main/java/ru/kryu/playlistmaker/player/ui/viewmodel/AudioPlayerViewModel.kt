@@ -1,17 +1,24 @@
 package ru.kryu.playlistmaker.player.ui.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.favourite.domain.api.FavouritesInteractor
 import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
+import ru.kryu.playlistmaker.player.domain.api.TrackInPlaylistInteractor
+import ru.kryu.playlistmaker.playlists.domain.api.PlaylistsInteractor
+import ru.kryu.playlistmaker.playlists.ui.mapper.PlaylistItemUiMapper
+import ru.kryu.playlistmaker.playlists.ui.models.PlaylistItemUi
 import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
+import ru.kryu.playlistmaker.search.ui.viewmodel.SingleLiveEvent
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -19,7 +26,10 @@ class AudioPlayerViewModel(
     private val track: TrackForUi,
     private val mediaPlayerInteractor: PlayerInteractor,
     private val favouritesInteractor: FavouritesInteractor,
-) : ViewModel() {
+    private val playlistsInteractor: PlaylistsInteractor,
+    private val trackInPlaylistInteractor: TrackInPlaylistInteractor,
+    application: Application,
+) : AndroidViewModel(application) {
 
     private var mutablePlayerStateLiveData = MutableLiveData<PlayerState>()
     val playerStateLiveData: LiveData<PlayerState> = mutablePlayerStateLiveData
@@ -29,6 +39,12 @@ class AudioPlayerViewModel(
 
     private var mutableIsFavouriteLiveData = MutableLiveData<Boolean>()
     val isFavouriteLiveData: LiveData<Boolean> = mutableIsFavouriteLiveData
+
+    private val listPlaylistsMutableLiveData = MutableLiveData<List<PlaylistItemUi>>()
+    val listPlaylistsLiveData: LiveData<List<PlaylistItemUi>> = listPlaylistsMutableLiveData
+
+    private val messageLiveData = SingleLiveEvent<String?>()
+    fun observeMessageLiveData(): LiveData<String?> = messageLiveData
 
     private var timerJob: Job? = null
 
@@ -113,6 +129,44 @@ class AudioPlayerViewModel(
                 track.isFavorite = true
                 favouritesInteractor.addTrack(TrackForUiMapper.map(track))
                 mutableIsFavouriteLiveData.postValue(true)
+            }
+        }
+    }
+
+    fun onAddButtonClicked() {
+        viewModelScope.launch(Dispatchers.IO) {
+            playlistsInteractor.getPlaylists().collect { playlists ->
+                val playlistsUi = playlists.map { item ->
+                    PlaylistItemUiMapper.map(item)
+                }
+                listPlaylistsMutableLiveData.postValue(playlistsUi)
+            }
+        }
+    }
+
+    fun onPlaylistClicked(playlistItemUi: PlaylistItemUi) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (!trackInPlaylistInteractor.isTrackInDb(idTrack = track.trackId)) {
+                favouritesInteractor.addTrack(TrackForUiMapper.map(track))
+            }
+            val isAdded = trackInPlaylistInteractor.addTrackInPlaylist(
+                playlist = PlaylistItemUiMapper.map(playlistItemUi),
+                track = TrackForUiMapper.map(track)
+            )
+            if (isAdded) {
+                messageLiveData.postValue(
+                    getApplication<Application>().getString(
+                        R.string.added_in_playlist,
+                        playlistItemUi.playlistName
+                    )
+                )
+            } else {
+                messageLiveData.postValue(
+                    getApplication<Application>().getString(
+                        R.string.not_added_in_playlist,
+                        playlistItemUi.playlistName
+                    )
+                )
             }
         }
     }

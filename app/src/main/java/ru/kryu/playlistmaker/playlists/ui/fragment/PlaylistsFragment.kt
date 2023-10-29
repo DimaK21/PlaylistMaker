@@ -40,7 +40,7 @@ class PlaylistsFragment : Fragment() {
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
         binding.rvPlaylists.adapter = playlistAdapter
 
-        playlistsViewModel.listPlaylistsLiveData.observe(viewLifecycleOwner) {
+        playlistsViewModel.playlistsLiveData.observe(viewLifecycleOwner) {
             render(it)
         }
 

@@ -12,18 +12,18 @@ import ru.kryu.playlistmaker.playlists.ui.mapper.PlaylistItemUiMapper
 
 class PlaylistsViewModel(private val playlistsInteractor: PlaylistsInteractor) : ViewModel() {
 
-    private val listPlaylistsMutableLiveData = MutableLiveData<PlaylistsState>()
-    val listPlaylistsLiveData: LiveData<PlaylistsState> = listPlaylistsMutableLiveData
+    private val playlistsMutableLiveData = MutableLiveData<PlaylistsState>()
+    val playlistsLiveData: LiveData<PlaylistsState> = playlistsMutableLiveData
 
     fun setState(state: PlaylistsState) {
-        listPlaylistsMutableLiveData.postValue(state)
+        playlistsMutableLiveData.postValue(state)
     }
 
     fun viewCreated() {
         setState(PlaylistsState.Empty)
         viewModelScope.launch(Dispatchers.IO) {
-            playlistsInteractor.getPlaylists().collect{ playlist ->
-                handleResult(playlist)
+            playlistsInteractor.getPlaylists().collect{ playlists ->
+                handleResult(playlists)
             }
         }
     }

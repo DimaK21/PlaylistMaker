@@ -25,6 +25,10 @@ class PlaylistInPlayerAdapter(private val onPlaylistClickListener: OnPlaylistCli
 
     override fun onBindViewHolder(holder: PlaylistInPlayerViewHolder, position: Int) {
         holder.bind(playlists[position])
+
+        holder.itemView.setOnClickListener {
+            onPlaylistClickListener?.onPlaylistClick(playlists[position])
+        }
     }
 
     fun interface OnPlaylistClickListener {

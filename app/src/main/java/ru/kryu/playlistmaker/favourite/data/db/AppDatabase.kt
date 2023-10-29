@@ -7,11 +7,13 @@ import ru.kryu.playlistmaker.createplaylist.data.db.entity.PlaylistEntity
 import ru.kryu.playlistmaker.createplaylist.data.db.entity.PlaylistTrackEntity
 import ru.kryu.playlistmaker.favourite.data.db.dao.TrackFavouriteDao
 import ru.kryu.playlistmaker.favourite.data.db.entity.TrackEntity
+import ru.kryu.playlistmaker.player.data.db.dao.TrackInPlaylistDao
 
 @Database(
-    version = 5, entities = [TrackEntity::class, PlaylistEntity::class, PlaylistTrackEntity::class]
+    version = 6, entities = [TrackEntity::class, PlaylistEntity::class, PlaylistTrackEntity::class]
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun trackFavouriteDao(): TrackFavouriteDao
     abstract fun playlistDao(): PlaylistDao
+    abstract fun trackInPlaylistDao(): TrackInPlaylistDao
 }

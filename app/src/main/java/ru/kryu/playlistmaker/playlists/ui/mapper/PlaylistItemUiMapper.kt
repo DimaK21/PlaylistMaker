@@ -12,4 +12,14 @@ object PlaylistItemUiMapper {
             playlistTracksNumber = playlist.countTracks,
         )
     }
+
+    fun map(playlist: PlaylistItemUi): Playlist{
+        return Playlist(
+            playlistId = playlist.playlistId,
+            playlistCoverPath = playlist.playlistImage,
+            playlistName = playlist.playlistName,
+            countTracks = playlist.playlistTracksNumber,
+            playlistDescription = "",
+        )
+    }
 }

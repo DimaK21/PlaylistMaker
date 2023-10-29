@@ -38,6 +38,13 @@ class CreatePlaylistFragment : Fragment() {
     private val requester = PermissionRequester.instance()
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var editTextTextWatcher: TextWatcher
+
+    /**
+     * Сохраняем картинку в хранилище с идентификатором imageId.
+     * Сохраняем в БД путь к картинке с этим imageId.
+     *
+     * Если не выбрали картинку, imageId - пустая строка. Сохраняем в БД путь к картинке пустую строку.
+     */
     private var imageId = ""
 
     override fun onCreateView(
@@ -60,7 +67,7 @@ class CreatePlaylistFragment : Fragment() {
                         .load(uri)
                         .transform(RoundedCorners(resources.getDimensionPixelSize(R.dimen.corners_8)))
                         .into(binding.newCover)
-                    imageId = UUID.randomUUID().toString()
+                    if (imageId == "") imageId = UUID.randomUUID().toString()
                     viewModel.mediaPicked(uri, imageId)
                 }
             }

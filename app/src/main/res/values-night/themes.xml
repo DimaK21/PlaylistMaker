@@ -16,6 +16,8 @@
         <!-- Snackbar. -->
         <item name="snackbarStyle">@style/Widget.App.Snackbar</item>
         <item name="snackbarButtonStyle">@style/Widget.App.SnackbarButton</item>
+        <!-- Dialog. -->
+        <item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
     </style>
 
     <style name="Widget.App.Snackbar" parent="Widget.MaterialComponents.Snackbar">

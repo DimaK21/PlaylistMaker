@@ -111,21 +111,21 @@ class CreatePlaylistFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
+                binding.btnCreateNewPlaylist.isEnabled = !s.isNullOrEmpty()
             }
 
             override fun afterTextChanged(s: Editable?) {
-                binding.btnCreateNewPlaylist.isEnabled = !s.isNullOrEmpty()
+
             }
         }
         binding.etNamePlaylist.addTextChangedListener(editTextTextWatcher)
 
         confirmDialog = MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Завершить создание плейлиста?")
-            .setMessage("Все несохраненные данные будут потеряны")
-            .setNeutralButton("Отмена") { dialog, which ->
+            .setTitle(getString(R.string.finalize_playlist))
+            .setMessage(getString(R.string.unsaved_data_will_be_lost))
+            .setNeutralButton(getString(R.string.cancel)) { dialog, which ->
 
-            }.setPositiveButton("Завершить") { dialog, which ->
+            }.setPositiveButton(getString(R.string.finalize)) { dialog, which ->
                 findNavController().navigateUp()
             }
         activity?.onBackPressedDispatcher?.addCallback(onBackPressedCallback)

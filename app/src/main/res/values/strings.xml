@@ -43,4 +43,8 @@
     <string name="need_permission">Разрешение на доступ к файлам необходимо для выбора обложки плейлиста</string>
     <string name="added_in_playlist">Добавлено в плейлист %s</string>
     <string name="not_added_in_playlist">Трек уже добавлен в плейлист %s</string>
+    <string name="finalize_playlist">Завершить создание плейлиста?</string>
+    <string name="unsaved_data_will_be_lost">Все несохраненные данные будут потеряны</string>
+    <string name="cancel">Отмена</string>
+    <string name="finalize">Завершить</string>
 </resources>

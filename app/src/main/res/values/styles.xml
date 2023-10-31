@@ -218,11 +218,11 @@
         <item name="android:textSize">@dimen/settings_text_size</item>
     </style>
 
-    <style name="AlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
         <item name="buttonBarButtonStyle">@style/DialogButtonStyle</item>
     </style>
 
-    <style name="DialogButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+    <style name="DialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/main_background</item>
     </style>
 

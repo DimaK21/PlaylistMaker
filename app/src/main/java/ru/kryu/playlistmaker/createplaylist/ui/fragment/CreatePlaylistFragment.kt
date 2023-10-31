@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,6 +23,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.markodevcic.peko.PermissionRequester
 import com.markodevcic.peko.PermissionResult
 import kotlinx.coroutines.launch
@@ -39,6 +41,12 @@ class CreatePlaylistFragment : Fragment() {
     private val requester = PermissionRequester.instance()
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var editTextTextWatcher: TextWatcher
+    lateinit var confirmDialog: MaterialAlertDialogBuilder
+    private var onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            backPressedHandle()
+        }
+    }
 
     /**
      * Сохраняем картинку в хранилище с идентификатором imageId.
@@ -81,7 +89,7 @@ class CreatePlaylistFragment : Fragment() {
         }
 
         binding.buttonBackNewPlaylist.setOnClickListener {
-            findNavController().navigateUp()
+            backPressedHandle()
         }
 
         binding.btnCreateNewPlaylist.setOnClickListener {
@@ -111,6 +119,16 @@ class CreatePlaylistFragment : Fragment() {
             }
         }
         binding.etNamePlaylist.addTextChangedListener(editTextTextWatcher)
+
+        confirmDialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Завершить создание плейлиста?")
+            .setMessage("Все несохраненные данные будут потеряны")
+            .setNeutralButton("Отмена") { dialog, which ->
+
+            }.setPositiveButton("Завершить") { dialog, which ->
+                findNavController().navigateUp()
+            }
+        activity?.onBackPressedDispatcher?.addCallback(onBackPressedCallback)
     }
 
     private fun pickImage() {
@@ -149,8 +167,20 @@ class CreatePlaylistFragment : Fragment() {
         }
     }
 
+    fun backPressedHandle() {
+        if (!binding.etNamePlaylist.text.isNullOrEmpty() ||
+            !binding.etDescriptionPlaylist.text.isNullOrEmpty() ||
+            !imageId.isEmpty()
+        ) {
+            confirmDialog.show()
+        } else {
+            findNavController().navigateUp()
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        onBackPressedCallback.remove()
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         binding.etNamePlaylist.removeTextChangedListener(editTextTextWatcher)
         _binding = null

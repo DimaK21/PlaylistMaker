@@ -1,15 +1,13 @@
 package ru.kryu.playlistmaker.player.ui.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.favourite.domain.api.FavouritesInteractor
 import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
 import ru.kryu.playlistmaker.player.domain.api.TrackInPlaylistInteractor
@@ -28,8 +26,7 @@ class AudioPlayerViewModel(
     private val favouritesInteractor: FavouritesInteractor,
     private val playlistsInteractor: PlaylistsInteractor,
     private val trackInPlaylistInteractor: TrackInPlaylistInteractor,
-    application: Application,
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     private var mutablePlayerStateLiveData = MutableLiveData<PlayerState>()
     val playerStateLiveData: LiveData<PlayerState> = mutablePlayerStateLiveData
@@ -43,8 +40,8 @@ class AudioPlayerViewModel(
     private val listPlaylistsMutableLiveData = MutableLiveData<List<PlaylistItemUi>>()
     val listPlaylistsLiveData: LiveData<List<PlaylistItemUi>> = listPlaylistsMutableLiveData
 
-    private val messageLiveData = SingleLiveEvent<String?>()
-    fun observeMessageLiveData(): LiveData<String?> = messageLiveData
+    private val messageLiveData = SingleLiveEvent<TrackInPlaylistState>()
+    fun observeMessageLiveData(): LiveData<TrackInPlaylistState> = messageLiveData
 
     private var timerJob: Job? = null
 
@@ -154,16 +151,10 @@ class AudioPlayerViewModel(
                 trackId = track.trackId
             )
             if (isAdded) {
-                messageLiveData.postValue(
-                    getApplication<Application>().getString(
-                        R.string.added_in_playlist,
-                        playlistItemUi.playlistName
-                    )
-                )
+                messageLiveData.postValue(TrackInPlaylistState.TrackInPlaylistAdded(playlistItemUi.playlistName))
             } else {
                 messageLiveData.postValue(
-                    getApplication<Application>().getString(
-                        R.string.not_added_in_playlist,
+                    TrackInPlaylistState.TrackInPlaylistNotAdded(
                         playlistItemUi.playlistName
                     )
                 )

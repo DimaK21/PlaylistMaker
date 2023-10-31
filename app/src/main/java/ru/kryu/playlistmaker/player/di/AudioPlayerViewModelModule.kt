@@ -14,7 +14,6 @@ val audioPlayerViewModelModule = module {
             favouritesInteractor = get(),
             playlistsInteractor = get(),
             trackInPlaylistInteractor = get(),
-            application = androidApplication(),
         )
     }
 }

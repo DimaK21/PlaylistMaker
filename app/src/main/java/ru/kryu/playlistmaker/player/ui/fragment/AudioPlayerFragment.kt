@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -21,6 +22,7 @@ import ru.kryu.playlistmaker.databinding.FragmentAudioPlayerBinding
 import ru.kryu.playlistmaker.player.ui.recycler.PlaylistInPlayerAdapter
 import ru.kryu.playlistmaker.player.ui.viewmodel.AudioPlayerViewModel
 import ru.kryu.playlistmaker.player.ui.viewmodel.PlayerState
+import ru.kryu.playlistmaker.player.ui.viewmodel.TrackInPlaylistState
 import ru.kryu.playlistmaker.playlists.ui.models.PlaylistItemUi
 import ru.kryu.playlistmaker.search.domain.model.Track
 import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
@@ -32,6 +34,7 @@ class AudioPlayerFragment : Fragment() {
     private val binding get() = _binding!!
     private var playlistAdapter: PlaylistInPlayerAdapter? = null
     private lateinit var track: TrackForUi
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
 
     private val viewModel: AudioPlayerViewModel by viewModel {
         parametersOf(track)
@@ -65,7 +68,7 @@ class AudioPlayerFragment : Fragment() {
         binding.likeButton.setOnClickListener {
             viewModel.onFavoriteClicked()
         }
-        val bottomSheetBehavior = BottomSheetBehavior.from(binding.bsPlaylists)
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.bsPlaylists)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         binding.addButton.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -91,7 +94,6 @@ class AudioPlayerFragment : Fragment() {
         })
         playlistAdapter = PlaylistInPlayerAdapter { playlist ->
             viewModel.onPlaylistClicked(playlist)
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
         binding.rvPlaylistsSmall.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -101,11 +103,22 @@ class AudioPlayerFragment : Fragment() {
         }
     }
 
-    private fun showMessage(message: String?) {
-        if (!message.isNullOrEmpty()) {
-            Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
-                .show()
+    private fun showMessage(trackInPlaylistState: TrackInPlaylistState) {
+        val message: String
+        when (trackInPlaylistState) {
+            is TrackInPlaylistState.TrackInPlaylistAdded -> {
+                message = getString(R.string.added_in_playlist, trackInPlaylistState.playlistName)
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+            }
+
+            is TrackInPlaylistState.TrackInPlaylistNotAdded -> {
+                message =
+                    getString(R.string.not_added_in_playlist, trackInPlaylistState.playlistName)
+            }
+
         }
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
+            .show()
     }
 
     private fun setListInAdapter(playlists: List<PlaylistItemUi>?) {

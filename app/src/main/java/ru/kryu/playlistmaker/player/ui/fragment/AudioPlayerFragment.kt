@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -131,9 +132,9 @@ class AudioPlayerFragment : Fragment() {
 
     private fun setLikeIcon(isFavourite: Boolean) {
         if (isFavourite) {
-            binding.likeButton.setImageResource(R.drawable.button_like_yes)
+            binding.likeButton.background = getDrawable(requireContext(), R.drawable.button_like_yes)
         } else {
-            binding.likeButton.setImageResource(R.drawable.button_like_no)
+            binding.likeButton.background = getDrawable(requireContext(), R.drawable.button_like_no)
         }
     }
 

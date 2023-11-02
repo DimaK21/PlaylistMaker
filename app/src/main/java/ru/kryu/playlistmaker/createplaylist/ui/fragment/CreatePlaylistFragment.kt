@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputLayout
 import com.markodevcic.peko.PermissionRequester
 import com.markodevcic.peko.PermissionResult
 import kotlinx.coroutines.launch
@@ -41,7 +42,9 @@ class CreatePlaylistFragment : Fragment() {
     private val requester = PermissionRequester.instance()
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var editTextTextWatcher: TextWatcher
-    lateinit var confirmDialog: MaterialAlertDialogBuilder
+    private lateinit var editTextTextWatcher2: TextWatcher
+    private lateinit var listener: (s: Editable?, textInputLayout: TextInputLayout) -> Unit
+    private lateinit var confirmDialog: MaterialAlertDialogBuilder
     private var onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             backPressedHandle()
@@ -105,6 +108,31 @@ class CreatePlaylistFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+        listener =
+            { s, textInputLayout ->
+                if (s.isNullOrEmpty()) {
+                    textInputLayout.setBoxStrokeColorStateList(
+                        resources.getColorStateList(
+                            R.color.edit_text_color,
+                            activity?.theme
+                        )
+                    )
+                    textInputLayout.defaultHintTextColor =
+                        resources.getColorStateList(R.color.black_white, activity?.theme)
+                    textInputLayout.hintTextColor =
+                        resources.getColorStateList(R.color.main_background, activity?.theme)
+                } else {
+                    textInputLayout.setBoxStrokeColorStateList(
+                        resources.getColorStateList(
+                            R.color.edit_text_color_second,
+                            activity?.theme
+                        )
+                    )
+                    textInputLayout.defaultHintTextColor =
+                        resources.getColorStateList(R.color.main_background, activity?.theme)
+                }
+            }
+
         editTextTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
@@ -115,10 +143,22 @@ class CreatePlaylistFragment : Fragment() {
             }
 
             override fun afterTextChanged(s: Editable?) {
-
+                listener(s, binding.ilNamePlaylist)
             }
         }
         binding.etNamePlaylist.addTextChangedListener(editTextTextWatcher)
+
+        editTextTextWatcher2 = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                listener(s, binding.ilDescriptionPlaylist)
+            }
+
+        }
+        binding.etDescriptionPlaylist.addTextChangedListener(editTextTextWatcher2)
+
 
         confirmDialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.finalize_playlist))
@@ -183,6 +223,7 @@ class CreatePlaylistFragment : Fragment() {
         onBackPressedCallback.remove()
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         binding.etNamePlaylist.removeTextChangedListener(editTextTextWatcher)
+        binding.etDescriptionPlaylist.removeTextChangedListener(editTextTextWatcher2)
         _binding = null
     }
 

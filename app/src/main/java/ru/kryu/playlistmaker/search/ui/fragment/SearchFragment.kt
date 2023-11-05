@@ -19,8 +19,8 @@ import ru.kryu.playlistmaker.databinding.FragmentSearchBinding
 import ru.kryu.playlistmaker.player.ui.fragment.AudioPlayerFragment
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 import ru.kryu.playlistmaker.search.ui.recycler.TrackAdapter
-import ru.kryu.playlistmaker.search.ui.view_model.SearchViewModel
-import ru.kryu.playlistmaker.search.ui.view_model.TrackSearchState
+import ru.kryu.playlistmaker.search.ui.viewmodel.SearchViewModel
+import ru.kryu.playlistmaker.search.ui.viewmodel.TrackSearchState
 
 class SearchFragment : Fragment() {
 

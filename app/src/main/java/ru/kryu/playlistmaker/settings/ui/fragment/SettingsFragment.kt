@@ -9,8 +9,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.app.App
 import ru.kryu.playlistmaker.databinding.FragmentSettingsBinding
-import ru.kryu.playlistmaker.settings.ui.view_model.DarkThemeState
-import ru.kryu.playlistmaker.settings.ui.view_model.SettingsViewModel
+import ru.kryu.playlistmaker.settings.ui.viewmodel.DarkThemeState
+import ru.kryu.playlistmaker.settings.ui.viewmodel.SettingsViewModel
 
 class SettingsFragment : Fragment() {
 

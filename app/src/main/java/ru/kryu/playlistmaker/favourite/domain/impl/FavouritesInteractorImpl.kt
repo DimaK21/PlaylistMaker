@@ -1,8 +1,8 @@
 package ru.kryu.playlistmaker.favourite.domain.impl
 
 import kotlinx.coroutines.flow.Flow
-import ru.kryu.playlistmaker.favourite.domain.FavouritesInteractor
-import ru.kryu.playlistmaker.favourite.domain.FavouritesRepository
+import ru.kryu.playlistmaker.favourite.domain.api.FavouritesInteractor
+import ru.kryu.playlistmaker.favourite.domain.api.FavouritesRepository
 import ru.kryu.playlistmaker.search.domain.model.Track
 
 class FavouritesInteractorImpl(private val favouritesRepository: FavouritesRepository) :

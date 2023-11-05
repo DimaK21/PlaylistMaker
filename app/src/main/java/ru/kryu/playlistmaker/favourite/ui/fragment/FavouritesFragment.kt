@@ -14,8 +14,8 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentFavouritesBinding
-import ru.kryu.playlistmaker.favourite.ui.view_model.FavouritesState
-import ru.kryu.playlistmaker.favourite.ui.view_model.FavouritesViewModel
+import ru.kryu.playlistmaker.favourite.ui.viewmodel.FavouritesState
+import ru.kryu.playlistmaker.favourite.ui.viewmodel.FavouritesViewModel
 import ru.kryu.playlistmaker.player.ui.fragment.AudioPlayerFragment
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 import ru.kryu.playlistmaker.search.ui.recycler.TrackAdapter

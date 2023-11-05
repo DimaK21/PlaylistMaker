@@ -2,7 +2,7 @@ package ru.kryu.playlistmaker.settings.di
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import ru.kryu.playlistmaker.settings.ui.view_model.SettingsViewModel
+import ru.kryu.playlistmaker.settings.ui.viewmodel.SettingsViewModel
 
 val settingsViewModelModule = module {
     viewModel {

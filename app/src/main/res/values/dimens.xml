@@ -52,5 +52,8 @@
     <dimen name="progress_bar">44dp</dimen>
     <dimen name="margin_106">106dp</dimen>
     <dimen name="text_12">12sp</dimen>
+    <dimen name="margin_18">18dp</dimen>
+    <dimen name="margin_32">32dp</dimen>
+    <dimen name="behavior_height">360dp</dimen>
 
 </resources>

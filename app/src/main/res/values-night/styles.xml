@@ -64,4 +64,12 @@
         <item name="fontFamily">@font/ys_display_regular</item>
     </style>
 
+    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="buttonBarButtonStyle">@style/DialogButtonStyle</item>
+    </style>
+
+    <style name="DialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/main_background</item>
+    </style>
+
 </resources>

@@ -226,4 +226,20 @@
         <item name="android:textColor">@color/main_background</item>
     </style>
 
+    <style name="text_info_playlist">
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/text_18</item>
+        <item name="android:layout_marginStart">@dimen/main_padding_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/image_track_margin_v</item>
+        <item name="android:textColor">@color/app_black</item>
+    </style>
+
+    <style name="text_name_playlist">
+        <item name="fontFamily">@font/ys_display_bold</item>
+        <item name="android:textSize">@dimen/text_28</item>
+        <item name="android:layout_marginStart">@dimen/main_padding_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/search_margin_top</item>
+        <item name="android:textColor">@color/app_black</item>
+    </style>
+
 </resources>

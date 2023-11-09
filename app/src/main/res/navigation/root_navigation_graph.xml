@@ -24,6 +24,13 @@
             app:exitAnim="@anim/hold"
             app:popEnterAnim="@anim/hold"
             app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_mediaFragment_to_playlistMainFragment"
+            app:destination="@id/playlistMainFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/hold"
+            app:popEnterAnim="@anim/hold"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -69,4 +76,9 @@
         android:name="ru.kryu.playlistmaker.createplaylist.ui.fragment.CreatePlaylistFragment"
         android:label="fragment_new_playlist"
         tools:layout="@layout/fragment_new_playlist" />
+    <fragment
+        android:id="@+id/playlistMainFragment"
+        android:name="ru.kryu.playlistmaker.playlistmain.ui.fragment.PlaylistMainFragment"
+        android:label="fragment_playlist_main"
+        tools:layout="@layout/fragment_playlist_main" />
 </navigation>

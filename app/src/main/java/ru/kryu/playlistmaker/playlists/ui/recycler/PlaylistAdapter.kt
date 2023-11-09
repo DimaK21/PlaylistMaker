@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.kryu.playlistmaker.databinding.PlaylistItemBinding
 import ru.kryu.playlistmaker.playlists.ui.models.PlaylistItemUi
 
-class PlaylistAdapter : RecyclerView.Adapter<PlaylistViewHolder>() {
+class PlaylistAdapter(private val onPlaylistClickListener: OnPlaylistClickListener? = null) :
+    RecyclerView.Adapter<PlaylistViewHolder>() {
 
     var playlists = ArrayList<PlaylistItemUi>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
@@ -18,5 +19,13 @@ class PlaylistAdapter : RecyclerView.Adapter<PlaylistViewHolder>() {
 
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
         holder.bind(playlists[position])
+
+        holder.itemView.setOnClickListener {
+            onPlaylistClickListener?.onPlaylistClick(playlistId = playlists[position].playlistId)
+        }
+    }
+
+    fun interface OnPlaylistClickListener {
+        fun onPlaylistClick(playlistId: Long)
     }
 }

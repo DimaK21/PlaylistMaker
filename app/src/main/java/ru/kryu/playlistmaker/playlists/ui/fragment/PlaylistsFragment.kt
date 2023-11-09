@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentPlaylistsBinding
+import ru.kryu.playlistmaker.playlistmain.ui.fragment.PlaylistMainFragment
 import ru.kryu.playlistmaker.playlists.ui.recycler.PlaylistAdapter
 import ru.kryu.playlistmaker.playlists.ui.viewmodel.PlaylistsState
 import ru.kryu.playlistmaker.playlists.ui.viewmodel.PlaylistsViewModel
@@ -35,7 +36,13 @@ class PlaylistsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        playlistAdapter = PlaylistAdapter()
+        playlistAdapter = PlaylistAdapter { playlistId ->
+            findNavController().navigate(
+                R.id.action_mediaFragment_to_playlistMainFragment,
+                PlaylistMainFragment.createArgs(playlistId)
+            )
+        }
+
         binding.rvPlaylists.layoutManager =
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
         binding.rvPlaylists.adapter = playlistAdapter

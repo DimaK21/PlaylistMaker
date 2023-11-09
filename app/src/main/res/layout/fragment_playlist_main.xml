@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/switch_track"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".playlistmain.ui.fragment.PlaylistMainFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -28,7 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/left_arrow"
-            app:tint="?attr/colorOnPrimary" />
+            app:tint="@color/app_black" />
 
         <ImageView
             android:id="@+id/album_cover"
@@ -122,7 +123,7 @@
         app:behavior_hideable="false"
         app:behavior_peekHeight="@dimen/behavior_height_tracks"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <View
             android:layout_width="@dimen/margin_50"

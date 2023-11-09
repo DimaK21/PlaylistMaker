@@ -6,12 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import ru.kryu.playlistmaker.databinding.FragmentPlaylistMainBinding
+import ru.kryu.playlistmaker.playlistmain.ui.viewmodel.PlaylistMainViewModel
 
 class PlaylistMainFragment : Fragment() {
 
     private var _binding: FragmentPlaylistMainBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: PlaylistMainViewModel by viewModel {
+        parametersOf(arguments?.getLong(PLAYLISTID))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,6 +30,8 @@ class PlaylistMainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.initPlaylistInfo()
     }
 
     override fun onDestroyView() {

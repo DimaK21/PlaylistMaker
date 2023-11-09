@@ -9,6 +9,7 @@ import org.koin.core.context.startKoin
 import ru.kryu.playlistmaker.createplaylist.di.createPlaylistModule
 import ru.kryu.playlistmaker.favourite.di.favouriteModule
 import ru.kryu.playlistmaker.player.di.playerModule
+import ru.kryu.playlistmaker.playlistmain.di.playlistMainModule
 import ru.kryu.playlistmaker.playlists.di.playlistsModule
 import ru.kryu.playlistmaker.search.di.searchModule
 import ru.kryu.playlistmaker.settings.di.settingsModule
@@ -29,6 +30,7 @@ class App : Application() {
                 searchModule,
                 playlistsModule,
                 createPlaylistModule,
+                playlistMainModule,
             )
         }
 

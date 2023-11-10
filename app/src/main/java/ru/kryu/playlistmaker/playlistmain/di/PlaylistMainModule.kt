@@ -4,6 +4,8 @@ import org.koin.dsl.module
 
 val playlistMainModule = module {
     includes(
+        playlistMainRepositoryModule,
+        playlistMainInteractorModule,
         playlistMainViewModelModule,
     )
 }

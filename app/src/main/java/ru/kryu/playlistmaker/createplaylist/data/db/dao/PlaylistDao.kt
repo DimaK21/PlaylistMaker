@@ -10,11 +10,11 @@ import ru.kryu.playlistmaker.createplaylist.data.db.entity.PlaylistEntity
 interface PlaylistDao {
 
     @Query("SELECT count(*) FROM playlist_track_table WHERE playlistId = :playlistId")
-    fun getCountTracksInPlaylist(playlistId: Long): Int
+    suspend fun getCountTracksInPlaylist(playlistId: Long): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addPlaylist(playlist: PlaylistEntity)
+    suspend fun addPlaylist(playlist: PlaylistEntity)
 
     @Query("SELECT * FROM playlist_table")
-    fun getPlaylists(): List<PlaylistEntity>
+    suspend fun getPlaylists(): List<PlaylistEntity>
 }

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.kryu.playlistmaker.databinding.FragmentPlaylistMainBinding
+import ru.kryu.playlistmaker.playlistmain.domain.model.PlaylistMain
 import ru.kryu.playlistmaker.playlistmain.ui.viewmodel.PlaylistMainViewModel
 
 class PlaylistMainFragment : Fragment() {
@@ -31,7 +32,15 @@ class PlaylistMainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.playlistMainLiveData.observe(viewLifecycleOwner){
+            render(it)
+        }
         viewModel.initPlaylistInfo()
+    }
+
+    private fun render(playlistMain: PlaylistMain) {
+        binding.tvPlaylistName.text = playlistMain.playlist.playlistName
+        binding.tvPlaylistDescription.text = playlistMain.playlist.playlistDescription
     }
 
     override fun onDestroyView() {

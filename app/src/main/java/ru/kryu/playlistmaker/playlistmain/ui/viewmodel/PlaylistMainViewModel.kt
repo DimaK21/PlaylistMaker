@@ -8,22 +8,37 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import ru.kryu.playlistmaker.playlistmain.domain.api.PlaylistMainInteractor
-import ru.kryu.playlistmaker.playlistmain.domain.model.PlaylistMain
+import ru.kryu.playlistmaker.playlistmain.ui.model.PlaylistMainItem
+import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
 
 class PlaylistMainViewModel(
     private val playlistId: Long,
     private val playlistMainInteractor: PlaylistMainInteractor
 ) : ViewModel() {
 
-    private var mutablePlaylistMainLiveData = MutableLiveData<PlaylistMain>()
-    val playlistMainLiveData: LiveData<PlaylistMain> = mutablePlaylistMainLiveData
+    private var mutablePlaylistMainLiveData = MutableLiveData<PlaylistMainItem>()
+    val playlistMainLiveData: LiveData<PlaylistMainItem> = mutablePlaylistMainLiveData
 
     fun initPlaylistInfo() {
         viewModelScope.launch(Dispatchers.IO) {
             playlistMainInteractor.getPlaylistMain(playlistId)
                 .distinctUntilChanged()
                 .collect { playlistMain ->
-                    mutablePlaylistMainLiveData.postValue(playlistMain)
+                    mutablePlaylistMainLiveData.postValue(
+                        PlaylistMainItem(
+                            playlistId = playlistMain.playlist.playlistId!!,
+                            playlistName = playlistMain.playlist.playlistName,
+                            playlistDescription = playlistMain.playlist.playlistDescription,
+                            playlistCoverPath = playlistMain.playlist.playlistCoverPath,
+                            countTracks = playlistMain.playlist.countTracks,
+                            playlistDuration = playlistMain.tracks.sumOf { track ->
+                                track.trackTimeMillis
+                            } / 1000 / 60,
+                            tracks = playlistMain.tracks.map { track ->
+                                TrackForUiMapper.map(track)
+                            }
+                        )
+                    )
                 }
         }
     }

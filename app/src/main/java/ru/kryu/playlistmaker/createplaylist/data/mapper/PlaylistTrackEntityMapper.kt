@@ -6,6 +6,7 @@ import ru.kryu.playlistmaker.favourite.data.db.entity.TrackEntity
 import ru.kryu.playlistmaker.playlists.domain.model.Playlist
 import ru.kryu.playlistmaker.search.domain.model.Track
 
+//можно удалить
 object PlaylistTrackEntityMapper {
     fun map(playlist: PlaylistEntity, track: TrackEntity): PlaylistTrackEntity {
         return PlaylistTrackEntity(playlistId = playlist.playlistId, trackId = track.trackId)

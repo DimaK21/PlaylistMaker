@@ -32,7 +32,7 @@ class PlaylistMainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.playlistMainLiveData.observe(viewLifecycleOwner){
+        viewModel.playlistMainLiveData.observe(viewLifecycleOwner) {
             render(it)
         }
         viewModel.initPlaylistInfo()

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -22,8 +23,9 @@ import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentPlaylistMainBinding
 import ru.kryu.playlistmaker.player.ui.fragment.AudioPlayerFragment
 import ru.kryu.playlistmaker.playlistmain.ui.model.PlaylistMainItem
+import ru.kryu.playlistmaker.playlistmain.ui.recycler.TrackAdapterLongClick
 import ru.kryu.playlistmaker.playlistmain.ui.viewmodel.PlaylistMainViewModel
-import ru.kryu.playlistmaker.search.ui.recycler.TrackAdapter
+import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
 class PlaylistMainFragment : Fragment() {
 
@@ -32,7 +34,7 @@ class PlaylistMainFragment : Fragment() {
     private val viewModel: PlaylistMainViewModel by viewModel {
         parametersOf(arguments?.getLong(PLAYLISTID))
     }
-    var trackAdapter: TrackAdapter? = null
+    private var trackAdapter: TrackAdapterLongClick? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,12 +50,17 @@ class PlaylistMainFragment : Fragment() {
 
         binding.rvTracks.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        trackAdapter = TrackAdapter {
-            findNavController().navigate(
-                R.id.action_playlistMainFragment_to_audioPlayerFragment,
-                AudioPlayerFragment.createArgs(it)
-            )
-        }
+        trackAdapter = TrackAdapterLongClick(
+            onTrackClickListener = {
+                findNavController().navigate(
+                    R.id.action_playlistMainFragment_to_audioPlayerFragment,
+                    AudioPlayerFragment.createArgs(it)
+                )
+            },
+            onTrackLongClickListener = {
+                showDialog(it)
+            }
+        )
         binding.rvTracks.adapter = trackAdapter
 
         viewModel.playlistMainLiveData.observe(viewLifecycleOwner) {
@@ -64,8 +71,20 @@ class PlaylistMainFragment : Fragment() {
         binding.buttonBackPlaylist.setOnClickListener {
             findNavController().navigateUp()
         }
+    }
 
+    private fun showDialog(track: TrackForUi) {
+        val confirmDialog = MaterialAlertDialogBuilder(requireContext())
+            .setMessage(getString(R.string.want_delete_track))
+            .setNegativeButton(getString(R.string.no)) { dialog, which ->
 
+            }.setPositiveButton(getString(R.string.yes)) { dialog, which ->
+                val position = trackAdapter?.trackList?.indexOf(track)
+                trackAdapter?.trackList?.remove(track)
+                trackAdapter?.notifyItemRemoved(position!!)
+                viewModel.trackRemoved(track)
+            }
+            .show()
     }
 
     private fun render(playlistMainItem: PlaylistMainItem) {
@@ -99,10 +118,10 @@ class PlaylistMainFragment : Fragment() {
                     - binding.tvPlaylistName.height
                     - binding.tvPlaylistName.marginTop
                     - if (binding.tvPlaylistDescription.visibility == View.VISIBLE) {
-                        (binding.tvPlaylistDescription.height + binding.tvPlaylistDescription.marginTop)
-                    } else {
-                         0
-                    }
+                (binding.tvPlaylistDescription.height + binding.tvPlaylistDescription.marginTop)
+            } else {
+                0
+            }
                     - binding.tvPlaylistDuration.height
                     - binding.tvPlaylistDuration.marginTop
                     - binding.ivShare.height

@@ -6,4 +6,5 @@ import ru.kryu.playlistmaker.playlistmain.domain.model.PlaylistMain
 interface PlaylistMainRepository {
 
     fun getPlaylistMain(playlistId: Long): Flow<PlaylistMain>
+    suspend fun removeTrackFromPlaylist(playlistId: Long, trackId: Long)
 }

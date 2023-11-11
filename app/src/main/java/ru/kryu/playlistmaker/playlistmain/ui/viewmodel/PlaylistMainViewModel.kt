@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import ru.kryu.playlistmaker.playlistmain.domain.api.PlaylistMainInteractor
 import ru.kryu.playlistmaker.playlistmain.ui.model.PlaylistMainItem
 import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
+import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
 class PlaylistMainViewModel(
     private val playlistId: Long,
@@ -40,6 +41,12 @@ class PlaylistMainViewModel(
                         )
                     )
                 }
+        }
+    }
+
+    fun trackRemoved(track: TrackForUi) {
+        viewModelScope.launch(Dispatchers.IO) {
+            playlistMainInteractor.removeTrackFromPlaylist(playlistId, track.trackId)
         }
     }
 

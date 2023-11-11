@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
@@ -37,6 +38,7 @@ class PlaylistMainFragment : Fragment() {
     }
     private var trackAdapter: TrackAdapterLongClick? = null
     private var isClickAllowed = true
+    private lateinit var bottomSheetBehaviorMenu: BottomSheetBehavior<LinearLayout>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,8 +85,10 @@ class PlaylistMainFragment : Fragment() {
                 viewModel.shareClicked()
             }
         }
+        bottomSheetBehaviorMenu = BottomSheetBehavior.from(binding.bsMenu)
+        bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_HIDDEN
         binding.ivSettings.setOnClickListener {
-
+            bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
 

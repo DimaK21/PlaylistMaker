@@ -18,7 +18,9 @@ class PlaylistMainRepositoryImpl(private val database: AppDatabase) : PlaylistMa
 
     override suspend fun removeTrackFromPlaylist(playlistId: Long, trackId: Long) {
         database.playlistMainDao().removeTrackFromPlaylist(playlistId, trackId)
-        if (!database.playlistMainDao().isTrackInPlaylists(trackId)) {
+        if (!database.playlistMainDao().isTrackInPlaylists(trackId) &&
+            !database.playlistMainDao().isTrackIsFavorite(trackId)
+        ) {
             database.playlistMainDao().removeTrackFromDb(trackId)
         }
     }

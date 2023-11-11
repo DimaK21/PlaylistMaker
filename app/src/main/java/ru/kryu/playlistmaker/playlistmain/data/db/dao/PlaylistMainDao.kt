@@ -18,6 +18,9 @@ interface PlaylistMainDao {
     @Query("DELETE FROM track_table WHERE trackId = :trackId")
     suspend fun removeTrackFromDb(trackId: Long)
 
-    @Query("SELECT count(*) FROM playlist_track_table WHERE trackId = :trackId LIMIT 1")
+    @Query("SELECT EXISTS(SELECT * FROM playlist_track_table WHERE trackId = :trackId)")
     fun isTrackInPlaylists(trackId: Long): Boolean
+
+    @Query("SELECT isFavorite FROM track_table WHERE trackId = :trackId")
+    fun isTrackIsFavorite(trackId: Long): Boolean
 }

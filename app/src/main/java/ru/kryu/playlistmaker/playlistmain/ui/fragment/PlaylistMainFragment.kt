@@ -82,6 +82,7 @@ class PlaylistMainFragment : Fragment() {
                 val position = trackAdapter?.trackList?.indexOf(track)
                 trackAdapter?.trackList?.remove(track)
                 trackAdapter?.notifyItemRemoved(position!!)
+                trackAdapter?.notifyItemRangeChanged(position!!, trackAdapter?.trackList?.size!!)
                 viewModel.trackRemoved(track)
             }
             .show()

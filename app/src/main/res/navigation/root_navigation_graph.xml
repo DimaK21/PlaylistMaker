@@ -80,5 +80,13 @@
         android:id="@+id/playlistMainFragment"
         android:name="ru.kryu.playlistmaker.playlistmain.ui.fragment.PlaylistMainFragment"
         android:label="fragment_playlist_main"
-        tools:layout="@layout/fragment_playlist_main" />
+        tools:layout="@layout/fragment_playlist_main" >
+        <action
+            android:id="@+id/action_playlistMainFragment_to_audioPlayerFragment"
+            app:destination="@id/audioPlayerFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/hold"
+            app:popEnterAnim="@anim/hold"
+            app:popExitAnim="@anim/slide_out_left"/>
+    </fragment>
 </navigation>

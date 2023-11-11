@@ -6,14 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentPlaylistMainBinding
+import ru.kryu.playlistmaker.player.ui.fragment.AudioPlayerFragment
 import ru.kryu.playlistmaker.playlistmain.ui.model.PlaylistMainItem
 import ru.kryu.playlistmaker.playlistmain.ui.viewmodel.PlaylistMainViewModel
+import ru.kryu.playlistmaker.search.ui.recycler.TrackAdapter
 
 class PlaylistMainFragment : Fragment() {
 
@@ -22,6 +27,7 @@ class PlaylistMainFragment : Fragment() {
     private val viewModel: PlaylistMainViewModel by viewModel {
         parametersOf(arguments?.getLong(PLAYLISTID))
     }
+    var trackAdapter: TrackAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,10 +41,24 @@ class PlaylistMainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.rvTracks.layoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        trackAdapter = TrackAdapter {
+            findNavController().navigate(
+                R.id.action_playlistMainFragment_to_audioPlayerFragment,
+                AudioPlayerFragment.createArgs(it)
+            )
+        }
+        binding.rvTracks.adapter = trackAdapter
+
         viewModel.playlistMainLiveData.observe(viewLifecycleOwner) {
             render(it)
         }
         viewModel.initPlaylistInfo()
+
+        binding.buttonBackPlaylist.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun render(playlistMainItem: PlaylistMainItem) {
@@ -46,8 +66,11 @@ class PlaylistMainFragment : Fragment() {
             binding.tvPlaylistName.text = playlistMainItem.playlistName
         if (binding.tvPlaylistDescription.text != playlistMainItem.playlistDescription)
             binding.tvPlaylistDescription.text = playlistMainItem.playlistDescription
-        if (binding.tvPlaylistDescription.text == "")
+        if (binding.tvPlaylistDescription.text == "") {
             binding.tvPlaylistDescription.visibility = View.GONE
+        } else {
+            binding.tvPlaylistDescription.visibility = View.VISIBLE
+        }
         if (binding.tvPlaylistDuration.text != playlistMainItem.playlistDuration.toString())
             binding.tvPlaylistDuration.text = playlistMainItem.playlistDuration.toString()
         if (binding.tvTracksInPlaylist.text != playlistMainItem.countTracks.toString())
@@ -57,10 +80,18 @@ class PlaylistMainFragment : Fragment() {
             .placeholder(R.drawable.search_placeholder_field)
             .transform(CenterCrop())
             .into(binding.albumCover)
+        if (trackAdapter?.trackList != playlistMainItem.tracks) {
+            trackAdapter?.trackList?.clear()
+            trackAdapter?.trackList?.addAll(playlistMainItem.tracks)
+            trackAdapter?.notifyDataSetChanged()
+        }
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        trackAdapter = null
+        binding.rvTracks.adapter = null
         _binding = null
     }
 

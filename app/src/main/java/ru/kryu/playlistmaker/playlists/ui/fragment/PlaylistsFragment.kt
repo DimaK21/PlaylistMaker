@@ -44,7 +44,7 @@ class PlaylistsFragment : Fragment() {
         }
 
         binding.rvPlaylists.layoutManager =
-            GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+            GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
         binding.rvPlaylists.adapter = playlistAdapter
 
         playlistsViewModel.playlistsLiveData.observe(viewLifecycleOwner) {

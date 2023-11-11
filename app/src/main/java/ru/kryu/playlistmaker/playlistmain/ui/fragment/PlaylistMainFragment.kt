@@ -35,6 +35,7 @@ class PlaylistMainFragment : Fragment() {
         parametersOf(arguments?.getLong(PLAYLISTID))
     }
     private var trackAdapter: TrackAdapterLongClick? = null
+    private var isClickAllowed = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,10 +53,12 @@ class PlaylistMainFragment : Fragment() {
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         trackAdapter = TrackAdapterLongClick(
             onTrackClickListener = {
-                findNavController().navigate(
-                    R.id.action_playlistMainFragment_to_audioPlayerFragment,
-                    AudioPlayerFragment.createArgs(it)
-                )
+                if (clickDebounce()) {
+                    findNavController().navigate(
+                        R.id.action_playlistMainFragment_to_audioPlayerFragment,
+                        AudioPlayerFragment.createArgs(it)
+                    )
+                }
             },
             onTrackLongClickListener = {
                 showDialog(it)
@@ -139,10 +142,23 @@ class PlaylistMainFragment : Fragment() {
         _binding = null
     }
 
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            lifecycleScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY_MILLIS)
+                isClickAllowed = true
+            }
+        }
+        return current
+    }
+
     companion object {
 
         private const val PLAYLISTID = "playlistId"
         private const val BOTTOMSHEETDELAY = 10L
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
         fun createArgs(playlistId: Long): Bundle = bundleOf(PLAYLISTID to playlistId)
     }
 }

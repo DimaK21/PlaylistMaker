@@ -5,12 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.kryu.playlistmaker.R
@@ -59,6 +64,8 @@ class PlaylistMainFragment : Fragment() {
         binding.buttonBackPlaylist.setOnClickListener {
             findNavController().navigateUp()
         }
+
+
     }
 
     private fun render(playlistMainItem: PlaylistMainItem) {
@@ -80,12 +87,29 @@ class PlaylistMainFragment : Fragment() {
             .placeholder(R.drawable.search_placeholder_field)
             .transform(CenterCrop())
             .into(binding.albumCover)
-        if (trackAdapter?.trackList != playlistMainItem.tracks) {
-            trackAdapter?.trackList?.clear()
+        if (trackAdapter?.trackList.isNullOrEmpty()) {
             trackAdapter?.trackList?.addAll(playlistMainItem.tracks)
             trackAdapter?.notifyDataSetChanged()
         }
-
+        lifecycleScope.launch {
+            delay(BOTTOMSHEETDELAY)
+            val bottomSheetBehavior = BottomSheetBehavior.from(binding.bsTracks)
+            bottomSheetBehavior.peekHeight = (binding.constraintLayoutMain.height
+                    - binding.albumCover.height
+                    - binding.tvPlaylistName.height
+                    - binding.tvPlaylistName.marginTop
+                    - if (binding.tvPlaylistDescription.visibility == View.VISIBLE) {
+                        (binding.tvPlaylistDescription.height + binding.tvPlaylistDescription.marginTop)
+                    } else {
+                         0
+                    }
+                    - binding.tvPlaylistDuration.height
+                    - binding.tvPlaylistDuration.marginTop
+                    - binding.ivShare.height
+                    - binding.ivShare.marginTop
+                    - resources.getDimensionPixelSize(R.dimen.corners_8)
+                    )
+        }
     }
 
     override fun onDestroyView() {
@@ -98,6 +122,7 @@ class PlaylistMainFragment : Fragment() {
     companion object {
 
         private const val PLAYLISTID = "playlistId"
+        private const val BOTTOMSHEETDELAY = 10L
         fun createArgs(playlistId: Long): Bundle = bundleOf(PLAYLISTID to playlistId)
     }
 }

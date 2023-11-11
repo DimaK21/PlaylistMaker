@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -74,6 +75,17 @@ class PlaylistMainFragment : Fragment() {
         binding.buttonBackPlaylist.setOnClickListener {
             findNavController().navigateUp()
         }
+        binding.ivShare.setOnClickListener {
+            if (trackAdapter?.trackList.isNullOrEmpty()){
+                Snackbar.make(binding.root, getString(R.string.no_tracks), Snackbar.LENGTH_LONG)
+                    .show()
+            } else {
+                viewModel.shareClicked()
+            }
+        }
+        binding.ivSettings.setOnClickListener {
+
+        }
     }
 
     private fun showDialog(track: TrackForUi) {
@@ -122,10 +134,10 @@ class PlaylistMainFragment : Fragment() {
                     - binding.tvPlaylistName.height
                     - binding.tvPlaylistName.marginTop
                     - if (binding.tvPlaylistDescription.visibility == View.VISIBLE) {
-                (binding.tvPlaylistDescription.height + binding.tvPlaylistDescription.marginTop)
-            } else {
-                0
-            }
+                        (binding.tvPlaylistDescription.height + binding.tvPlaylistDescription.marginTop)
+                    } else {
+                        0
+                    }
                     - binding.tvPlaylistDuration.height
                     - binding.tvPlaylistDuration.marginTop
                     - binding.ivShare.height

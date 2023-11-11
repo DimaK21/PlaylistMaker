@@ -11,10 +11,12 @@ import ru.kryu.playlistmaker.playlistmain.domain.api.PlaylistMainInteractor
 import ru.kryu.playlistmaker.playlistmain.ui.model.PlaylistMainItem
 import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
+import ru.kryu.playlistmaker.sharing.domain.impl.ActionSendUseCase
 
 class PlaylistMainViewModel(
     private val playlistId: Long,
-    private val playlistMainInteractor: PlaylistMainInteractor
+    private val playlistMainInteractor: PlaylistMainInteractor,
+    private val actionSendUseCase: ActionSendUseCase,
 ) : ViewModel() {
 
     private var mutablePlaylistMainLiveData = MutableLiveData<PlaylistMainItem>()
@@ -48,6 +50,25 @@ class PlaylistMainViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             playlistMainInteractor.removeTrackFromPlaylist(playlistId, track.trackId)
         }
+    }
+
+    fun shareClicked() {
+        val message = """
+            |${playlistMainLiveData.value?.playlistName}
+            |${playlistMainLiveData.value?.playlistDescription}
+            |${playlistMainLiveData.value?.countTracks} треков
+            |${trackListStringHandle()}
+        """.trimMargin()
+        actionSendUseCase.execute(message)
+    }
+
+    private fun trackListStringHandle(): String {
+        val stringBuilder = StringBuilder()
+        val list = playlistMainLiveData.value?.tracks!!
+        for ((index, value) in list.withIndex()) {
+            stringBuilder.append("${index + 1}. ${value.artistName} - ${value.trackName} (${value.getFormatTrackTimeMillis()})\n")
+        }
+        return stringBuilder.toString()
     }
 
 }

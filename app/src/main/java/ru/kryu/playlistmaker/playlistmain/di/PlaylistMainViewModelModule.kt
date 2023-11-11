@@ -6,6 +6,10 @@ import ru.kryu.playlistmaker.playlistmain.ui.viewmodel.PlaylistMainViewModel
 
 val playlistMainViewModelModule = module {
     viewModel { (playlistId: Long) ->
-        PlaylistMainViewModel(playlistId = playlistId, playlistMainInteractor = get())
+        PlaylistMainViewModel(
+            playlistId = playlistId,
+            playlistMainInteractor = get(),
+            actionSendUseCase = get()
+        )
     }
 }

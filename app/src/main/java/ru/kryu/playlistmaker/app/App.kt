@@ -7,6 +7,7 @@ import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import ru.kryu.playlistmaker.createplaylist.di.createPlaylistModule
+import ru.kryu.playlistmaker.editplaylist.di.editPlaylistModule
 import ru.kryu.playlistmaker.favourite.di.favouriteModule
 import ru.kryu.playlistmaker.player.di.playerModule
 import ru.kryu.playlistmaker.playlistmain.di.playlistMainModule
@@ -31,6 +32,7 @@ class App : Application() {
                 playlistsModule,
                 createPlaylistModule,
                 playlistMainModule,
+                editPlaylistModule,
             )
         }
 

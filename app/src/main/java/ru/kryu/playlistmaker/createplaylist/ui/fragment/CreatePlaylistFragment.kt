@@ -36,7 +36,7 @@ import java.util.UUID
 
 open class CreatePlaylistFragment : Fragment() {
 
-    private val viewModel: CreatePlaylistViewModel by viewModel()
+    open val viewModel: CreatePlaylistViewModel by viewModel()
     private var _binding: FragmentNewPlaylistBinding? = null
     private val binding get() = _binding!!
     private val requester = PermissionRequester.instance()

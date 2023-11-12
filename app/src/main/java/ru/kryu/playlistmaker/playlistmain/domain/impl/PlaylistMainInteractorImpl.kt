@@ -14,4 +14,8 @@ class PlaylistMainInteractorImpl(private val playlistMainRepository: PlaylistMai
     override suspend fun removeTrackFromPlaylist(playlistId: Long, trackId: Long) {
         playlistMainRepository.removeTrackFromPlaylist(playlistId, trackId)
     }
+
+    override suspend fun deletePlaylist(playlistId: Long) {
+        playlistMainRepository.deletePlaylist(playlistId)
+    }
 }

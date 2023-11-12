@@ -79,12 +79,7 @@ class PlaylistMainFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.ivShare.setOnClickListener {
-            if (trackAdapter?.trackList.isNullOrEmpty()) {
-                Snackbar.make(binding.root, getString(R.string.no_tracks), Snackbar.LENGTH_LONG)
-                    .show()
-            } else {
-                viewModel.shareClicked()
-            }
+            share()
         }
         bottomSheetBehaviorMenu = BottomSheetBehavior.from(binding.bsMenu)
         bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_HIDDEN
@@ -111,6 +106,39 @@ class PlaylistMainFragment : Fragment() {
                 binding.overlay.alpha = slideOffset + 1
             }
         })
+        binding.tvShare.setOnClickListener {
+            share()
+        }
+        binding.tvEdit.setOnClickListener {
+
+        }
+        binding.tvDelete.setOnClickListener {
+            bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_HIDDEN
+            showDeleteDialog()
+        }
+    }
+
+    private fun showDeleteDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.delete_playlist))
+            .setMessage(getString(R.string.want_delete_playlist))
+            .setNegativeButton(getString(R.string.no)) { dialog, which ->
+
+            }.setPositiveButton(getString(R.string.yes)) { dialog, which ->
+                viewModel.playlistMainLiveData.removeObservers(viewLifecycleOwner)
+                viewModel.deletePlaylistClicked()
+                findNavController().navigateUp()
+            }
+            .show()
+    }
+
+    private fun share() {
+        if (trackAdapter?.trackList.isNullOrEmpty()) {
+            Snackbar.make(binding.root, getString(R.string.no_tracks), Snackbar.LENGTH_LONG)
+                .show()
+        } else {
+            viewModel.shareClicked()
+        }
     }
 
     private fun showDialog(track: TrackForUi) {

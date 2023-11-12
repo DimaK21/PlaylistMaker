@@ -7,4 +7,5 @@ interface PlaylistMainRepository {
 
     fun getPlaylistMain(playlistId: Long): Flow<PlaylistMain>
     suspend fun removeTrackFromPlaylist(playlistId: Long, trackId: Long)
+    suspend fun deletePlaylist(playlistId: Long)
 }

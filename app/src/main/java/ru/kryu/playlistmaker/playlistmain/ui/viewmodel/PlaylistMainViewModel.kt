@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import ru.kryu.playlistmaker.playlistmain.domain.api.PlaylistMainInteractor
@@ -21,9 +23,10 @@ class PlaylistMainViewModel(
 
     private var mutablePlaylistMainLiveData = MutableLiveData<PlaylistMainItem>()
     val playlistMainLiveData: LiveData<PlaylistMainItem> = mutablePlaylistMainLiveData
+    private lateinit var jobGetPlaylistInfo: Job
 
     fun initPlaylistInfo() {
-        viewModelScope.launch(Dispatchers.IO) {
+        jobGetPlaylistInfo = viewModelScope.launch(Dispatchers.IO) {
             playlistMainInteractor.getPlaylistMain(playlistId)
                 .distinctUntilChanged()
                 .collect { playlistMain ->
@@ -71,4 +74,10 @@ class PlaylistMainViewModel(
         return stringBuilder.toString()
     }
 
+    fun deletePlaylistClicked() {
+        viewModelScope.launch(Dispatchers.IO) {
+            jobGetPlaylistInfo?.cancelAndJoin()
+            playlistMainInteractor.deletePlaylist(playlistId)
+        }
+    }
 }

@@ -13,14 +13,17 @@ interface PlaylistMainDao {
     fun getPlaylistWithTracks(playlistId: Long): Flow<PlaylistWithTracks>
 
     @Query("DELETE FROM playlist_track_table WHERE playlistId = :playlistId AND trackId = :trackId")
-    fun removeTrackFromPlaylist(playlistId: Long, trackId: Long)
+    suspend fun removeTrackFromPlaylist(playlistId: Long, trackId: Long)
 
     @Query("DELETE FROM track_table WHERE trackId = :trackId")
     suspend fun removeTrackFromDb(trackId: Long)
 
     @Query("SELECT EXISTS(SELECT * FROM playlist_track_table WHERE trackId = :trackId)")
-    fun isTrackInPlaylists(trackId: Long): Boolean
+    suspend fun isTrackInPlaylists(trackId: Long): Boolean
 
     @Query("SELECT isFavorite FROM track_table WHERE trackId = :trackId")
-    fun isTrackIsFavorite(trackId: Long): Boolean
+    suspend fun isTrackIsFavorite(trackId: Long): Boolean
+
+    @Query("DELETE FROM playlist_table WHERE playlistId = :playlistId")
+    suspend fun deletePlaylist(playlistId: Long)
 }

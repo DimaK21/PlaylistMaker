@@ -24,4 +24,8 @@ class PlaylistMainRepositoryImpl(private val database: AppDatabase) : PlaylistMa
             database.playlistMainDao().removeTrackFromDb(trackId)
         }
     }
+
+    override suspend fun deletePlaylist(playlistId: Long) {
+        database.playlistMainDao().deletePlaylist(playlistId)
+    }
 }

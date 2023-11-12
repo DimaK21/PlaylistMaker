@@ -24,10 +24,12 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentPlaylistMainBinding
+import ru.kryu.playlistmaker.editplaylist.ui.fragment.EditPlaylistFragment
 import ru.kryu.playlistmaker.player.ui.fragment.AudioPlayerFragment
 import ru.kryu.playlistmaker.playlistmain.ui.model.PlaylistMainItem
 import ru.kryu.playlistmaker.playlistmain.ui.recycler.TrackAdapterLongClick
 import ru.kryu.playlistmaker.playlistmain.ui.viewmodel.PlaylistMainViewModel
+import ru.kryu.playlistmaker.playlists.domain.model.Playlist
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
 class PlaylistMainFragment : Fragment() {
@@ -110,7 +112,13 @@ class PlaylistMainFragment : Fragment() {
             share()
         }
         binding.tvEdit.setOnClickListener {
-
+            val playlistMainItem = viewModel.playlistMainLiveData.value?.copy(tracks = emptyList())
+            findNavController().navigate(
+                R.id.action_playlistMainFragment_to_editPlaylistFragment,
+                EditPlaylistFragment.createArgs(
+                    playlistMainItem!!
+                )
+            )
         }
         binding.tvDelete.setOnClickListener {
             bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_HIDDEN

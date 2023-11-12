@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -78,7 +79,7 @@ class PlaylistMainFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.ivShare.setOnClickListener {
-            if (trackAdapter?.trackList.isNullOrEmpty()){
+            if (trackAdapter?.trackList.isNullOrEmpty()) {
                 Snackbar.make(binding.root, getString(R.string.no_tracks), Snackbar.LENGTH_LONG)
                     .show()
             } else {
@@ -90,10 +91,30 @@ class PlaylistMainFragment : Fragment() {
         binding.ivSettings.setOnClickListener {
             bottomSheetBehaviorMenu.state = BottomSheetBehavior.STATE_EXPANDED
         }
+        bottomSheetBehaviorMenu.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+                        binding.overlay.visibility = View.GONE
+                        binding.overlay.isClickable = false
+                    }
+
+                    else -> {
+                        binding.overlay.visibility = View.VISIBLE
+                        binding.overlay.isClickable = true
+                    }
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                binding.overlay.alpha = slideOffset + 1
+            }
+        })
     }
 
     private fun showDialog(track: TrackForUi) {
-        val confirmDialog = MaterialAlertDialogBuilder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
             .setMessage(getString(R.string.want_delete_track))
             .setNegativeButton(getString(R.string.no)) { dialog, which ->
 
@@ -138,10 +159,10 @@ class PlaylistMainFragment : Fragment() {
                     - binding.tvPlaylistName.height
                     - binding.tvPlaylistName.marginTop
                     - if (binding.tvPlaylistDescription.visibility == View.VISIBLE) {
-                        (binding.tvPlaylistDescription.height + binding.tvPlaylistDescription.marginTop)
-                    } else {
-                        0
-                    }
+                (binding.tvPlaylistDescription.height + binding.tvPlaylistDescription.marginTop)
+            } else {
+                0
+            }
                     - binding.tvPlaylistDuration.height
                     - binding.tvPlaylistDuration.marginTop
                     - binding.ivShare.height
@@ -149,6 +170,19 @@ class PlaylistMainFragment : Fragment() {
                     - resources.getDimensionPixelSize(R.dimen.corners_8)
                     )
         }
+        if (binding.menuTitle.tvPlaylistNameSmall.text != playlistMainItem.playlistName)
+            binding.menuTitle.tvPlaylistNameSmall.text = playlistMainItem.playlistName
+        if (binding.menuTitle.tvPlaylistSongsNumberSmall.text != playlistMainItem.countTracks.toString())
+            binding.menuTitle.tvPlaylistSongsNumberSmall.text =
+                playlistMainItem.countTracks.toString()
+        Glide.with(this)
+            .load(playlistMainItem.playlistCoverPath)
+            .placeholder(R.drawable.search_placeholder_field)
+            .transform(
+                CenterCrop(),
+                RoundedCorners(resources.getDimensionPixelSize(R.dimen.image_track_corners))
+            )
+            .into(binding.menuTitle.ivPlaylistImageSmall)
     }
 
     override fun onDestroyView() {

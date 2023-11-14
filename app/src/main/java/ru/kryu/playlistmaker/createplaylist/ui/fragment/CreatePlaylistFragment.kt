@@ -38,7 +38,7 @@ open class CreatePlaylistFragment : Fragment() {
 
     open val viewModel: CreatePlaylistViewModel by viewModel()
     private var _binding: FragmentNewPlaylistBinding? = null
-    private val binding get() = _binding!!
+    val binding get() = _binding!!
     private val requester = PermissionRequester.instance()
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var editTextTextWatcher: TextWatcher

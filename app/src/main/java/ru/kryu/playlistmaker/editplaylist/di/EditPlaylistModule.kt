@@ -4,6 +4,8 @@ import org.koin.dsl.module
 
 val editPlaylistModule = module {
     includes(
-        editPlaylistViewModelModule
+        editPlaylistRepositoryModule,
+        editPlaylistInteractorModule,
+        editPlaylistViewModelModule,
     )
 }

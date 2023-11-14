@@ -57,7 +57,7 @@ open class CreatePlaylistFragment : Fragment() {
      *
      * Если не выбрали картинку, imageId - пустая строка. Сохраняем в БД путь к картинке пустую строку.
      */
-    private var imageId = ""
+    var imageId = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -97,6 +97,7 @@ open class CreatePlaylistFragment : Fragment() {
 
         binding.btnCreateNewPlaylist.setOnClickListener {
             viewModel.onButtonSaveClick(
+                playlistId = null,
                 playlistName = binding.etNamePlaylist.text.toString(),
                 playlistDescription = binding.etDescriptionPlaylist.text.toString(),
                 playlistCoverPath = if (imageId != "") {
@@ -207,7 +208,7 @@ open class CreatePlaylistFragment : Fragment() {
         }
     }
 
-    fun backPressedHandle() {
+    open fun backPressedHandle() {
         if (!binding.etNamePlaylist.text.isNullOrEmpty() ||
             !binding.etDescriptionPlaylist.text.isNullOrEmpty() ||
             !imageId.isEmpty()

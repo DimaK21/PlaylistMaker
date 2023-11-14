@@ -6,6 +6,6 @@ import ru.kryu.playlistmaker.editplaylist.ui.viewmodel.EditPlaylistViewModel
 
 val editPlaylistViewModelModule = module {
     viewModel {
-        EditPlaylistViewModel(createPlaylistInteractor = get())
+        EditPlaylistViewModel(createPlaylistInteractor = get(), editPlaylistInteractor = get())
     }
 }

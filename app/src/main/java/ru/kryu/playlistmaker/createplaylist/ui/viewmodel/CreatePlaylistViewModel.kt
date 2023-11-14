@@ -11,12 +11,14 @@ import ru.kryu.playlistmaker.playlists.domain.model.Playlist
 open class CreatePlaylistViewModel(private val createPlaylistInteractor: CreatePlaylistInteractor) :
     ViewModel() {
 
-    fun onButtonSaveClick(
+    open fun onButtonSaveClick(
+        playlistId: Long?,
         playlistName: String,
         playlistDescription: String,
         playlistCoverPath: String,
     ) {
         val playlist = Playlist(
+            playlistId = playlistId,
             playlistName = playlistName,
             playlistDescription = playlistDescription,
             playlistCoverPath = playlistCoverPath

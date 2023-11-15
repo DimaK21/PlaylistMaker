@@ -25,7 +25,7 @@ class PlaylistMainViewModel(
     val playlistMainLiveData: LiveData<PlaylistMainItem> = mutablePlaylistMainLiveData
     private lateinit var jobGetPlaylistInfo: Job
 
-    fun initPlaylistInfo() {
+    init {
         jobGetPlaylistInfo = viewModelScope.launch(Dispatchers.IO) {
             playlistMainInteractor.getPlaylistMain(playlistId)
                 .distinctUntilChanged()

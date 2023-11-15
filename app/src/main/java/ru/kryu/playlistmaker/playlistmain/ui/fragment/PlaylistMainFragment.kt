@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -75,7 +74,6 @@ class PlaylistMainFragment : Fragment() {
         viewModel.playlistMainLiveData.observe(viewLifecycleOwner) {
             render(it)
         }
-        viewModel.initPlaylistInfo()
 
         binding.buttonBackPlaylist.setOnClickListener {
             findNavController().navigateUp()
@@ -199,25 +197,6 @@ class PlaylistMainFragment : Fragment() {
             trackAdapter?.trackList?.addAll(playlistMainItem.tracks)
             trackAdapter?.notifyDataSetChanged()
         }
-        lifecycleScope.launch {
-            delay(BOTTOMSHEETDELAY)
-            val bottomSheetBehavior = BottomSheetBehavior.from(binding.bsTracks)
-            bottomSheetBehavior.peekHeight = (binding.constraintLayoutMain.height
-                    - binding.albumCover.height
-                    - binding.tvPlaylistName.height
-                    - binding.tvPlaylistName.marginTop
-                    - if (binding.tvPlaylistDescription.visibility == View.VISIBLE) {
-                (binding.tvPlaylistDescription.height + binding.tvPlaylistDescription.marginTop)
-            } else {
-                0
-            }
-                    - binding.tvPlaylistDuration.height
-                    - binding.tvPlaylistDuration.marginTop
-                    - binding.ivShare.height
-                    - binding.ivShare.marginTop
-                    - resources.getDimensionPixelSize(R.dimen.corners_8)
-                    )
-        }
         if (binding.menuTitle.tvPlaylistNameSmall.text != playlistMainItem.playlistName)
             binding.menuTitle.tvPlaylistNameSmall.text = playlistMainItem.playlistName
         if (binding.menuTitle.tvPlaylistSongsNumberSmall.text != countTracks)
@@ -234,7 +213,7 @@ class PlaylistMainFragment : Fragment() {
             Toast.makeText(
                 requireContext(),
                 resources.getString(R.string.no_tracks_short),
-                Toast.LENGTH_LONG
+                Toast.LENGTH_SHORT
             ).show()
         }
     }
@@ -261,7 +240,6 @@ class PlaylistMainFragment : Fragment() {
     companion object {
 
         private const val PLAYLISTID = "playlistId"
-        private const val BOTTOMSHEETDELAY = 10L
         private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
         fun createArgs(playlistId: Long): Bundle = bundleOf(PLAYLISTID to playlistId)
     }

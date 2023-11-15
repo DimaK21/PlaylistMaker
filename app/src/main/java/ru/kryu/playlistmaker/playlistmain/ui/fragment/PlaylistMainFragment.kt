@@ -1,11 +1,11 @@
 package ru.kryu.playlistmaker.playlistmain.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
@@ -76,7 +76,6 @@ class PlaylistMainFragment : Fragment() {
             render(it)
         }
         viewModel.initPlaylistInfo()
-        Log.d("MyTag", "Рисую")
 
         binding.buttonBackPlaylist.setOnClickListener {
             findNavController().navigateUp()
@@ -231,6 +230,13 @@ class PlaylistMainFragment : Fragment() {
                 RoundedCorners(resources.getDimensionPixelSize(R.dimen.image_track_corners))
             )
             .into(binding.menuTitle.ivPlaylistImageSmall)
+        if (playlistMainItem.tracks.isEmpty()) {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.no_tracks_short),
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     override fun onDestroyView() {

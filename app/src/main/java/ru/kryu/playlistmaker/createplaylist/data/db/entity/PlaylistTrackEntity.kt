@@ -23,6 +23,7 @@ import ru.kryu.playlistmaker.favourite.data.db.entity.TrackEntity
 data class PlaylistTrackEntity(
     val playlistId: Long,
     val trackId: Long,
+    val createTime: Long,
 )
 
 data class PlaylistWithTracks(

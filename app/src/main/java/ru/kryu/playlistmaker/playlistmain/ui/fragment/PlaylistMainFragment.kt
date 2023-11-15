@@ -1,6 +1,7 @@
 package ru.kryu.playlistmaker.playlistmain.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,6 +77,7 @@ class PlaylistMainFragment : Fragment() {
             render(it)
         }
         viewModel.initPlaylistInfo()
+        Log.d("MyTag", "Рисую")
 
         binding.buttonBackPlaylist.setOnClickListener {
             findNavController().navigateUp()

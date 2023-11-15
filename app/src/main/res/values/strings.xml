@@ -57,4 +57,18 @@
     <string name="want_delete_playlist">Хотите удалить плейлист?</string>
     <string name="save">Сохранить</string>
     <string name="edit">Редактировать</string>
+
+    <plurals name="number_of_tracks">
+        <item quantity="one">трек</item>
+        <item quantity="few">трека</item>
+        <item quantity="many">треков</item>
+        <item quantity="other">треков</item>
+    </plurals>
+
+    <plurals name="number_of_minutes">
+        <item quantity="one">минута</item>
+        <item quantity="few">минуты</item>
+        <item quantity="many">минут</item>
+        <item quantity="other">минут</item>
+    </plurals>
 </resources>

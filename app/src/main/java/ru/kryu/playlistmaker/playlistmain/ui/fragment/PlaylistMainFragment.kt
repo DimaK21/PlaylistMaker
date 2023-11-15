@@ -30,7 +30,6 @@ import ru.kryu.playlistmaker.player.ui.fragment.AudioPlayerFragment
 import ru.kryu.playlistmaker.playlistmain.ui.model.PlaylistMainItem
 import ru.kryu.playlistmaker.playlistmain.ui.recycler.TrackAdapterLongClick
 import ru.kryu.playlistmaker.playlistmain.ui.viewmodel.PlaylistMainViewModel
-import ru.kryu.playlistmaker.playlists.domain.model.Playlist
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
 class PlaylistMainFragment : Fragment() {
@@ -147,7 +146,7 @@ class PlaylistMainFragment : Fragment() {
             Snackbar.make(binding.root, getString(R.string.no_tracks), Snackbar.LENGTH_LONG)
                 .show()
         } else {
-            viewModel.shareClicked()
+            viewModel.shareClicked(binding.tvTracksInPlaylist.text.toString())
         }
     }
 
@@ -176,10 +175,22 @@ class PlaylistMainFragment : Fragment() {
         } else {
             binding.tvPlaylistDescription.visibility = View.VISIBLE
         }
-        if (binding.tvPlaylistDuration.text != playlistMainItem.playlistDuration.toString())
-            binding.tvPlaylistDuration.text = playlistMainItem.playlistDuration.toString()
-        if (binding.tvTracksInPlaylist.text != playlistMainItem.countTracks.toString())
-            binding.tvTracksInPlaylist.text = playlistMainItem.countTracks.toString()
+        val duration = "${playlistMainItem.playlistDuration} ${
+            resources.getQuantityString(
+                R.plurals.number_of_minutes,
+                playlistMainItem.playlistDuration.toInt()
+            )
+        }"
+        if (binding.tvPlaylistDuration.text != duration)
+            binding.tvPlaylistDuration.text = duration
+        val countTracks = "${playlistMainItem.countTracks} ${
+            resources.getQuantityString(
+                R.plurals.number_of_tracks,
+                playlistMainItem.countTracks
+            )
+        }"
+        if (binding.tvTracksInPlaylist.text != countTracks)
+            binding.tvTracksInPlaylist.text = countTracks
         Glide.with(this)
             .load(playlistMainItem.playlistCoverPath)
             .placeholder(R.drawable.search_placeholder_field)
@@ -210,9 +221,8 @@ class PlaylistMainFragment : Fragment() {
         }
         if (binding.menuTitle.tvPlaylistNameSmall.text != playlistMainItem.playlistName)
             binding.menuTitle.tvPlaylistNameSmall.text = playlistMainItem.playlistName
-        if (binding.menuTitle.tvPlaylistSongsNumberSmall.text != playlistMainItem.countTracks.toString())
-            binding.menuTitle.tvPlaylistSongsNumberSmall.text =
-                playlistMainItem.countTracks.toString()
+        if (binding.menuTitle.tvPlaylistSongsNumberSmall.text != countTracks)
+            binding.menuTitle.tvPlaylistSongsNumberSmall.text = countTracks
         Glide.with(this)
             .load(playlistMainItem.playlistCoverPath)
             .placeholder(R.drawable.search_placeholder_field)

@@ -55,11 +55,11 @@ class PlaylistMainViewModel(
         }
     }
 
-    fun shareClicked() {
+    fun shareClicked(tracksInPlaylist: String) {
         val message = """
             |${playlistMainLiveData.value?.playlistName}
             |${playlistMainLiveData.value?.playlistDescription}
-            |${playlistMainLiveData.value?.countTracks} треков
+            |$tracksInPlaylist
             |${trackListStringHandle()}
         """.trimMargin()
         actionSendUseCase.execute(message)

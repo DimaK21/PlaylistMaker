@@ -140,7 +140,7 @@ open class CreatePlaylistFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.btnCreateNewPlaylist.isEnabled = !s.isNullOrEmpty()
+                binding.btnCreateNewPlaylist.isEnabled = !s.isNullOrBlank()
             }
 
             override fun afterTextChanged(s: Editable?) {

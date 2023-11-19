@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.kryu.playlistmaker.databinding.TrackSearchBinding
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
-class TrackAdapter(private val onTrackClickListener: OnTrackClickListener? = null) :
+open class TrackAdapter(private val onTrackClickListener: OnTrackClickListener? = null) :
     RecyclerView.Adapter<TrackViewHolder>() {
 
     var trackList = ArrayList<TrackForUi>()

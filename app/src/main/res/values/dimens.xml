@@ -48,12 +48,15 @@
     <dimen name="margin_50">50dp</dimen>
     <dimen name="margin_84">84dp</dimen>
     <dimen name="text_13">13sp</dimen>
+    <dimen name="text_18">18sp</dimen>
     <dimen name="corners_8">8dp</dimen>
     <dimen name="progress_bar">44dp</dimen>
     <dimen name="margin_106">106dp</dimen>
     <dimen name="text_12">12sp</dimen>
+    <dimen name="text_28">28sp</dimen>
     <dimen name="margin_18">18dp</dimen>
     <dimen name="margin_32">32dp</dimen>
     <dimen name="behavior_height">360dp</dimen>
+    <dimen name="behavior_height_tracks">200dp</dimen>
 
 </resources>

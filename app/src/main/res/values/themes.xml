@@ -35,4 +35,8 @@
         <item name="colorOnSurface">@color/app_black</item>
     </style>
 
+    <style name="TextInput" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="colorControlActivated">@color/black_white</item>
+    </style>
+
 </resources>

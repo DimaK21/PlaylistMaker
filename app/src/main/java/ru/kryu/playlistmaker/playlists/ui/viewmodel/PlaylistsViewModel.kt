@@ -15,7 +15,7 @@ class PlaylistsViewModel(private val playlistsInteractor: PlaylistsInteractor) :
     private val playlistsMutableLiveData = MutableLiveData<PlaylistsState>()
     val playlistsLiveData: LiveData<PlaylistsState> = playlistsMutableLiveData
 
-    fun setState(state: PlaylistsState) {
+    private fun setState(state: PlaylistsState) {
         playlistsMutableLiveData.postValue(state)
     }
 

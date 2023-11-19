@@ -34,11 +34,11 @@ import ru.kryu.playlistmaker.createplaylist.ui.viewmodel.CreatePlaylistViewModel
 import ru.kryu.playlistmaker.databinding.FragmentNewPlaylistBinding
 import java.util.UUID
 
-class CreatePlaylistFragment : Fragment() {
+open class CreatePlaylistFragment : Fragment() {
 
-    private val viewModel: CreatePlaylistViewModel by viewModel()
+    open val viewModel: CreatePlaylistViewModel by viewModel()
     private var _binding: FragmentNewPlaylistBinding? = null
-    private val binding get() = _binding!!
+    val binding get() = _binding!!
     private val requester = PermissionRequester.instance()
     private lateinit var pickMedia: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var editTextTextWatcher: TextWatcher
@@ -57,7 +57,7 @@ class CreatePlaylistFragment : Fragment() {
      *
      * Если не выбрали картинку, imageId - пустая строка. Сохраняем в БД путь к картинке пустую строку.
      */
-    private var imageId = ""
+    var imageId = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -97,6 +97,7 @@ class CreatePlaylistFragment : Fragment() {
 
         binding.btnCreateNewPlaylist.setOnClickListener {
             viewModel.onButtonSaveClick(
+                playlistId = null,
                 playlistName = binding.etNamePlaylist.text.toString(),
                 playlistDescription = binding.etDescriptionPlaylist.text.toString(),
                 playlistCoverPath = if (imageId != "") {
@@ -139,7 +140,7 @@ class CreatePlaylistFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.btnCreateNewPlaylist.isEnabled = !s.isNullOrEmpty()
+                binding.btnCreateNewPlaylist.isEnabled = !s.isNullOrBlank()
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -207,7 +208,7 @@ class CreatePlaylistFragment : Fragment() {
         }
     }
 
-    fun backPressedHandle() {
+    open fun backPressedHandle() {
         if (!binding.etNamePlaylist.text.isNullOrEmpty() ||
             !binding.etDescriptionPlaylist.text.isNullOrEmpty() ||
             !imageId.isEmpty()

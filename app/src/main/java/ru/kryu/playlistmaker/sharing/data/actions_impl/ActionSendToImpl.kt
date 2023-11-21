@@ -5,8 +5,9 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import ru.kryu.playlistmaker.sharing.data.ActionSendTo
+import javax.inject.Inject
 
-class ActionSendToImpl(private val context: Context) : ActionSendTo {
+class ActionSendToImpl @Inject constructor(private val context: Context) : ActionSendTo {
     override fun share(email: Array<String>, subject: String, text: String) {
         val intent = Intent(Intent.ACTION_SENDTO)
         intent.data = Uri.parse("mailto:")

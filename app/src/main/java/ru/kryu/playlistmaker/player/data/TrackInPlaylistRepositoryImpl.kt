@@ -3,8 +3,9 @@ package ru.kryu.playlistmaker.player.data
 import ru.kryu.playlistmaker.createplaylist.data.db.entity.PlaylistTrackEntity
 import ru.kryu.playlistmaker.favourite.data.db.AppDatabase
 import ru.kryu.playlistmaker.player.domain.api.TrackInPlaylistRepository
+import javax.inject.Inject
 
-class TrackInPlaylistRepositoryImpl(private val database: AppDatabase) : TrackInPlaylistRepository {
+class TrackInPlaylistRepositoryImpl @Inject constructor(private val database: AppDatabase) : TrackInPlaylistRepository {
     override suspend fun isTrackInDb(idTrack: Long): Boolean {
         return database.trackInPlaylistDao().existsTrackInDb(idTrack)
     }

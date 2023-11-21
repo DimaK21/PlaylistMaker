@@ -6,8 +6,9 @@ import ru.kryu.playlistmaker.favourite.data.db.AppDatabase
 import ru.kryu.playlistmaker.search.data.storage.mapper.MapperTrackForStorage
 import ru.kryu.playlistmaker.search.domain.api.TrackHistoryRepository
 import ru.kryu.playlistmaker.search.domain.model.Track
+import javax.inject.Inject
 
-class TrackHistoryRepositoryImpl(
+class TrackHistoryRepositoryImpl @Inject constructor(
     private val historyStorage: HistoryStorage,
     private val trackHistory: MutableList<Track>,
     private val database: AppDatabase,

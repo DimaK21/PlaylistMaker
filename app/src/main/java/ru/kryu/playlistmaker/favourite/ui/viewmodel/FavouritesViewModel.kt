@@ -4,13 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.kryu.playlistmaker.favourite.domain.api.FavouritesInteractor
 import ru.kryu.playlistmaker.search.domain.model.Track
 import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
+import javax.inject.Inject
 
-class FavouritesViewModel(
+@HiltViewModel
+class FavouritesViewModel @Inject constructor(
     private val favouritesInteractor: FavouritesInteractor,
 ) : ViewModel() {
 

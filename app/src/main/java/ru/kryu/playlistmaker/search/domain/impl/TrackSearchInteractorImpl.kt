@@ -6,8 +6,9 @@ import ru.kryu.playlistmaker.search.domain.api.TrackSearchInteractor
 import ru.kryu.playlistmaker.search.domain.api.TrackSearchRepository
 import ru.kryu.playlistmaker.search.domain.model.Resource
 import ru.kryu.playlistmaker.search.domain.model.Track
+import javax.inject.Inject
 
-class TrackSearchInteractorImpl(
+class TrackSearchInteractorImpl @Inject constructor(
     private val repository: TrackSearchRepository,
 ) : TrackSearchInteractor {
     override fun searchTracks(expression: String): Flow<Pair<List<Track>?, String?>> {

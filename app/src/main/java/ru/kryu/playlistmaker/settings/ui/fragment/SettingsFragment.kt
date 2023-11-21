@@ -5,18 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.app.App
 import ru.kryu.playlistmaker.databinding.FragmentSettingsBinding
 import ru.kryu.playlistmaker.settings.ui.viewmodel.DarkThemeState
 import ru.kryu.playlistmaker.settings.ui.viewmodel.SettingsViewModel
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: SettingsViewModel by viewModel()
+    private val viewModel: SettingsViewModel by viewModels()
 
 
     override fun onCreateView(

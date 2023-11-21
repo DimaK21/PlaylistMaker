@@ -4,8 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import ru.kryu.playlistmaker.sharing.data.ActionSend
+import javax.inject.Inject
 
-class ActionSendImpl(private val context: Context) : ActionSend {
+class ActionSendImpl @Inject constructor(private val context: Context) : ActionSend {
     override fun share(text: String) {
         val intent = Intent(Intent.ACTION_SEND)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

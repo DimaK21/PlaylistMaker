@@ -3,16 +3,20 @@ package ru.kryu.playlistmaker.settings.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import ru.kryu.playlistmaker.settings.di.ProvideDarkThemeInteractor
 import ru.kryu.playlistmaker.settings.domain.api.DarkThemeInteractor
 import ru.kryu.playlistmaker.sharing.domain.impl.ActionSendToUseCase
 import ru.kryu.playlistmaker.sharing.domain.impl.ActionSendUseCase
 import ru.kryu.playlistmaker.sharing.domain.impl.ActionViewUseCase
+import javax.inject.Inject
 
-class SettingsViewModel(
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
     private val actionSend: ActionSendUseCase,
     private val actionSendTo: ActionSendToUseCase,
     private val actionView: ActionViewUseCase,
-    private val darkThemeInteractor: DarkThemeInteractor,
+    @ProvideDarkThemeInteractor private val darkThemeInteractor: DarkThemeInteractor,
 ) : ViewModel() {
 
     private var mutableDarkThemeStateLiveData = MutableLiveData<DarkThemeState>()

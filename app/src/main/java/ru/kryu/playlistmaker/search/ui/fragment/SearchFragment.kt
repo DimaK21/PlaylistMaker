@@ -10,10 +10,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentSearchBinding
 import ru.kryu.playlistmaker.player.ui.fragment.AudioPlayerFragment
@@ -22,13 +23,14 @@ import ru.kryu.playlistmaker.search.ui.recycler.TrackAdapter
 import ru.kryu.playlistmaker.search.ui.viewmodel.SearchViewModel
 import ru.kryu.playlistmaker.search.ui.viewmodel.TrackSearchState
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private var lastRequest: String = ""
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private var isClickAllowed = true
-    private val viewModel: SearchViewModel by viewModel()
+    private val viewModel: SearchViewModel by viewModels()
     private lateinit var editTextTextWatcher: TextWatcher
 
     private var trackAdapter: TrackAdapter? = null

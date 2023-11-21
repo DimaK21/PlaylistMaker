@@ -5,19 +5,21 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.createplaylist.ui.fragment.CreatePlaylistFragment
 import ru.kryu.playlistmaker.editplaylist.ui.viewmodel.EditPlaylistViewModel
 import ru.kryu.playlistmaker.playlistmain.ui.model.PlaylistMainItem
 
+@AndroidEntryPoint
 class EditPlaylistFragment : CreatePlaylistFragment() {
 
-    override val viewModel: EditPlaylistViewModel by viewModel()
+    override val viewModel: EditPlaylistViewModel by viewModels()
     private var playlist: PlaylistMainItem? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

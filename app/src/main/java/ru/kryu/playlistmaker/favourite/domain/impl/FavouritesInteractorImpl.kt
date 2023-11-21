@@ -4,8 +4,9 @@ import kotlinx.coroutines.flow.Flow
 import ru.kryu.playlistmaker.favourite.domain.api.FavouritesInteractor
 import ru.kryu.playlistmaker.favourite.domain.api.FavouritesRepository
 import ru.kryu.playlistmaker.search.domain.model.Track
+import javax.inject.Inject
 
-class FavouritesInteractorImpl(private val favouritesRepository: FavouritesRepository) :
+class FavouritesInteractorImpl @Inject constructor(private val favouritesRepository: FavouritesRepository) :
     FavouritesInteractor {
     override suspend fun addTrack(track: Track) {
         favouritesRepository.addTrack(track)

@@ -1,16 +1,21 @@
 package ru.kryu.playlistmaker.player.di
 
 import android.media.MediaPlayer
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import ru.kryu.playlistmaker.player.data.Player
 import ru.kryu.playlistmaker.player.data.player.AndroidMediaPlayer
 
-val playerDataModule = module {
-    factory<Player> {
-        AndroidMediaPlayer(mediaPlayer = get())
-    }
+@Module
+@InstallIn(SingletonComponent::class)
+class PlayerDataModule {
+    @Provides
+    fun providePlayer(mediaPlayer: MediaPlayer): Player =
+        AndroidMediaPlayer(mediaPlayer = mediaPlayer)
 
-    factory {
+    @Provides
+    fun provideMediaPlayer(): MediaPlayer =
         MediaPlayer()
-    }
 }

@@ -2,8 +2,10 @@ package ru.kryu.playlistmaker.playlistmain.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
@@ -14,12 +16,16 @@ import ru.kryu.playlistmaker.playlistmain.ui.model.PlaylistMainItem
 import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 import ru.kryu.playlistmaker.sharing.domain.impl.ActionSendUseCase
+import javax.inject.Inject
 
-class PlaylistMainViewModel(
-    private val playlistId: Long,
+@HiltViewModel
+class PlaylistMainViewModel @Inject constructor(
     private val playlistMainInteractor: PlaylistMainInteractor,
     private val actionSendUseCase: ActionSendUseCase,
+    state: SavedStateHandle,
 ) : ViewModel() {
+
+    private val playlistId: Long = state.get<Long>(PLAYLISTID)!!
 
     private var mutablePlaylistMainLiveData = MutableLiveData<PlaylistMainItem>()
     val playlistMainLiveData: LiveData<PlaylistMainItem> = mutablePlaylistMainLiveData
@@ -79,5 +85,9 @@ class PlaylistMainViewModel(
             jobGetPlaylistInfo?.cancelAndJoin()
             playlistMainInteractor.deletePlaylist(playlistId)
         }
+    }
+
+    companion object {
+        private const val PLAYLISTID = "playlistId"
     }
 }

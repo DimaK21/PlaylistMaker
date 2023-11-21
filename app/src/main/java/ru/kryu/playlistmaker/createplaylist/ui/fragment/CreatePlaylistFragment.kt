@@ -18,6 +18,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -27,16 +28,17 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import com.markodevcic.peko.PermissionRequester
 import com.markodevcic.peko.PermissionResult
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.createplaylist.ui.viewmodel.CreatePlaylistViewModel
 import ru.kryu.playlistmaker.databinding.FragmentNewPlaylistBinding
 import java.util.UUID
 
+@AndroidEntryPoint
 open class CreatePlaylistFragment : Fragment() {
 
-    open val viewModel: CreatePlaylistViewModel by viewModel()
+    open val viewModel: CreatePlaylistViewModel by viewModels()
     private var _binding: FragmentNewPlaylistBinding? = null
     val binding get() = _binding!!
     private val requester = PermissionRequester.instance()

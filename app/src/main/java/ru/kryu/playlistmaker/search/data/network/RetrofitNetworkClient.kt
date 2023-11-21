@@ -5,8 +5,9 @@ import kotlinx.coroutines.withContext
 import ru.kryu.playlistmaker.search.data.NetworkClient
 import ru.kryu.playlistmaker.search.data.dto.ITunesRequest
 import ru.kryu.playlistmaker.search.data.dto.Response
+import javax.inject.Inject
 
-class RetrofitNetworkClient(
+class RetrofitNetworkClient @Inject constructor(
     private val iTunesApiService: ITunesApiService,
     private val connectionStateProvider: ConnectionStateProvider,
 ) : NetworkClient {

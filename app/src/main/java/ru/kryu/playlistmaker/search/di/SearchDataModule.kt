@@ -5,8 +5,11 @@ import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
-import org.koin.android.ext.koin.androidContext
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.kryu.playlistmaker.search.data.HistoryStorage
@@ -15,42 +18,72 @@ import ru.kryu.playlistmaker.search.data.network.ConnectionStateProvider
 import ru.kryu.playlistmaker.search.data.network.ITunesApiService
 import ru.kryu.playlistmaker.search.data.network.RetrofitNetworkClient
 import ru.kryu.playlistmaker.search.data.storage.SharedPrefsHistory
+import ru.kryu.playlistmaker.settings.di.SharedPreferencesSearchDataModule
+import javax.inject.Singleton
 
 const val ITUNES_BASE_URL = "https://itunes.apple.com/"
 const val TRACK_HISTORY_PREFERENCES = "track_history_preferences"
 
-val searchDataModule = module {
-    factory<NetworkClient> {
+@Module
+@InstallIn(SingletonComponent::class)
+class SearchDataModule {
+    @Provides
+    fun provideNetworkClient(
+        iTunesApiService: ITunesApiService,
+        connectionStateProvider: ConnectionStateProvider
+    ): NetworkClient =
         RetrofitNetworkClient(
-            iTunesApiService = get(),
-            connectionStateProvider = get()
+            iTunesApiService = iTunesApiService,
+            connectionStateProvider = connectionStateProvider
         )
-    }
-    single<ITunesApiService> {
+
+    @Provides
+    @Singleton
+    fun provideITunesApiService(): ITunesApiService =
         Retrofit.Builder()
             .baseUrl(ITUNES_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ITunesApiService::class.java)
-    }
-    factory {
-        ConnectionStateProvider(connectivityManager = get())
-    }
-    factory<ConnectivityManager> {
-        androidContext().getSystemService(
+
+    @Provides
+    fun provideConnectionStateProvider(
+        connectivityManager: ConnectivityManager
+    ): ConnectionStateProvider =
+        ConnectionStateProvider(connectivityManager = connectivityManager)
+
+    @Provides
+    fun provideConnectivityManager(
+        @ApplicationContext context: Context
+    ): ConnectivityManager =
+        context.getSystemService(
             Context.CONNECTIVITY_SERVICE
         ) as ConnectivityManager
-    }
-    single<HistoryStorage> {
-        SharedPrefsHistory(sharedPreferences = get(), gson = get())
-    }
-    single<SharedPreferences> {
-        androidContext().getSharedPreferences(
+
+    @SharedPreferencesSearchDataModule
+    @Provides
+    fun provideHistoryStorage(
+        sharedPreferences: SharedPreferences,
+        gson: Gson
+    ): HistoryStorage =
+        SharedPrefsHistory(sharedPreferences = sharedPreferences, gson = gson)
+
+    @Provides
+    fun provideHistoryStorage2(
+        sharedPrefsHistory: SharedPrefsHistory,
+    ): HistoryStorage =
+        sharedPrefsHistory
+
+    @SharedPreferencesSearchDataModule
+    @Provides
+    fun provideSharedPreferences(
+        @ApplicationContext context: Context
+    ): SharedPreferences =
+        context.getSharedPreferences(
             TRACK_HISTORY_PREFERENCES,
             AppCompatActivity.MODE_PRIVATE
         )
-    }
-    factory {
-        Gson()
-    }
+
+    @Provides
+    fun provideGson(): Gson = Gson()
 }

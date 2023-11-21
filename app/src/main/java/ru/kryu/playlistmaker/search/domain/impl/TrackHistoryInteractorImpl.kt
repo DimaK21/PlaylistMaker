@@ -4,8 +4,9 @@ import kotlinx.coroutines.flow.Flow
 import ru.kryu.playlistmaker.search.domain.api.TrackHistoryInteractor
 import ru.kryu.playlistmaker.search.domain.api.TrackHistoryRepository
 import ru.kryu.playlistmaker.search.domain.model.Track
+import javax.inject.Inject
 
-class TrackHistoryInteractorImpl(private val repository: TrackHistoryRepository) :
+class TrackHistoryInteractorImpl @Inject constructor(private val repository: TrackHistoryRepository) :
     TrackHistoryInteractor {
 
     override fun getTrackHistory(): Flow<List<Track>> {

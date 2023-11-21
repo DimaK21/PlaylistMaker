@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,8 +17,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
+import dagger.hilt.android.AndroidEntryPoint
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentAudioPlayerBinding
 import ru.kryu.playlistmaker.player.ui.recycler.PlaylistInPlayerAdapter
@@ -29,6 +29,7 @@ import ru.kryu.playlistmaker.search.domain.model.Track
 import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
+@AndroidEntryPoint
 class AudioPlayerFragment : Fragment() {
 
     private var _binding: FragmentAudioPlayerBinding? = null
@@ -37,9 +38,7 @@ class AudioPlayerFragment : Fragment() {
     private lateinit var track: TrackForUi
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
 
-    private val viewModel: AudioPlayerViewModel by viewModel {
-        parametersOf(track)
-    }
+    private val viewModel: AudioPlayerViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -132,7 +131,8 @@ class AudioPlayerFragment : Fragment() {
 
     private fun setLikeIcon(isFavourite: Boolean) {
         if (isFavourite) {
-            binding.likeButton.background = getDrawable(requireContext(), R.drawable.button_like_yes)
+            binding.likeButton.background =
+                getDrawable(requireContext(), R.drawable.button_like_yes)
         } else {
             binding.likeButton.background = getDrawable(requireContext(), R.drawable.button_like_no)
         }

@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,10 +19,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentPlaylistMainBinding
 import ru.kryu.playlistmaker.editplaylist.ui.fragment.EditPlaylistFragment
@@ -31,13 +31,12 @@ import ru.kryu.playlistmaker.playlistmain.ui.recycler.TrackAdapterLongClick
 import ru.kryu.playlistmaker.playlistmain.ui.viewmodel.PlaylistMainViewModel
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 
+@AndroidEntryPoint
 class PlaylistMainFragment : Fragment() {
 
     private var _binding: FragmentPlaylistMainBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: PlaylistMainViewModel by viewModel {
-        parametersOf(arguments?.getLong(PLAYLISTID))
-    }
+    private val viewModel: PlaylistMainViewModel by viewModels()
     private var trackAdapter: TrackAdapterLongClick? = null
     private var isClickAllowed = true
     private lateinit var bottomSheetBehaviorMenu: BottomSheetBehavior<LinearLayout>

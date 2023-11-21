@@ -2,8 +2,9 @@ package ru.kryu.playlistmaker.search.data.network
 
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import javax.inject.Inject
 
-class ConnectionStateProvider(private val connectivityManager: ConnectivityManager) {
+class ConnectionStateProvider @Inject constructor(private val connectivityManager: ConnectivityManager) {
 
     fun isConnected(): Boolean {
         val networkCapabilities =

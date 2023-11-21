@@ -5,8 +5,13 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.kryu.playlistmaker.search.data.HistoryStorage
 import ru.kryu.playlistmaker.search.data.storage.models.TrackForStorage
+import ru.kryu.playlistmaker.settings.di.SharedPreferencesSearchDataModule
+import javax.inject.Inject
 
-class SharedPrefsHistory(private val sharedPreferences: SharedPreferences, private val gson: Gson) :
+class SharedPrefsHistory @Inject constructor(
+    @SharedPreferencesSearchDataModule private val sharedPreferences: SharedPreferences,
+    private val gson: Gson
+) :
     HistoryStorage {
 
     override fun getTrackHistory(): List<TrackForStorage> {

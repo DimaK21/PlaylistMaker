@@ -5,9 +5,11 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.ActivityRootBinding
 
+@AndroidEntryPoint
 class RootActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRootBinding

@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentMediaBinding
 
+@AndroidEntryPoint
 class MediaFragment : Fragment() {
 
     private var _binding: FragmentMediaBinding? = null

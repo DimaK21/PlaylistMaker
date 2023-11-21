@@ -2,8 +2,9 @@ package ru.kryu.playlistmaker.player.domain.impl
 
 import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
 import ru.kryu.playlistmaker.player.domain.api.PlayerRepository
+import javax.inject.Inject
 
-class PlayerInteractorImpl(private val repository: PlayerRepository) : PlayerInteractor {
+class PlayerInteractorImpl @Inject constructor(private val repository: PlayerRepository) : PlayerInteractor {
     override fun preparePlayer(url: String) {
         repository.preparePlayer(url)
     }

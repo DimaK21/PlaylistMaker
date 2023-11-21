@@ -3,8 +3,9 @@ package ru.kryu.playlistmaker.player.data.player
 import android.media.MediaPlayer
 import ru.kryu.playlistmaker.player.data.Player
 import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
+import javax.inject.Inject
 
-class AndroidMediaPlayer(private val mediaPlayer: MediaPlayer) : Player {
+class AndroidMediaPlayer @Inject constructor(private val mediaPlayer: MediaPlayer) : Player {
 
     override fun preparePlayer(dto: Any) {
         mediaPlayer.setDataSource(dto as String)

@@ -1,18 +1,25 @@
 package ru.kryu.playlistmaker.player.di
 
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import ru.kryu.playlistmaker.player.domain.api.PlayerInteractor
+import ru.kryu.playlistmaker.player.domain.api.PlayerRepository
 import ru.kryu.playlistmaker.player.domain.api.TrackInPlaylistInteractor
+import ru.kryu.playlistmaker.player.domain.api.TrackInPlaylistRepository
 import ru.kryu.playlistmaker.player.domain.impl.PlayerInteractorImpl
 import ru.kryu.playlistmaker.player.domain.impl.TrackInPlaylistInteractorImpl
+import javax.inject.Singleton
 
-val playerInteractorModule = module {
+@Module
+@InstallIn(ViewModelComponent::class)
+class PlayerInteractorModule {
+    @Provides
+    fun providePlayerInteractor(repository: PlayerRepository): PlayerInteractor =
+        PlayerInteractorImpl(repository = repository)
 
-    factory<PlayerInteractor> {
-        PlayerInteractorImpl(repository = get())
-    }
-
-    single<TrackInPlaylistInteractor> {
-        TrackInPlaylistInteractorImpl(trackInPlaylistRepository = get())
-    }
+    @Provides
+    fun provideTrackInPlaylistInteractor(trackInPlaylistRepository: TrackInPlaylistRepository): TrackInPlaylistInteractor =
+        TrackInPlaylistInteractorImpl(trackInPlaylistRepository = trackInPlaylistRepository)
 }

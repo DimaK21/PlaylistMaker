@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -16,8 +17,11 @@ import ru.kryu.playlistmaker.search.domain.api.TrackSearchInteractor
 import ru.kryu.playlistmaker.search.domain.model.Track
 import ru.kryu.playlistmaker.search.ui.mapper.TrackForUiMapper
 import ru.kryu.playlistmaker.search.ui.models.TrackForUi
+import ru.kryu.playlistmaker.settings.di.SharedPreferencesSearchDataModule
+import javax.inject.Inject
 
-class SearchViewModel(
+@HiltViewModel
+class SearchViewModel @Inject constructor(
     application: Application,
     private val trackSearchInteractor: TrackSearchInteractor,
     private val trackHistoryInteractor: TrackHistoryInteractor,

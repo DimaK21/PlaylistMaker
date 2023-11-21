@@ -11,8 +11,9 @@ import ru.kryu.playlistmaker.search.data.mapper.TrackDtoToDomain
 import ru.kryu.playlistmaker.search.domain.api.TrackSearchRepository
 import ru.kryu.playlistmaker.search.domain.model.Resource
 import ru.kryu.playlistmaker.search.domain.model.Track
+import javax.inject.Inject
 
-class TrackSearchRepositoryImpl(
+class TrackSearchRepositoryImpl @Inject constructor(
     private val networkClient: NetworkClient,
     private val database: AppDatabase
 ) : TrackSearchRepository {

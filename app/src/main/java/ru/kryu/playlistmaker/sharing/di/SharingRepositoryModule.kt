@@ -1,21 +1,41 @@
 package ru.kryu.playlistmaker.sharing.di
 
-import org.koin.dsl.module
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import ru.kryu.playlistmaker.sharing.data.ActionSend
 import ru.kryu.playlistmaker.sharing.data.ActionSendRepositoryImpl
+import ru.kryu.playlistmaker.sharing.data.ActionSendTo
 import ru.kryu.playlistmaker.sharing.data.ActionSendToRepositoryImpl
+import ru.kryu.playlistmaker.sharing.data.ActionView
 import ru.kryu.playlistmaker.sharing.data.ActionViewRepositoryImpl
 import ru.kryu.playlistmaker.sharing.domain.api.ActionSendRepository
 import ru.kryu.playlistmaker.sharing.domain.api.ActionSendToRepository
 import ru.kryu.playlistmaker.sharing.domain.api.ActionViewRepository
+import javax.inject.Singleton
 
-val sharingRepositoryModule = module {
-    single<ActionSendRepository> {
-        ActionSendRepositoryImpl(actionSend = get())
-    }
-    single<ActionSendToRepository> {
-        ActionSendToRepositoryImpl(actionSendTo = get())
-    }
-    single<ActionViewRepository> {
-        ActionViewRepositoryImpl(actionView = get())
-    }
+@Module
+@InstallIn(SingletonComponent::class)
+class SharingRepositoryModule {
+    @Provides
+    @Singleton
+    fun provideActionSendRepository(
+        actionSend: ActionSend,
+    ): ActionSendRepository =
+        ActionSendRepositoryImpl(actionSend = actionSend)
+
+    @Provides
+    @Singleton
+    fun provideActionSendToRepository(
+        actionSendTo: ActionSendTo,
+    ): ActionSendToRepository =
+        ActionSendToRepositoryImpl(actionSendTo = actionSendTo)
+
+    @Provides
+    @Singleton
+    fun provideActionViewRepository(
+        actionView: ActionView,
+    ): ActionViewRepository =
+        ActionViewRepositoryImpl(actionView = actionView)
 }

@@ -8,8 +8,9 @@ import android.os.Environment
 import ru.kryu.playlistmaker.createplaylist.data.ImageStorage
 import java.io.File
 import java.io.FileOutputStream
+import javax.inject.Inject
 
-class ExternalPrivateStorage(private val context: Context) : ImageStorage {
+class ExternalPrivateStorage @Inject constructor(private val context: Context) : ImageStorage {
     override fun saveImage(path: String, imageId: String) {
         val filePath =
             File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), FILE_DIRECTORY)

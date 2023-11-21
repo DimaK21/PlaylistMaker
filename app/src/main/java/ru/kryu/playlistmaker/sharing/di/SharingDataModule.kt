@@ -1,23 +1,35 @@
 package ru.kryu.playlistmaker.sharing.di
 
-import org.koin.dsl.module
+import android.content.Context
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import ru.kryu.playlistmaker.sharing.data.ActionSend
 import ru.kryu.playlistmaker.sharing.data.ActionSendTo
 import ru.kryu.playlistmaker.sharing.data.ActionView
 import ru.kryu.playlistmaker.sharing.data.actions_impl.ActionSendImpl
 import ru.kryu.playlistmaker.sharing.data.actions_impl.ActionSendToImpl
 import ru.kryu.playlistmaker.sharing.data.actions_impl.ActionViewImpl
+import javax.inject.Singleton
 
-val sharingDataModule = module {
-    single<ActionSend> {
-        ActionSendImpl(context = get())
-    }
+@Module
+@InstallIn(SingletonComponent::class)
+class SharingDataModule {
 
-    single<ActionSendTo> {
-        ActionSendToImpl(context = get())
-    }
+    @Provides
+    @Singleton
+    fun provideActionSend(@ApplicationContext context: Context): ActionSend =
+        ActionSendImpl(context = context)
 
-    single<ActionView> {
-        ActionViewImpl(context = get())
-    }
+    @Provides
+    @Singleton
+    fun provideActionSendTo(@ApplicationContext context: Context): ActionSendTo =
+        ActionSendToImpl(context = context)
+
+    @Provides
+    @Singleton
+    fun provideActionView(@ApplicationContext context: Context): ActionView =
+        ActionViewImpl(context = context)
 }

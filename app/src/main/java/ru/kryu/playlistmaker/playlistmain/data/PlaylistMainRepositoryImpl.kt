@@ -8,8 +8,9 @@ import ru.kryu.playlistmaker.createplaylist.data.mapper.PlaylistWithTracksMapper
 import ru.kryu.playlistmaker.favourite.data.db.AppDatabase
 import ru.kryu.playlistmaker.playlistmain.domain.api.PlaylistMainRepository
 import ru.kryu.playlistmaker.playlistmain.domain.model.PlaylistMain
+import javax.inject.Inject
 
-class PlaylistMainRepositoryImpl(private val database: AppDatabase) : PlaylistMainRepository {
+class PlaylistMainRepositoryImpl @Inject constructor(private val database: AppDatabase) : PlaylistMainRepository {
     override fun getPlaylistMain(playlistId: Long): Flow<PlaylistMain> {
         return database.playlistMainDao()
             .getPlaylist(playlistId)

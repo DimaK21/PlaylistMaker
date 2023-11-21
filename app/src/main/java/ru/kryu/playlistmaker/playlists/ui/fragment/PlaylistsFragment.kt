@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.kryu.playlistmaker.R
 import ru.kryu.playlistmaker.databinding.FragmentPlaylistsBinding
 import ru.kryu.playlistmaker.playlistmain.ui.fragment.PlaylistMainFragment
@@ -19,9 +20,10 @@ import ru.kryu.playlistmaker.playlists.ui.recycler.PlaylistAdapter
 import ru.kryu.playlistmaker.playlists.ui.viewmodel.PlaylistsState
 import ru.kryu.playlistmaker.playlists.ui.viewmodel.PlaylistsViewModel
 
+@AndroidEntryPoint
 class PlaylistsFragment : Fragment() {
 
-    private val playlistsViewModel: PlaylistsViewModel by viewModel()
+    private val playlistsViewModel: PlaylistsViewModel by viewModels()
 
     private var _binding: FragmentPlaylistsBinding? = null
     private val binding get() = _binding!!

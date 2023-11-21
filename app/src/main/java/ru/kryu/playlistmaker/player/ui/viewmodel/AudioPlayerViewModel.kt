@@ -2,8 +2,10 @@ package ru.kryu.playlistmaker.player.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -19,14 +21,18 @@ import ru.kryu.playlistmaker.search.ui.models.TrackForUi
 import ru.kryu.playlistmaker.search.ui.viewmodel.SingleLiveEvent
 import java.text.SimpleDateFormat
 import java.util.Locale
+import javax.inject.Inject
 
-class AudioPlayerViewModel(
-    private val track: TrackForUi,
+@HiltViewModel
+class AudioPlayerViewModel @Inject constructor(
     private val mediaPlayerInteractor: PlayerInteractor,
     private val favouritesInteractor: FavouritesInteractor,
     private val playlistsInteractor: PlaylistsInteractor,
     private val trackInPlaylistInteractor: TrackInPlaylistInteractor,
+    state: SavedStateHandle,
 ) : ViewModel() {
+
+    private val track: TrackForUi = state.get<TrackForUi>(TRACK)!!
 
     private var mutablePlayerStateLiveData = MutableLiveData<PlayerState>()
     val playerStateLiveData: LiveData<PlayerState> = mutablePlayerStateLiveData
@@ -164,5 +170,6 @@ class AudioPlayerViewModel(
 
     companion object {
         private const val DELAY_MILLIS = 300L
+        private const val TRACK = "TRACK"
     }
 }
